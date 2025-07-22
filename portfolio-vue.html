@@ -96,6 +96,25 @@
             opacity: 0;
             transform: translateY(10px);
         }
+        
+        /* Popup Animation */
+        .popup-enter-active {
+            animation: popup-in 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .popup-leave-active {
+            animation: popup-in 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse;
+        }
+        @keyframes popup-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
 
         @keyframes avatar-wave {
             0%, 100% { transform: rotate(0deg); }
@@ -178,13 +197,15 @@
         <div id="cursor-dot" ref="cursorDot" class="cursor-dot"></div>
 
         <!-- Success Popup -->
-        <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center z-50">
-          <div class="bg-white border border-blue-200 shadow-xl rounded-2xl px-8 py-6 flex flex-col items-center animate-fade-in-up" style="min-width:260px;">
-            <svg class="mb-2 text-blue-500" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2l4-4"/></svg>
-            <span class="text-lg font-bold text-blue-600 mb-1">Response sent!</span>
-            <span class="text-gray-500 text-sm">Thank you for reaching out ✨</span>
-          </div>
-        </div>
+        <transition name="popup">
+            <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+              <div class="bg-white shadow-xl rounded-2xl px-8 py-6 flex flex-col items-center pointer-events-auto" style="min-width:280px;">
+                <svg class="mb-2 text-blue-500" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2l4-4"/></svg>
+                <span class="text-lg font-bold text-blue-600 mb-1">Response sent!</span>
+                <span class="text-gray-500 text-sm">Thank you for reaching out ✨</span>
+              </div>
+            </div>
+        </transition>
     </div>
 
     <!-- VUE TEMPLATES FOR SECTIONS -->
@@ -362,7 +383,7 @@
         <div class="w-full space-y-6">
             <h2 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 cursor-interactive">Get In Touch</h2>
             <p class="text-gray-600 text-sm">Have a question or want to collaborate? Feel free to reach out. I'm always open to discussing new projects and opportunities.</p>
-            <form @submit.prevent="handleSubmit" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd1VGfIJytEIIcfFz75P_2B_IpBcyCEKO4bPQO1SS0l4GQUOw/formResponse" method="POST" target="_blank" class="space-y-4">
+            <form @submit.prevent="handleSubmit" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd1VGfIJytEIIcfFz75P_2B_IpBcyCEKO4bPQO1SS0l4GQUOw/formResponse" method="POST" target="hidden-iframe" ref="form" class="space-y-4">
                 <div>
                     <label for="full-name" class="text-sm font-bold text-gray-600 sr-only">Full Name</label>
                     <input type="text" name="entry.257900800" placeholder="Full Name" required class="w-full p-3 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
@@ -379,11 +400,12 @@
                     Send Message
                 </button>
             </form>
+            <iframe name="hidden-iframe" style="display:none;"></iframe>
         </div>
     </script>
 
     <script>
-        const { createApp, ref, onMounted, computed, inject } = Vue;
+        const { createApp, ref, onMounted, computed, provide, inject } = Vue;
 
         // Define Components from templates
         const HomeComponent = { template: '#home-template' };
@@ -393,14 +415,18 @@
             template: '#contact-template',
             setup() {
                 const showPopup = inject('showPopup');
-                const handleSubmit = (e) => {
-                    // Let the form submit to Google Forms in a new tab
-                    setTimeout(() => {
-                        showPopup.value = true;
-                        setTimeout(() => { showPopup.value = false; }, 2500);
-                    }, 200);
+                const form = ref(null);
+                const handleSubmit = () => {
+                    // Submit the form to the hidden iframe
+                    form.value.submit();
+                    // Show the popup
+                    showPopup.value = true;
+                    // Reset the form fields
+                    form.value.reset();
+                    // Hide the popup after a delay
+                    setTimeout(() => { showPopup.value = false; }, 3000);
                 };
-                return { handleSubmit };
+                return { handleSubmit, form };
             }
         };
 
@@ -418,6 +444,9 @@
                 const cursorDot = ref(null);
                 const isDesktop = ref(false);
                 const showPopup = ref(false);
+
+                // Provide the state to child components
+                provide('showPopup', showPopup);
 
                 // --- COMPUTED ---
                 const currentSectionComponent = computed(() => {
