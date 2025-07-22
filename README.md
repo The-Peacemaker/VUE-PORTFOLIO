@@ -6,7 +6,7 @@ A clean, minimalist portfolio website built with Vue.js and Tailwind CSS. This p
 
 ## Screenshots
 
-![Portfolio Screenshot](screenshot/screenshot.png)
+![Portfolio Screenshot](screenshot/image1.png)
 
 ## Features
 
