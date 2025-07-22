@@ -4,9 +4,9 @@
 
 A clean, minimalist portfolio website built with Vue.js and Tailwind CSS. This project showcases my skills and projects in a simple and elegant way.
 
-## Live Demo
+## Screenshots
 
-[Link to Live Demo]
+![Portfolio Screenshot](screenshot/screenshot.png)
 
 ## Features
 
@@ -47,6 +47,4 @@ The portfolio is a single-page application with the following sections:
 *   **Resume:** An embedded PDF of my resume with a download option.
 *   **Contact:** A contact form for getting in touch.
 
-## Screenshots
 
-[Add screenshots of the portfolio here]
