@@ -25,8 +25,17 @@
         /* --- Custom Styles & Animations --- */
         body {
             font-family: 'Space Mono', monospace;
+            transition: background-color 0.3s ease, background-image 0.3s ease;
+        }
+        
+        body.light-theme {
             background-color: #f8f9fa;
             background-image: radial-gradient(circle at top left, #ffffff, #f8f9fa);
+        }
+        
+        body.dark-theme {
+            background-color: #0f0f0f;
+            background-image: radial-gradient(circle at top left, #1a1a1a, #0f0f0f);
         }
 
         /* --- Desktop-Only Cursor Styles --- */
@@ -53,23 +62,51 @@
             width: var(--cursor-width);
             height: var(--cursor-height);
             border-radius: 50%;
-            background-color: rgba(99, 102, 241, 0.3);
             transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease, background-color 0.2s ease;
         }
-        .cursor-dot.link-hover {
+        
+        /* Light theme cursor colors */
+        .light-theme .cursor-dot {
+            background-color: rgba(99, 102, 241, 0.3);
+        }
+        .light-theme .cursor-dot.link-hover {
             --cursor-width: 32px;
             --cursor-height: 32px;
             background-color: rgba(59, 130, 246, 0.15);
         }
-        .cursor-dot.text-hover {
+        .light-theme .cursor-dot.text-hover {
             --cursor-width: 2.5px;
             /* Height is set via inline style by JS */
             border-radius: 2px;
             background-color: #f472b6;
         }
-        .cursor-dot.nav-hover {
+        .light-theme .cursor-dot.nav-hover {
              background-color: rgba(59, 130, 246, 0.1);
              border-radius: 5px;
+        }
+        
+        /* Dark theme cursor colors - elegant white/cyan theme */
+        .dark-theme .cursor-dot {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+        .dark-theme .cursor-dot.link-hover {
+            --cursor-width: 32px;
+            --cursor-height: 32px;
+            background-color: rgba(34, 211, 238, 0.2);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+        .dark-theme .cursor-dot.text-hover {
+            --cursor-width: 2.5px;
+            /* Height is set via inline style by JS */
+            border-radius: 2px;
+            background-color: #22d3ee;
+            box-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+        }
+        .dark-theme .cursor-dot.nav-hover {
+             background-color: rgba(255, 255, 255, 0.15);
+             border-radius: 5px;
+             box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
         }
 
         /* Interactive Background Grid */
@@ -152,9 +189,76 @@
                 radial-gradient(ellipse at 50% 80%, hsla(300, 80%, 85%, 0.3) 0%, transparent 70%);
             animation: wavyAurora 30s infinite alternate ease-in-out;
         }
+        
+        /* --- NEW: Experience Timeline Styles --- */
+        .timeline-item {
+            position: relative;
+            padding-left: 4rem; /* Space for icon and line */
+            padding-bottom: 2.5rem;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 23px; /* Center the line with the icon */
+            top: 0;
+            width: 2px;
+            height: 100%;
+        }
+        .light-theme .timeline-item::before {
+            background-color: #D1D5DB; /* gray-300 - lighter for light theme */
+        }
+        .dark-theme .timeline-item::before {
+            background-color: #4B5563; /* gray-600 - darker for dark theme */
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-weight: bold;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+        .light-theme .timeline-icon {
+            background-color: #F3F4F6; /* gray-100 - light background */
+            border-color: #D1D5DB; /* gray-300 - light border */
+            color: #374151; /* gray-700 - dark text for contrast */
+        }
+        .dark-theme .timeline-icon {
+            background-color: #374151; /* gray-700 - dark background */
+            border-color: #6B7280; /* gray-500 - darker border */
+            color: #F3F4F6; /* gray-100 - light text for contrast */
+        }
+        
+        /* Theme Toggle Styles */
+        .theme-toggle {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .experience-fade-enter-active,
+        .experience-fade-leave-active {
+          transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .experience-fade-enter-from,
+        .experience-fade-leave-to {
+          opacity: 0;
+          transform: translateX(10px);
+        }
     </style>
 </head>
-<body class="w-full min-h-screen p-4 sm:p-8 md:p-16 isolate">
+<body class="light-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate">
 
     <div id="app">
         <!-- Interactive Grid Background -->
@@ -169,20 +273,40 @@
             @mousemove="handleCardMouseMove"
             @mouseenter="handleCardMouseEnter"
             @mouseleave="handleCardMouseLeave"
-            class="relative z-10 w-full max-w-4xl mx-auto rounded-2xl overflow-hidden bg-white card-motion shadow-lg" 
+            class="relative z-10 w-full max-w-4xl mx-auto rounded-2xl overflow-hidden card-motion shadow-lg transition-colors duration-300" 
+            :class="isDark ? 'bg-gray-900' : 'bg-white'"
             style="box-shadow: 0px 20px 50px -10px rgba(0, 0, 0, 0.1); transform-style: preserve-3d;">
             
             <!-- Minimalist Navigation -->
             <nav class="absolute top-0 right-0 p-4 sm:p-6 md:p-8 z-20">
-                <ul class="flex items-center space-x-1 sm:space-x-2 text-xs font-mono text-gray-500">
-                    <li><a href="#" @click.prevent="switchSection('home')" class="nav-link hover:text-blue-600 transition-colors p-1 sm:p-2">HOME</a></li>
-                    <li><span class="text-gray-300 select-none">|</span></li>
-                    <li><a href="#" @click.prevent="switchSection('projects')" class="nav-link hover:text-blue-600 transition-colors p-1 sm:p-2">PROJECTS</a></li>
-                    <li><span class="text-gray-300 select-none">|</span></li>
-                    <li><a href="#" @click.prevent="switchSection('resume')" class="nav-link hover:text-blue-600 transition-colors p-1 sm:p-2">RESUME</a></li>
-                    <li><span class="text-gray-300 select-none">|</span></li>
-                    <li><a href="#" @click.prevent="switchSection('contact')" class="nav-link hover:text-blue-600 transition-colors p-1 sm:p-2">CONTACT</a></li>
-                </ul>
+                <div class="flex items-center gap-4">
+                    <!-- Theme Switcher -->
+                    <button @click="toggleTheme" class="theme-toggle p-2 rounded-full transition-all duration-300" :class="isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'">
+                        <svg class="w-4 h-4 transition-transform duration-300" :class="isDark ? 'rotate-180 text-yellow-400' : 'rotate-0 text-gray-600'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle v-if="!isDark" cx="12" cy="12" r="5"/>
+                            <line v-if="!isDark" x1="12" y1="1" x2="12" y2="3"/>
+                            <line v-if="!isDark" x1="12" y1="21" x2="12" y2="23"/>
+                            <line v-if="!isDark" x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line v-if="!isDark" x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line v-if="!isDark" x1="1" y1="12" x2="3" y2="12"/>
+                            <line v-if="!isDark" x1="21" y1="12" x2="23" y2="12"/>
+                            <line v-if="!isDark" x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line v-if="!isDark" x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                            <path v-if="isDark" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Navigation Links -->
+                    <ul class="flex items-center space-x-1 sm:space-x-2 text-xs font-mono" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
+                        <li><a href="#" @click.prevent="switchSection('home')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">HOME</a></li>
+                        <li><span class="select-none" :class="isDark ? 'text-gray-600' : 'text-gray-300'">|</span></li>
+                        <li><a href="#" @click.prevent="switchSection('projects')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">PROJECTS</a></li>
+                        <li><span class="select-none" :class="isDark ? 'text-gray-600' : 'text-gray-300'">|</span></li>
+                        <li><a href="#" @click.prevent="switchSection('resume')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">RESUME</a></li>
+                        <li><span class="select-none" :class="isDark ? 'text-gray-600' : 'text-gray-300'">|</span></li>
+                        <li><a href="#" @click.prevent="switchSection('contact')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">CONTACT</a></li>
+                    </ul>
+                </div>
             </nav>
 
             <!-- Aurora Header -->
@@ -204,10 +328,10 @@
         <!-- Success Popup -->
         <transition name="popup">
             <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-              <div class="bg-white shadow-xl rounded-2xl px-8 py-6 flex flex-col items-center pointer-events-auto" style="min-width:280px;">
+              <div class="shadow-xl rounded-2xl px-8 py-6 flex flex-col items-center pointer-events-auto transition-colors" :class="isDark ? 'bg-gray-800' : 'bg-white'" style="min-width:280px;">
                 <svg class="mb-2 text-blue-500" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2l4-4"/></svg>
                 <span class="text-lg font-bold text-blue-600 mb-1">Response sent!</span>
-                <span class="text-gray-500 text-sm">Thank you for reaching out ✨</span>
+                <span class="text-sm transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Thank you for reaching out ✨</span>
               </div>
             </div>
         </transition>
@@ -217,19 +341,19 @@
     <script type="text/x-template" id="home-template">
         <div class="w-full space-y-8">
             <header class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <img src="src/image.jpg" alt="Benedict Chacko Mathew" class="w-24 h-24 rounded-full border-4 border-white shadow-md flex-shrink-0 avatar-wave cursor-interactive">
+                <img src="src/image.jpg" alt="Benedict Chacko Mathew" class="w-24 h-24 rounded-full border-4 shadow-md flex-shrink-0 avatar-wave cursor-interactive" :class="isDark ? 'border-gray-700' : 'border-white'">
                 <div class="text-center sm:text-left">
-                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 cursor-interactive">Benedict Chacko Mathew</h1>
-                    <p class="text-sm text-gray-600 mt-2 max-w-md leading-relaxed cursor-interactive">
+                    <h1 class="text-2xl sm:text-3xl font-bold cursor-interactive transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Benedict Chacko Mathew</h1>
+                    <p class="text-sm mt-2 max-w-md leading-relaxed cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">
                         Student @ Viswajyothi College Of Engineering And Technology • 3rd Year CSE • Bug Bounty Hunter • India <span class="emoji-wave inline-block">✌️</span>
                     </p>
                 </div>
             </header>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 lg:gap-x-12 gap-y-8">
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 space-y-12">
                     <section>
-                        <h2 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 cursor-interactive">About Me</h2>
-                        <div class="space-y-4 text-gray-600 leading-relaxed text-sm cursor-interactive">
+                        <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">About Me</h2>
+                        <div class="space-y-4 leading-relaxed text-sm cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">
                             <p>I’m a 20 year old engineering student who's currently pursuing BTech Degree in Computer Science and Engineering From Viswajyothi College Of Engineering And Technology, Vazhakulam.</p>
                             <p>I am a passionate developer, bug bounty hunter and a tech enthusiast. I have a keen interest in web development, mobile app development, and cybersecurity. I am always eager to learn new technologies and improve my skills.</p>
                             <p>I have experience in various programming languages and frameworks, including Python, JavaScript, React Native, Vue.js, and more. I am also familiar with tools like Burp Suite, Metasploit, and Nmap.</p>
@@ -237,10 +361,75 @@
                             <p>I have experiences in working in various cybersecurity projects and have contributed to open-source projects. I am always looking for opportunities to work on interesting projects and collaborate with like-minded individuals.</p>
                         </div>
                     </section>
+
+                    <!-- NEW Experience Section -->
+                    <section>
+                        <div class="rounded-xl p-6 border transition-colors" :class="isDark ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'">
+                            <!-- Custom Switcher -->
+                            <div class="relative flex items-center rounded-full p-1 mb-6 border shadow-sm transition-colors" :class="isDark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
+                                <div class="absolute h-full w-1/2 bg-blue-500 rounded-full transition-transform duration-300 ease-in-out"
+                                     :style="{ transform: experienceTab === 'work' ? 'translateX(0%)' : 'translateX(100%)' }">
+                                </div>
+                                <button @click="experienceTab = 'work'" class="relative w-1/2 py-2 text-sm font-bold text-center transition-colors" :class="experienceTab === 'work' ? 'text-white' : 'text-gray-600 hover:text-gray-800'">Work</button>
+                                <button @click="experienceTab = 'education'" class="relative w-1/2 py-2 text-sm font-bold text-center transition-colors" :class="experienceTab === 'education' ? 'text-white' : 'text-gray-600 hover:text-gray-800'">Education</button>
+                            </div>
+
+                            <!-- Timeline Content -->
+                            <div class="relative">
+                                <transition name="experience-fade" mode="out-in">
+                                    <div v-if="experienceTab === 'work'" key="work">
+                                        <div class="timeline-item">
+                                            <div class="timeline-icon">FS</div>
+                                            <p class="text-xs mb-1 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Jan 2023 - Present</p>
+                                            <h3 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Freelance Security Researcher</h3>
+                                            <p class="text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Remote</p>
+                                            <ul class="list-disc list-inside text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                                                <li>Identified and reported security vulnerabilities (XSS, CSRF, IDOR) on various platforms.</li>
+                                                <li>Contributed to securing web applications for small to medium-sized businesses.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-icon">WD</div>
+                                            <p class="text-xs mb-1 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Jun 2022 - Dec 2022</p>
+                                            <h3 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Web Dev Intern</h3>
+                                            <p class="text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Tech Solutions Inc. (Placeholder)</p>
+                                            <ul class="list-disc list-inside text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                                                <li>Assisted in developing and maintaining client websites using Vue.js and TailwindCSS.</li>
+                                                <li>Collaborated with senior developers on debugging and feature implementation.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div v-else key="education">
+                                        <div class="timeline-item">
+                                            <div class="timeline-icon" style="background-color: #4f46e5; color: white;">VJ</div>
+                                            <p class="text-xs mb-1 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">2023 - 2027 (Expected)</p>
+                                            <h3 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Viswajyothi College Of Engineering And Technology</h3>
+                                            <p class="text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">B.Tech in Computer Science & Engineering</p>
+                                            <ul class="list-disc list-inside text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                                                <li>Focusing on Software Development and Cybersecurity tracks.</li>
+                                                <li>Active member of the college's coding and cybersecurity club.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-icon" style="background-color: #db2777; color: white;">SG</div>
+                                            <p class="text-xs mb-1 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">2021 - 2023</p>
+                                            <h3 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">St. George's HSS Muthalakodam</h3>
+                                            <p class="text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Higher Secondary Education (Computer Science)</p>
+                                             <ul class="list-disc list-inside text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                                                <li>Graduated with top marks in Computer Science and Mathematics.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </div>
+                        </div>
+                    </section>
+
                 </div>
                 <div class="space-y-8">
                     <section>
-                        <h2 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 cursor-interactive">Social</h2>
+                        <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Social</h2>
                         <div class="flex flex-wrap gap-3">
                             <a href="https://github.com/The-Peacemaker" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-all duration-300 border border-gray-200 hover:border-blue-200 text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
@@ -261,7 +450,7 @@
                         </div>
                     </section>
                     <section>
-                        <h2 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 cursor-interactive">Skills</h2>
+                        <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Skills</h2>
                         <div class="flex flex-wrap gap-2 items-center cursor-interactive">
                             <img class="h-5" alt="Metasploit" src="https://badgen.net/badge/icon/Metasploit?icon=terminal&label">
                             <img class="h-5" alt="Python" src="https://img.shields.io/badge/-Python-blue">
@@ -287,26 +476,26 @@
 
     <script type="text/x-template" id="projects-template">
         <div class="w-full space-y-10">
-            <h2 class="text-xl font-bold text-gray-900 pb-2 border-b border-gray-200 cursor-interactive">Projects</h2>
+            <h2 class="text-xl font-bold pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Projects</h2>
             
             <!-- Category: AI / ML -->
             <section>
-                <h3 class="text-lg font-bold text-gray-700 mb-4 cursor-interactive">AI / ML</h3>
+                <h3 class="text-lg font-bold mb-4 cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">AI / ML</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="project-card relative bg-gray-50/50 p-5 rounded-lg border border-gray-200/60 hover:border-blue-200 transition-all">
-                        <a href="#" target="_blank" class="absolute top-4 right-4 text-gray-400 hover:text-blue-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
-                        <h4 class="font-bold text-gray-800">Sentiment Analysis Tool</h4>
-                        <p class="text-sm text-gray-600 mt-2">A model trained to determine the emotional tone behind a body of text. Useful for social media monitoring.</p>
+                    <div class="project-card relative p-5 rounded-lg border transition-all" :class="isDark ? 'bg-gray-800 border-gray-700 hover:border-blue-500' : 'bg-gray-50/50 border-gray-200/60 hover:border-blue-200'">
+                        <a href="#" target="_blank" class="absolute top-4 right-4 transition-colors" :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-600'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                        <h4 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-800'">Sentiment Analysis Tool</h4>
+                        <p class="text-sm mt-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">A model trained to determine the emotional tone behind a body of text. Useful for social media monitoring.</p>
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Python</span>
                             <span class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">TensorFlow</span>
                             <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">NLP</span>
                         </div>
                     </div>
-                    <div class="project-card relative bg-gray-50/50 p-5 rounded-lg border border-gray-200/60 hover:border-blue-200 transition-all">
-                        <a href="#" target="_blank" class="absolute top-4 right-4 text-gray-400 hover:text-blue-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
-                        <h4 class="font-bold text-gray-800">Image Recognition Model</h4>
-                        <p class="text-sm text-gray-600 mt-2">A deep learning model to classify objects within images with high accuracy, built with a custom dataset.</p>
+                    <div class="project-card relative p-5 rounded-lg border transition-all" :class="isDark ? 'bg-gray-800 border-gray-700 hover:border-blue-500' : 'bg-gray-50/50 border-gray-200/60 hover:border-blue-200'">
+                        <a href="#" target="_blank" class="absolute top-4 right-4 transition-colors" :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-600'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                        <h4 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-800'">Image Recognition Model</h4>
+                        <p class="text-sm mt-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">A deep learning model to classify objects within images with high accuracy, built with a custom dataset.</p>
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Python</span>
                             <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">PyTorch</span>
@@ -318,22 +507,22 @@
 
             <!-- Category: Websites -->
             <section>
-                <h3 class="text-lg font-bold text-gray-700 mb-4 cursor-interactive">Websites</h3>
+                <h3 class="text-lg font-bold mb-4 cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Websites</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="project-card relative bg-gray-50/50 p-5 rounded-lg border border-gray-200/60 hover:border-blue-200 transition-all">
-                        <a href="#" target="_blank" class="absolute top-4 right-4 text-gray-400 hover:text-blue-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
-                        <h4 class="font-bold text-gray-800">Portfolio Website</h4>
-                        <p class="text-sm text-gray-600 mt-2">The very website you are looking at, built with modern web technologies to be fast and aesthetic.</p>
+                    <div class="project-card relative p-5 rounded-lg border transition-all" :class="isDark ? 'bg-gray-800 border-gray-700 hover:border-blue-500' : 'bg-gray-50/50 border-gray-200/60 hover:border-blue-200'">
+                        <a href="#" target="_blank" class="absolute top-4 right-4 transition-colors" :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-600'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                        <h4 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-800'">Portfolio Website</h4>
+                        <p class="text-sm mt-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">The very website you are looking at, built with modern web technologies to be fast and aesthetic.</p>
                          <div class="mt-4 flex flex-wrap gap-2">
                             <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">HTML</span>
                             <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">TailwindCSS</span>
                             <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">JavaScript</span>
                         </div>
                     </div>
-                    <div class="project-card relative bg-gray-50/50 p-5 rounded-lg border border-gray-200/60 hover:border-blue-200 transition-all">
-                        <a href="#" target="_blank" class="absolute top-4 right-4 text-gray-400 hover:text-blue-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
-                        <h4 class="font-bold text-gray-800">CTF Challenge Platform</h4>
-                        <p class="text-sm text-gray-600 mt-2">A web platform for hosting Capture The Flag competitions, with user authentication and a scoring system.</p>
+                    <div class="project-card relative p-5 rounded-lg border transition-all" :class="isDark ? 'bg-gray-800 border-gray-700 hover:border-blue-500' : 'bg-gray-50/50 border-gray-200/60 hover:border-blue-200'">
+                        <a href="#" target="_blank" class="absolute top-4 right-4 transition-colors" :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-600'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                        <h4 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-800'">CTF Challenge Platform</h4>
+                        <p class="text-sm mt-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">A web platform for hosting Capture The Flag competitions, with user authentication and a scoring system.</p>
                          <div class="mt-4 flex flex-wrap gap-2">
                             <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Node.js</span>
                             <span class="text-xs bg-cyan-100 text-cyan-700 px-2 py-1 rounded-full">Express</span>
@@ -345,22 +534,22 @@
 
             <!-- Category: Cyber Security Tools -->
             <section>
-                <h3 class="text-lg font-bold text-gray-700 mb-4 cursor-interactive">Cyber Security Tools</h3>
+                <h3 class="text-lg font-bold mb-4 cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Cyber Security Tools</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="project-card relative bg-gray-50/50 p-5 rounded-lg border border-gray-200/60 hover:border-blue-200 transition-all">
-                        <a href="#" target="_blank" class="absolute top-4 right-4 text-gray-400 hover:text-blue-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
-                        <h4 class="font-bold text-gray-800">Vulnerability Scanner</h4>
-                        <p class="text-sm text-gray-600 mt-2">A Python-based tool to scan web applications for common security vulnerabilities like XSS and SQL Injection.</p>
+                    <div class="project-card relative p-5 rounded-lg border transition-all" :class="isDark ? 'bg-gray-800 border-gray-700 hover:border-blue-500' : 'bg-gray-50/50 border-gray-200/60 hover:border-blue-200'">
+                        <a href="#" target="_blank" class="absolute top-4 right-4 transition-colors" :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-600'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                        <h4 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-800'">Vulnerability Scanner</h4>
+                        <p class="text-sm mt-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">A Python-based tool to scan web applications for common security vulnerabilities like XSS and SQL Injection.</p>
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Python</span>
                             <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">Flask</span>
                             <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">Web Security</span>
                         </div>
                     </div>
-                    <div class="project-card relative bg-gray-50/50 p-5 rounded-lg border border-gray-200/60 hover:border-blue-200 transition-all">
-                        <a href="#" target="_blank" class="absolute top-4 right-4 text-gray-400 hover:text-blue-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
-                        <h4 class="font-bold text-gray-800">Password Strength Checker</h4>
-                        <p class="text-sm text-gray-600 mt-2">A tool that assesses password strength based on various criteria like length, complexity, and commonality.</p>
+                    <div class="project-card relative p-5 rounded-lg border transition-all" :class="isDark ? 'bg-gray-800 border-gray-700 hover:border-blue-500' : 'bg-gray-50/50 border-gray-200/60 hover:border-blue-200'">
+                        <a href="#" target="_blank" class="absolute top-4 right-4 transition-colors" :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-400 hover:text-blue-600'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                        <h4 class="font-bold transition-colors" :class="isDark ? 'text-white' : 'text-gray-800'">Password Strength Checker</h4>
+                        <p class="text-sm mt-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">A tool that assesses password strength based on various criteria like length, complexity, and commonality.</p>
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">JavaScript</span>
                             <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">Cryptography</span>
@@ -375,8 +564,8 @@
 
     <script type="text/x-template" id="resume-template">
         <div class="w-full space-y-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 cursor-interactive">Resume</h2>
-            <div class="w-full bg-gray-100 rounded-lg overflow-hidden border border-gray-200 relative" style="padding-top: 129.41%;">
+            <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Resume</h2>
+            <div class="w-full rounded-lg overflow-hidden border relative transition-colors" :class="isDark ? 'bg-gray-800 border-gray-700' : 'bg-gray-100 border-gray-200'" style="padding-top: 129.41%;">
                  <iframe class="absolute top-0 left-0 w-full h-full" src="https://drive.google.com/file/d/1MtiN5PeEDodnvU5xoxaZFUlLHW6_eyxL/preview" frameborder="0"></iframe>
             </div>
             <a href="src/Benedict_Resume.pdf" download="Benedict_Resume.pdf" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
@@ -388,20 +577,20 @@
 
     <script type="text/x-template" id="contact-template">
         <div class="w-full space-y-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200 cursor-interactive">Get In Touch</h2>
-            <p class="text-gray-600 text-sm">Have a question or want to collaborate? Feel free to reach out. I'm always open to discussing new projects and opportunities.</p>
+            <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Get In Touch</h2>
+            <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Have a question or want to collaborate? Feel free to reach out. I'm always open to discussing new projects and opportunities.</p>
             <form @submit.prevent="handleSubmit" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd1VGfIJytEIIcfFz75P_2B_IpBcyCEKO4bPQO1SS0l4GQUOw/formResponse" method="POST" target="hidden-iframe" ref="form" class="space-y-4">
                 <div>
-                    <label for="full-name" class="text-sm font-bold text-gray-600 sr-only">Full Name</label>
-                    <input type="text" name="entry.257900800" placeholder="Full Name" required class="w-full p-3 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                    <label for="full-name" class="text-sm font-bold sr-only transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Full Name</label>
+                    <input type="text" name="entry.257900800" placeholder="Full Name" required class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-400 transition" :class="isDark ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-gray-100 border-gray-200 text-gray-900 placeholder-gray-500'">
                 </div>
                 <div>
-                    <label for="email" class="text-sm font-bold text-gray-600 sr-only">Email</label>
-                    <input type="email" name="entry.1637310755" placeholder="Email Address" required class="w-full p-3 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                    <label for="email" class="text-sm font-bold sr-only transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Email</label>
+                    <input type="email" name="entry.1637310755" placeholder="Email Address" required class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-400 transition" :class="isDark ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-gray-100 border-gray-200 text-gray-900 placeholder-gray-500'">
                 </div>
                 <div>
-                    <label for="message" class="text-sm font-bold text-gray-600 sr-only">Message</label>
-                    <textarea name="entry.2141632832" placeholder="Your Message" rows="4" required class="w-full p-3 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"></textarea>
+                    <label for="message" class="text-sm font-bold sr-only transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Message</label>
+                    <textarea name="entry.2141632832" placeholder="Your Message" rows="4" required class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-400 transition" :class="isDark ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-gray-100 border-gray-200 text-gray-900 placeholder-gray-500'"></textarea>
                 </div>
                 <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
                     Send Message
@@ -415,13 +604,33 @@
         const { createApp, ref, onMounted, computed, provide, inject } = Vue;
 
         // Define Components from templates
-        const HomeComponent = { template: '#home-template' };
-        const ProjectsComponent = { template: '#projects-template' };
-        const ResumeComponent = { template: '#resume-template' };
+        const HomeComponent = { 
+            template: '#home-template',
+            setup() {
+                const experienceTab = ref('education'); // Default to 'education'
+                const isDark = inject('isDark');
+                return { experienceTab, isDark };
+            }
+        };
+        const ProjectsComponent = { 
+            template: '#projects-template',
+            setup() {
+                const isDark = inject('isDark');
+                return { isDark };
+            }
+        };
+        const ResumeComponent = { 
+            template: '#resume-template',
+            setup() {
+                const isDark = inject('isDark');
+                return { isDark };
+            }
+        };
         const ContactComponent = {
             template: '#contact-template',
             setup() {
                 const showPopup = inject('showPopup');
+                const isDark = inject('isDark');
                 const form = ref(null);
                 const handleSubmit = () => {
                     // Submit the form to the hidden iframe
@@ -433,7 +642,7 @@
                     // Hide the popup after a delay
                     setTimeout(() => { showPopup.value = false; }, 3000);
                 };
-                return { handleSubmit, form };
+                return { handleSubmit, form, isDark };
             }
         };
 
@@ -451,9 +660,11 @@
                 const cursorDot = ref(null);
                 const isDesktop = ref(false);
                 const showPopup = ref(false);
+                const isDark = ref(false);
 
                 // Provide the state to child components
                 provide('showPopup', showPopup);
+                provide('isDark', isDark);
 
                 // --- COMPUTED ---
                 const currentSectionComponent = computed(() => {
@@ -468,6 +679,12 @@
                 // --- METHODS ---
                 const switchSection = (section) => {
                     currentSection.value = section;
+                };
+
+                const toggleTheme = () => {
+                    isDark.value = !isDark.value;
+                    document.body.className = isDark.value ? 'dark-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate' : 'light-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate';
+                    localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
                 };
 
                 const updateGrid = () => {
@@ -510,6 +727,15 @@
 
                 // --- LIFECYCLE HOOKS ---
                 onMounted(() => {
+                    // Initialize theme from localStorage
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme === 'dark') {
+                        isDark.value = true;
+                        document.body.className = 'dark-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate';
+                    } else {
+                        document.body.className = 'light-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate';
+                    }
+
                     isDesktop.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
                     
                     updateGrid();
@@ -598,6 +824,8 @@
                     cursorDot,
                     currentSectionComponent,
                     switchSection,
+                    toggleTheme,
+                    isDark,
                     handleCardMouseMove,
                     handleCardMouseEnter,
                     handleCardMouseLeave,
