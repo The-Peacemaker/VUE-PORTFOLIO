@@ -296,12 +296,135 @@
             position: relative;
             padding-left: 1rem;
         }
+
         .dark-theme .achievement-item::before {
             content: '▶';
             position: absolute;
             left: 0;
             color: #22d3ee;
             font-size: 0.75rem;
+        }
+        
+        /* Glass Social Links Styling */
+        .social-link {
+            position: relative;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            transform-origin: center;
+        }
+        
+        /* Glass shimmer effect */
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            transition: transform 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .social-link:hover::before {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+        
+        /* Light theme glass social links */
+        .light-theme .social-link {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.08), 
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        .light-theme .social-link:hover {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 
+                0 12px 40px rgba(99, 102, 241, 0.12), 
+                0 6px 20px rgba(99, 102, 241, 0.08),
+                0 3px 12px rgba(99, 102, 241, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 1),
+                inset 0 -1px 0 rgba(99, 102, 241, 0.1);
+            transform: translateY(-8px) scale(1.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        /* Dark theme glass social links */
+        .dark-theme .social-link {
+            background: rgba(17, 24, 39, 0.4);
+            border-color: rgba(34, 211, 238, 0.15);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.4), 
+                0 2px 8px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .dark-theme .social-link:hover {
+            background: rgba(17, 24, 39, 0.7);
+            border-color: rgba(34, 211, 238, 0.5);
+            box-shadow: 
+                0 12px 40px rgba(34, 211, 238, 0.15), 
+                0 6px 20px rgba(34, 211, 238, 0.1),
+                0 3px 12px rgba(34, 211, 238, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(34, 211, 238, 0.2);
+            transform: translateY(-8px) scale(1.05);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+        
+        /* Social link text styling */
+        .social-link-text {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 2;
+        }
+        .light-theme .social-link-text {
+            color: #374151;
+        }
+        .light-theme .social-link:hover .social-link-text {
+            color: #4f46e5;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+        }
+        .dark-theme .social-link-text {
+            color: #e5e7eb;
+        }
+        .dark-theme .social-link:hover .social-link-text {
+            color: #22d3ee;
+            transform: translateY(-1px);
+            text-shadow: 0 2px 8px rgba(34, 211, 238, 0.3);
+        }
+        
+        /* Social icon styling */
+        .social-icon {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 2;
+        }
+        .light-theme .social-icon {
+            color: #6b7280;
+        }
+        .light-theme .social-link:hover .social-icon {
+            color: #4f46e5;
+            transform: translateY(-1px) rotate(5deg) scale(1.1);
+            filter: drop-shadow(0 2px 8px rgba(79, 70, 229, 0.3));
+        }
+        .dark-theme .social-icon {
+            color: #9ca3af;
+        }
+        .dark-theme .social-link:hover .social-icon {
+            color: #22d3ee;
+            transform: translateY(-1px) rotate(5deg) scale(1.1);
+            filter: drop-shadow(0 2px 8px rgba(34, 211, 238, 0.4));
         }
         
         /* Theme Toggle Styles */
@@ -500,22 +623,36 @@
                 <div class="space-y-8">
                     <section>
                         <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Social</h2>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="https://github.com/The-Peacemaker" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-all duration-300 border border-gray-200 hover:border-blue-200 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
-                                <span>GitHub</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <a href="https://github.com/The-Peacemaker" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2.5 px-3 py-2.5 group">
+                                <svg class="social-icon w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                                </svg>
+                                <span class="social-link-text text-xs font-medium">GitHub</span>
                             </a>
-                            <a href="https://x.com/BenedictChacko" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-all duration-300 border border-gray-200 hover:border-blue-200 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21c7.34 0 11.35-6.08 11.35-11.35 0-.17 0-.34-.01-.51.78-.57 1.45-1.29 1.99-2.09z"/></svg>
-                                <span>Twitter</span>
+                            
+                            <a href="https://x.com/BenedictChacko" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2.5 px-3 py-2.5 group">
+                                <svg class="social-icon w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21c7.34 0 11.35-6.08 11.35-11.35 0-.17 0-.34-.01-.51.78-.57 1.45-1.29 1.99-2.09z"/>
+                                </svg>
+                                <span class="social-link-text text-xs font-medium">Twitter</span>
                             </a>
-                            <a href="https://www.linkedin.com/in/benedict-chacko" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-all duration-300 border border-gray-200 hover:border-blue-200 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                                <span>LinkedIn</span>
+                            
+                            <a href="https://www.linkedin.com/in/benedict-chacko" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2.5 px-3 py-2.5 group">
+                                <svg class="social-icon w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                    <rect width="4" height="12" x="2" y="9"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
+                                <span class="social-link-text text-xs font-medium">LinkedIn</span>
                             </a>
-                            <a href="mailto:benedictcm1@gmail.com" class="flex items-center gap-2 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg transition-all duration-300 border border-gray-200 hover:border-blue-200 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                                <span>Contact</span>
+                            
+                            <a href="mailto:benedictcm1@gmail.com" class="social-link flex items-center gap-2.5 px-3 py-2.5 group">
+                                <svg class="social-icon w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                                </svg>
+                                <span class="social-link-text text-xs font-medium">Contact</span>
                             </a>
                         </div>
                     </section>
