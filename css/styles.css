@@ -219,8 +219,37 @@ p, h1, h2, h3, h4, h5, h6, span, li, div {
     50% { transform: rotate(-8deg); }
     75% { transform: rotate(8deg); }
 }
+
+.avatar-wave {
+    transition: all 0.3s ease;
+}
+
 .avatar-wave:hover {
     animation: avatar-wave 0.8s ease-in-out;
+}
+
+/* Enhanced avatar visibility in light mode */
+.light-theme .avatar-wave {
+    filter: brightness(1.05) contrast(.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.light-theme .avatar-wave:hover {
+    filter: brightness(1.05) contrast(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(79, 70, 229, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Dark mode avatar styles */
+.dark-theme .avatar-wave {
+    filter: brightness(1.05) contrast(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.dark-theme .avatar-wave:hover {
+    filter: brightness(1.05) contrast(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(99, 102, 241, 0.3);
+    transform: translateY(-2px);
 }
 
 @keyframes emoji-wave {

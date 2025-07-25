@@ -16,11 +16,9 @@ const homeTemplate = `
             <section>
                 <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">About Me</h2>
                 <div class="space-y-4 leading-relaxed text-sm cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">
-                    <p>I'm a 20 year old engineering student who's currently pursuing BTech Degree in Computer Science and Engineering From Viswajyothi College Of Engineering And Technology, Vazhakulam.</p>
-                    <p>I am a passionate developer, bug bounty hunter and a tech enthusiast. I have a keen interest in web development, mobile app development, and cybersecurity. I am always eager to learn new technologies and improve my skills.</p>
-                    <p>I have experience in various programming languages and frameworks, including Python, JavaScript, React Native, Vue.js, and more. I am also familiar with tools like Burp Suite, Metasploit, and Nmap.</p>
-                    <p>I enjoy finding vulnerabilities in web applications and reporting them to the respective organizations. I have participated in various CTF competitions and have a good understanding of web application security.</p>
-                    <p>I have experiences in working in various cybersecurity projects and have contributed to open-source projects. I am always looking for opportunities to work on interesting projects and collaborate with like-minded individuals.</p>
+                    <p>I'm a 20-year-old engineering student pursuing a BTech degree in Computer Science and Engineering at Viswajyothi College Of Engineering And Technology, Vazhakulam, Kerala, India.</p>
+                    <p>As a passionate developer and cybersecurity enthusiast, I specialize in web development, mobile app development, and ethical hacking. I'm constantly exploring cutting-edge technologies and pushing the boundaries of secure software development.</p>
+                    <p>My technical expertise spans across Python, JavaScript, React Native, Vue.js, and various cybersecurity tools including Burp Suite, Metasploit, and Nmap. I enjoy the thrill of discovering vulnerabilities and contributing to a safer digital ecosystem.</p>
                 </div>
             </section>
 
