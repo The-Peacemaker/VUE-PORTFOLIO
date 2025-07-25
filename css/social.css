@@ -1,0 +1,162 @@
+/* Glass Social Links Styling - Enhanced */
+.social-link {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+               box-shadow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+               background-color 0.6s ease,
+               border-color 0.6s ease;
+    overflow: hidden;
+    transform-origin: center;
+    will-change: transform;
+}
+
+/* Enhanced shimmer effect */
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    will-change: transform;
+}
+
+.social-link:hover::before {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+}
+
+/* Light theme glass social links - Enhanced */
+.light-theme .social-link {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.08), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.light-theme .social-link:hover {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 
+        0 16px 50px rgba(99, 102, 241, 0.15), 
+        0 24px 70px rgba(168, 85, 247, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    transform: translateY(-8px) scale(1.05) rotate(2deg);
+}
+
+/* Dark theme glass social links - Enhanced */
+.dark-theme .social-link {
+    background: rgba(17, 24, 39, 0.4);
+    border-color: rgba(34, 211, 238, 0.15);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.dark-theme .social-link:hover {
+    background: rgba(17, 24, 39, 0.7);
+    border-color: rgba(34, 211, 238, 0.5);
+    box-shadow: 
+        0 16px 50px rgba(34, 211, 238, 0.2), 
+        0 24px 70px rgba(139, 92, 246, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-8px) scale(1.05) rotate(-2deg);
+}
+
+/* Social link text styling - Enhanced */
+.social-link-text {
+    transition: color 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+               transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
+    will-change: transform, color;
+}
+.light-theme .social-link-text {
+    color: #374151;
+}
+.light-theme .social-link:hover .social-link-text {
+    color: #4f46e5;
+    transform: translateY(-2px) scale(1.02);
+}
+.dark-theme .social-link-text {
+    color: #e5e7eb;
+}
+.dark-theme .social-link:hover .social-link-text {
+    color: #22d3ee;
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Social icon styling - Enhanced with Smooth Float Animation */
+.social-icon {
+    transition: color 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+               transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
+    will-change: transform, color;
+}
+.light-theme .social-icon {
+    color: #6b7280;
+}
+.light-theme .social-link:hover .social-icon {
+    color: #4f46e5;
+    transform: translateY(-3px) scale(1.12);
+    animation: iconFloat 3s ease-in-out infinite;
+}
+.dark-theme .social-icon {
+    color: #9ca3af;
+}
+.dark-theme .social-link:hover .social-icon {
+    color: #22d3ee;
+    transform: translateY(-3px) scale(1.12);
+    animation: iconFloatDark 3s ease-in-out infinite;
+}
+
+/* Smooth Float Animation - Light Theme */
+@keyframes iconFloat {
+    0%, 100% { 
+        transform: translateY(-3px) scale(1.12);
+        filter: drop-shadow(0 4px 12px rgba(79, 70, 229, 0.3));
+    }
+    50% { 
+        transform: translateY(-6px) scale(1.15);
+        filter: drop-shadow(0 8px 20px rgba(79, 70, 229, 0.4));
+    }
+}
+
+/* Smooth Float Animation - Dark Theme */
+@keyframes iconFloatDark {
+    0%, 100% { 
+        transform: translateY(-3px) scale(1.12);
+        filter: drop-shadow(0 4px 12px rgba(34, 211, 238, 0.3));
+    }
+    50% { 
+        transform: translateY(-6px) scale(1.15);
+        filter: drop-shadow(0 8px 20px rgba(34, 211, 238, 0.4));
+    }
+}
+
+/* Theme Toggle Styles - Elegant */
+.theme-toggle {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                filter 0.6s ease;
+}
+.theme-toggle:hover {
+    transform: scale(1.08) translateY(-2px);
+    filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.2));
+    animation: themeToggleGlow 4s ease-in-out infinite;
+}
+
+@keyframes themeToggleGlow {
+    0%, 100% { 
+        filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.2));
+    }
+    50% { 
+        filter: drop-shadow(0 6px 16px rgba(168, 85, 247, 0.25));
+    }
+}

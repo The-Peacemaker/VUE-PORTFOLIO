@@ -1,0 +1,246 @@
+/* --- Performance Optimizations --- */
+* {
+    box-sizing: border-box;
+}
+
+/* GPU acceleration for heavy elements */
+.social-link,
+.cursor-dot,
+.portfolio-card,
+.grid-cell {
+    will-change: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Enhanced GPU acceleration for card effects - only when needed */
+.card-motion {
+    will-change: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Optimize backdrop-filter usage */
+@supports (backdrop-filter: blur(0px)) {
+    .social-link {
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+    
+    .social-link:hover {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .dark-theme .social-link:hover {
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+    }
+}
+
+/* Fallback for non-supporting browsers */
+@supports not (backdrop-filter: blur(0px)) {
+    .social-link {
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+    
+    .dark-theme .social-link {
+        background: rgba(17, 24, 39, 0.9) !important;
+    }
+}
+
+/* --- Custom Styles & Animations --- */
+body {
+    font-family: 'Space Mono', monospace;
+    transition: background-color 0.3s ease, background-image 0.3s ease;
+}
+
+body.light-theme {
+    background-color: #f8f9fa;
+    background-image: radial-gradient(circle at top left, #ffffff, #f8f9fa);
+}
+
+body.dark-theme {
+    background-color: #0f0f0f;
+    background-image: radial-gradient(circle at top left, #1a1a1a, #0f0f0f);
+}
+
+/* --- Desktop-Only Cursor Styles --- */
+@media (hover: hover) and (pointer: fine) {
+    body, a, button, img, [class*="cursor-interactive"] {
+        cursor: none !important;
+    }
+}
+
+/* Allow text selection */
+p, h1, h2, h3, h4, h5, h6, span, li, div {
+    user-select: text;
+}
+
+/* Custom Cursor */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    --cursor-width: 10px;
+    --cursor-height: 10px;
+    width: var(--cursor-width);
+    height: var(--cursor-height);
+    border-radius: 50%;
+    transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease, background-color 0.2s ease;
+}
+
+/* Light theme cursor colors */
+.light-theme .cursor-dot {
+    background-color: rgba(99, 102, 241, 0.3);
+}
+.light-theme .cursor-dot.link-hover {
+    --cursor-width: 32px;
+    --cursor-height: 32px;
+    background-color: rgba(59, 130, 246, 0.15);
+}
+.light-theme .cursor-dot.text-hover {
+    --cursor-width: 2.5px;
+    border-radius: 2px;
+    background-color: #f472b6;
+}
+.light-theme .cursor-dot.nav-hover {
+     background-color: rgba(59, 130, 246, 0.1);
+     border-radius: 5px;
+}
+
+/* Dark theme cursor colors */
+.dark-theme .cursor-dot {
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+}
+.dark-theme .cursor-dot.link-hover {
+    --cursor-width: 32px;
+    --cursor-height: 32px;
+    background-color: rgba(34, 211, 238, 0.2);
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+}
+.dark-theme .cursor-dot.text-hover {
+    --cursor-width: 2.5px;
+    border-radius: 2px;
+    background-color: #22d3ee;
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+}
+.dark-theme .cursor-dot.nav-hover {
+     background-color: rgba(255, 255, 255, 0.15);
+     border-radius: 5px;
+     box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+}
+
+/* Interactive Background Grid */
+.interactive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    position: absolute;
+    inset: 0;
+}
+.grid-cell {
+    border-right: 1px solid rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+    transition: background-color 0.4s ease;
+}
+.grid-cell:hover {
+    background-color: rgba(99, 102, 241, 0.04);
+}
+
+/* 3D Card Motion - Minimalistic and elegant */
+.card-motion {
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    box-shadow: 0px 20px 50px -10px rgba(7, 35, 147, 0.825);
+    transform-style: preserve-3d;
+    will-change: auto;
+}
+
+/* Beautiful Blue Aesthetic Shadow on Hover - Gentle and refined */
+.card-motion:hover {
+    will-change: transform, box-shadow;
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 
+        0px 25px 70px -10px rgba(38, 93, 181, 0.4),
+        0px 40px 100px -20px rgba(42, 45, 235, 0.3),
+        0px 55px 130px -30px rgba(62, 11, 180, 0.25),
+        0px 70px 160px -40px rgba(27, 7, 116, 0.2);
+}
+
+/* JavaScript-enhanced 3D effects - Smooth and minimal */
+.card-motion.js-hover {
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Dark theme blue shadow - Subtle and elegant */
+.dark-theme .card-motion:hover {
+    will-change: transform, box-shadow;
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 
+        0px 25px 70px -10px rgba(59, 130, 246, 0.35),
+        0px 40px 100px -20px rgba(99, 102, 241, 0.25),
+        0px 55px 130px -30px rgba(139, 92, 246, 0.2),
+        0px 70px 160px -40px rgba(59, 130, 246, 0.15);
+}
+
+/* Animations & Transitions for Vue */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Popup Animation */
+.popup-enter-active {
+    animation: popup-in 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.popup-leave-active {
+    animation: popup-in 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse;
+}
+@keyframes popup-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes avatar-wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(8deg); }
+    50% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+}
+.avatar-wave:hover {
+    animation: avatar-wave 0.8s ease-in-out;
+}
+
+@keyframes emoji-wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(14deg); }
+    50% { transform: rotate(-8deg); }
+    75% { transform: rotate(14deg); }
+}
+.emoji-wave:hover {
+    animation: emoji-wave 0.6s ease-in-out;
+}
+
+@keyframes wavyAurora {
+    from { transform: translate(-10px, -15px) rotate(-5deg); }
+    to { transform: translate(10px, 15px) rotate(5deg); }
+}
+.aurora-bg {
+    background-image: 
+        radial-gradient(ellipse at 20% 25%, hsla(140, 70%, 80%, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 30%, hsla(45, 80%, 85%, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 80%, hsla(300, 80%, 85%, 0.3) 0%, transparent 70%);
+    animation: wavyAurora 30s infinite alternate ease-in-out;
+}

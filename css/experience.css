@@ -1,0 +1,143 @@
+/* Experience Timeline Styles */
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+    border-left: 2px solid;
+    transition: all 0.3s ease;
+}
+
+.timeline-item:last-child {
+    border-left: 2px solid transparent;
+    padding-bottom: 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+    transition: all 0.3s ease;
+}
+
+.light-theme .timeline-item::before {
+    background: white;
+    border-color: #d1d5db;
+}
+
+.dark-theme .timeline-item::before {
+    background: #1f2937;
+    border-color: #4b5563;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: -1.125rem;
+    top: -0.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: #f3f4f6;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.light-theme .timeline-icon {
+    background: white;
+    border-color: #e5e7eb;
+    color: #6b7280;
+}
+
+.dark-theme .timeline-icon {
+    background: #374151;
+    border-color: #4b5563;
+    color: #9ca3af;
+}
+
+.dark-theme .timeline-icon:hover {
+    background: #4b5563;
+    border-color: #22d3ee;
+    color: #22d3ee;
+}
+
+/* Enhanced experience container for dark theme */
+.experience-container {
+    transition: all 0.3s ease;
+}
+
+.dark-theme .experience-container {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.8), rgba(31, 41, 55, 0.6));
+    border: 1px solid rgba(34, 211, 238, 0.1);
+}
+
+.dark-theme .experience-container:hover {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(31, 41, 55, 0.8));
+    border-color: rgba(34, 211, 238, 0.2);
+    box-shadow: 0 8px 32px rgba(34, 211, 238, 0.1);
+}
+
+/* Enhanced switcher for dark theme */
+.experience-switcher {
+    transition: all 0.3s ease;
+}
+
+.dark-theme .experience-switcher {
+    background: rgba(31, 41, 55, 0.8);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+}
+
+/* Job title enhancement for dark theme */
+.job-title {
+    transition: all 0.3s ease;
+}
+
+.dark-theme .job-title {
+    background: linear-gradient(135deg, #22d3ee, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Company name styling for dark theme */
+.company-name {
+    transition: all 0.3s ease;
+}
+
+.dark-theme .company-name {
+    color: #94a3b8;
+}
+
+/* Achievement list styling for dark theme */
+.dark-theme .achievement-item {
+    position: relative;
+    padding-left: 1rem;
+    list-style: none;
+}
+
+.dark-theme .achievement-item::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: #22d3ee;
+    font-size: 0.75rem;
+}
+
+.experience-fade-enter-active,
+.experience-fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.experience-fade-enter-from,
+.experience-fade-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
+}
