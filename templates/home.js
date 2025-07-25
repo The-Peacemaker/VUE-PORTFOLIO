@@ -2,7 +2,21 @@
 const homeTemplate = `
 <div class="w-full space-y-8">
     <header class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-        <img src="src/image.jpg" alt="Benedict Chacko Mathew" class="w-24 h-24 rounded-full border-4 shadow-md flex-shrink-0 avatar-wave cursor-interactive" :class="isDark ? 'border-gray-700' : 'border-white'">
+        <div 
+            class="avatar-container w-24 h-24 rounded-full border-4 shadow-md flex-shrink-0 avatar-wave cursor-interactive relative overflow-hidden" 
+            :class="[
+                isDark ? 'border-gray-700' : 'border-white',
+                { 
+                    'revealing': avatarRevealing, 
+                    'transformed': avatarTransformed,
+                    'cooldown': isOnCooldown
+                }
+            ]"
+            @mouseenter="triggerAvatarReveal"
+        >
+            <img src="src/image.jpg" alt="Benedict Chacko Mathew" class="avatar-main w-full h-full object-cover rounded-full">
+            <img src="src/hover-img.jpg" alt="Benedict Chacko Mathew - Hover" class="avatar-hover absolute inset-0 w-full h-full object-cover rounded-full opacity-0">
+        </div>
         <div class="text-center sm:text-left">
             <h1 class="text-2xl sm:text-3xl font-bold cursor-interactive transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Benedict Chacko Mathew</h1>
             <p class="text-sm mt-2 max-w-md leading-relaxed cursor-interactive transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">

@@ -7,7 +7,43 @@ const HomeComponent = {
     setup() {
         const experienceTab = ref('work');
         const isDark = inject('isDark');
-        return { experienceTab, isDark };
+        
+        // Avatar reveal state - SIMPLIFIED
+        const avatarRevealing = ref(false);
+        const avatarTransformed = ref(false);
+        const isOnCooldown = ref(false);
+        
+        const triggerAvatarReveal = () => {
+            if (isOnCooldown.value) return;
+            
+            isOnCooldown.value = true;
+            avatarRevealing.value = true;
+            
+            // Start animation
+            setTimeout(() => {
+                avatarTransformed.value = !avatarTransformed.value;
+                avatarRevealing.value = false;
+                
+                // Keep cooldown for 4 seconds after transformation
+                setTimeout(() => {
+                    isOnCooldown.value = false;
+                }, 1000);
+            }, 800); // Short animation time
+        };
+        
+        const onRevealComplete = () => {
+            // Not needed anymore - using setTimeout instead
+        };
+        
+        return { 
+            experienceTab, 
+            isDark,
+            avatarRevealing,
+            avatarTransformed,
+            isOnCooldown,
+            triggerAvatarReveal,
+            onRevealComplete
+        };
     }
 };
 
