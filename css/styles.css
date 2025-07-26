@@ -150,12 +150,11 @@ p, h1, h2, h3, h4, h5, h6, span, li, div {
     background-color: rgba(99, 102, 241, 0.04);
 }
 
-/* 3D Card Motion - Minimalistic and elegant */
+/* 3D Card Motion - DISABLED */
 .card-motion {
     transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 1.4s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
-    box-shadow: 0px 20px 50px -10px rgba(7, 35, 147, 0.825);
-    transform-style: preserve-3d;
+    box-shadow: 0px 20px 50px -10px rgba(7, 35, 147, 0.1);
     will-change: auto;
 }
 

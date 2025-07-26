@@ -94,7 +94,7 @@ const contactTemplate = `
         <!-- Contact Form -->
         <div>
             <h3 class="text-lg font-semibold mb-4 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Send a Message</h3>
-            <form @submit.prevent="sendMessage" class="space-y-4">
+            <form @submit.prevent="submitContactForm" class="space-y-4">
                 <div>
                     <label for="name" class="block text-sm font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-700'">Name</label>
                     <input 
@@ -119,6 +119,7 @@ const contactTemplate = `
                         placeholder="your.email@example.com">
                 </div>
                 
+                <!-- Subject dropdown hidden
                 <div>
                     <label for="subject" class="block text-sm font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-700'">Subject</label>
                     <select 
@@ -135,7 +136,8 @@ const contactTemplate = `
                         <option value="general">General Inquiry</option>
                     </select>
                 </div>
-                
+                -->
+              
                 <div>
                     <label for="message" class="block text-sm font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-700'">Message</label>
                     <textarea 
@@ -168,27 +170,13 @@ const contactTemplate = `
                     </span>
                 </button>
             </form>
-            
-            <!-- Success/Error Messages -->
-            <div v-if="formMessage" class="mt-4 p-4 rounded-lg transition-all duration-300"
-                 :class="formMessage.type === 'success' ? (isDark ? 'bg-green-900 text-green-200 border border-green-700' : 'bg-green-100 text-green-800 border border-green-300') : (isDark ? 'bg-red-900 text-red-200 border border-red-700' : 'bg-red-100 text-red-800 border border-red-300')">
-                <div class="flex items-center gap-2">
-                    <svg v-if="formMessage.type === 'success'" class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
-                    <svg v-else class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-medium">{{ formMessage.text }}</span>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- Additional Information -->
     <div class="mt-8 p-6 rounded-xl transition-colors border"
          :class="isDark ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'">
-        <h3 class="text-lg font-semibold mb-3 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">What I'm Looking For</h3>
+        <h3 class="text-lg font-semibold mb-3 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Heiii I'm Looking For</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-2">
                 <h4 class="font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">🚀 Freelance Projects</h4>

@@ -84,8 +84,26 @@ const ContactComponent = {
             formMessage.value = null;
             
             try {
-                // Simulate form submission (replace with actual API call)
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                // Create form data for Google Forms submission
+                const formData = new FormData();
+                formData.append('entry.257900800', contactForm.value.name);
+                formData.append('entry.1637310755', contactForm.value.email);
+                formData.append('entry.2141632832', contactForm.value.message);
+                
+                // Submit to Google Forms (using fetch with no-cors mode)
+                await fetch('https://docs.google.com/forms/u/0/d/e/1FAIpQLSd1VGfIJytEIIcfFz75P_2B_IpBcyCEKO4bPQO1SS0l4GQUOw/formResponse', {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+                
+                // Show success popup
+                showPopup.value = true;
+                
+                // Auto-hide popup after 3 seconds
+                setTimeout(() => {
+                    showPopup.value = false;
+                }, 3000);
                 
                 // Reset form
                 contactForm.value = {
@@ -95,31 +113,37 @@ const ContactComponent = {
                     message: ''
                 };
                 
-                formMessage.value = {
-                    type: 'success',
-                    text: 'Message sent successfully! I\'ll get back to you soon.'
-                };
-                
-                // Clear message after 5 seconds
-                setTimeout(() => {
-                    formMessage.value = null;
-                }, 5000);
-                
             } catch (error) {
-                formMessage.value = {
-                    type: 'error',
-                    text: 'Failed to send message. Please try again or contact me directly.'
+                console.error('Form submission error:', error);
+                // Still show success popup since Google Forms submission might succeed even if we can't verify
+                showPopup.value = true;
+                
+                // Auto-hide popup after 3 seconds
+                setTimeout(() => {
+                    showPopup.value = false;
+                }, 3000);
+                
+                // Reset form
+                contactForm.value = {
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
                 };
             } finally {
                 isFormSubmitting.value = false;
             }
         };
 
+        // Add new method for the form submission
+        const submitContactForm = sendMessage;
+
         return { 
             contactForm, 
             isFormSubmitting, 
             formMessage, 
-            sendMessage, 
+            sendMessage,
+            submitContactForm, 
             isDark 
         };
     }

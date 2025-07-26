@@ -191,19 +191,8 @@ const homeTemplate = `
                         <span class="skill-name">OWASP</span>
                     </div>
                     <div class="skill-badge">
-                        <svg class="skill-icon" viewBox="0 0 32 32" fill="none">
-                          <defs>
-                            <linearGradient id="burpGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                              <stop offset="0%" style="stop-color:#ff6b35;stop-opacity:1" />
-                              <stop offset="100%" style="stop-color:#e55527;stop-opacity:1" />
-                            </linearGradient>
-                          </defs>
-                          <circle cx="16" cy="16" r="14" fill="url(#burpGradient)" stroke="#d14420" stroke-width="1.5"/>
-                          <rect x="10" y="11" width="12" height="10" rx="2" fill="white" opacity="0.95"/>
-                          <rect x="12" y="13" width="8" height="2" fill="#ff6b35"/>
-                          <rect x="12" y="16" width="6" height="1.5" fill="#ff6b35"/>
-                          <rect x="12" y="18.5" width="4" height="1.5" fill="#ff6b35"/>
-                          <circle cx="19" cy="14" r="1" fill="#ff6b35"/>
+                        <svg class="skill-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
                         </svg>
                         <span class="skill-name">Burp Suite</span>
                     </div>
@@ -212,25 +201,7 @@ const homeTemplate = `
                         <span class="skill-name">Metasploit</span>
                     </div>
                     <div class="skill-badge">
-                        <svg class="skill-icon" viewBox="0 0 32 32" fill="none">
-                          <defs>
-                            <linearGradient id="nmapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                              <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
-                              <stop offset="100%" style="stop-color:#2c5aa0;stop-opacity:1" />
-                            </linearGradient>
-                          </defs>
-                          <circle cx="16" cy="16" r="14" fill="url(#nmapGradient)" stroke="#1a4480" stroke-width="1.5"/>
-                          <g stroke="white" stroke-width="1.8" fill="none">
-                            <path d="M8 10 L24 26 M24 10 L8 26"/>
-                            <circle cx="8" cy="10" r="1.5" fill="white"/>
-                            <circle cx="24" cy="10" r="1.5" fill="white"/>
-                            <circle cx="8" cy="26" r="1.5" fill="white"/>
-                            <circle cx="24" cy="26" r="1.5" fill="white"/>
-                            <circle cx="16" cy="18" r="1.5" fill="white"/>
-                            <circle cx="12" cy="14" r="0.8" fill="white"/>
-                            <circle cx="20" cy="22" r="0.8" fill="white"/>
-                          </g>
-                        </svg>
+                        <span class="skill-icon-text">🗺️</span>
                         <span class="skill-name">Nmap</span>
                     </div>
                 </div>
