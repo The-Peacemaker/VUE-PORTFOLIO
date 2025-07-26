@@ -470,3 +470,132 @@ p, h1, h2, h3, h4, h5, h6, span, li, div {
         radial-gradient(ellipse at 50% 80%, hsla(300, 80%, 85%, 0.3) 0%, transparent 70%);
     animation: wavyAurora 30s infinite alternate ease-in-out;
 }
+
+/* Minimalistic Custom Skill Badges */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.skill-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.skill-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-badge:hover::before {
+    left: 100%;
+}
+
+.skill-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.skill-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.skill-icon-text {
+    font-size: 14px;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.skill-name {
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.3px;
+    font-size: 0.75rem;
+}
+
+/* Light Theme Skill Badges - More Subtle */
+.light-theme .skill-badge {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(99, 102, 241, 0.15);
+    color: #4b5563;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .skill-badge:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: #374151;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+/* Dark Theme Skill Badges - More Subtle */
+.dark-theme .skill-badge {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(34, 211, 238, 0.15);
+    color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .skill-badge:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(34, 211, 238, 0.3);
+    color: #e2e8f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2);
+}
+
+/* Simplified entrance animation */
+.skill-badge {
+    animation: skillBadgeIn 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.skill-badge:nth-child(1) { animation-delay: 0.05s; }
+.skill-badge:nth-child(2) { animation-delay: 0.1s; }
+.skill-badge:nth-child(3) { animation-delay: 0.15s; }
+.skill-badge:nth-child(4) { animation-delay: 0.2s; }
+.skill-badge:nth-child(5) { animation-delay: 0.25s; }
+.skill-badge:nth-child(6) { animation-delay: 0.3s; }
+.skill-badge:nth-child(7) { animation-delay: 0.35s; }
+.skill-badge:nth-child(8) { animation-delay: 0.4s; }
+.skill-badge:nth-child(9) { animation-delay: 0.45s; }
+.skill-badge:nth-child(10) { animation-delay: 0.5s; }
+.skill-badge:nth-child(11) { animation-delay: 0.55s; }
+.skill-badge:nth-child(12) { animation-delay: 0.6s; }
+.skill-badge:nth-child(13) { animation-delay: 0.65s; }
+.skill-badge:nth-child(14) { animation-delay: 0.7s; }
+
+@keyframes skillBadgeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

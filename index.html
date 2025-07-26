@@ -34,12 +34,9 @@
         <div 
             id="portfolio-card" 
             ref="portfolioCard"
-            @mousemove="cardEffects.handleMouseMove($event)"
-            @mouseenter="cardEffects.handleMouseEnter()"
-            @mouseleave="cardEffects.handleMouseLeave()"
             class="relative z-10 w-full max-w-4xl mx-auto rounded-2xl overflow-hidden card-motion shadow-lg transition-colors duration-300" 
             :class="isDark ? 'bg-gray-900' : 'bg-white'"
-            style="box-shadow: 0px 20px 50px -10px rgba(0, 0, 0, 0.1); transform-style: preserve-3d;">
+            style="box-shadow: 0px 20px 50px -10px rgba(0, 0, 0, 0.1);">
             
             <!-- Minimalist Navigation -->
             <nav class="absolute top-0 right-0 p-4 sm:p-6 md:p-8 z-20">
@@ -74,7 +71,7 @@
             </nav>
 
             <!-- Aurora Header -->
-            <div class="relative h-28 sm:h-32 overflow-hidden border-b border-gray-200/50" style="transform-style: preserve-3d;">
+            <div class="relative h-28 sm:h-32 overflow-hidden border-b border-gray-200/50">
                 <div class="absolute -inset-48 z-0 aurora-bg"></div>
             </div>
 

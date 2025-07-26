@@ -1,7 +1,19 @@
 // Home Component Template
 const homeTemplate = `
 <div class="w-full space-y-8">
-    <header class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+    <header class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:spac                    <div class="skill-badge">
+                        <svg class="skill-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
+                        <span class="skill-name">OWASP</span>
+                    </div>
+                    <div class="skill-badge">
+                        <svg class="skill-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
+                        <span class="skill-name">Burp Suite</span>
+                    </div>
         <div 
             class="avatar-container w-24 h-24 rounded-full border-4 shadow-md flex-shrink-0 avatar-wave cursor-interactive relative overflow-hidden" 
             :class="[
@@ -144,22 +156,63 @@ const homeTemplate = `
             
             <section>
                 <h2 class="text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Skills</h2>
-                <div class="flex flex-wrap gap-2 items-center cursor-interactive">
-                    <img class="h-5" alt="Metasploit" src="https://badgen.net/badge/icon/Metasploit?icon=terminal&label">
-                    <img class="h-5" alt="Python" src="https://img.shields.io/badge/-Python-blue">
-                    <img class="h-5" alt="JavaScript" src="https://img.shields.io/badge/-Javascript-yellow">
-                    <img class="h-5" alt="SQL" src="https://img.shields.io/badge/-SQL-lightgrey">
-                    <img class="h-5" alt="Git" src="https://img.shields.io/badge/-Git-critical">
-                    <img class="h-5" alt="HTML5" src="https://badgen.net/badge/icon/HTML5?icon=html5&label&color=E34F26">
-                    <img class="h-5" alt="CSS3" src="https://badgen.net/badge/icon/CSS3?icon=css3&label&color=1572B6">
-                    <img class="h-5" alt="OWASP" src="https://badgen.net/badge/icon/OWASP?icon=owasp&label&color=black">
-                    <img class="h-5" alt="BurpSuite" src="https://badgen.net/badge/Burp%20Suite/v2025/orange">
-                    <img class="h-5" alt="React Native" src="https://img.shields.io/badge/-React Native-blue">
-                    <img class="h-5" alt="Vue" src="https://img.shields.io/badge/-VueJS-61b083">
-                    <img class="h-5" alt="VSCODE" src="https://img.shields.io/badge/VS%20Code-007ACC?logo=visualstudiocode&logoColor=white">
-                    <img alt="Nmap" src="https://img.shields.io/badge/Nmap-4E8DAF?logo=nmap&logoColor=white">
-                    <img class="h-5" alt="SQLite" src="https://img.shields.io/badge/-SQLite-64a2c9">
-                    <img class="h-5" alt="Figma" src="https://img.shields.io/badge/-Figma-8c5aee">
+                <div class="skills-container cursor-interactive">
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="skill-icon" alt="Python">
+                        <span class="skill-name">Python</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="skill-icon" alt="JavaScript">
+                        <span class="skill-name">JavaScript</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="skill-icon" alt="HTML5">
+                        <span class="skill-name">HTML5</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="skill-icon" alt="CSS3">
+                        <span class="skill-name">CSS3</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" class="skill-icon" alt="Vue.js">
+                        <span class="skill-name">Vue.js</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="skill-icon" alt="React">
+                        <span class="skill-name">React</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="skill-icon" alt="Git">
+                        <span class="skill-name">Git</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="skill-icon" alt="SQL">
+                        <span class="skill-name">SQL</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" class="skill-icon" alt="VS Code">
+                        <span class="skill-name">VS Code</span>
+                    </div>
+                    <div class="skill-badge">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" class="skill-icon" alt="Figma">
+                        <span class="skill-name">Figma</span>
+                    </div>
+                    <div class="skill-badge">
+                        <span class="skill-icon-text">�️</span>
+                        <span class="skill-name">OWASP</span>
+                    </div>
+                    <div class="skill-badge">
+                        <span class="skill-icon-text">�</span>
+                        <span class="skill-name">Burp Suite</span>
+                    </div>
+                    <div class="skill-badge">
+                        <span class="skill-icon-text">⚡</span>
+                        <span class="skill-name">Metasploit</span>
+                    </div>
+                    <div class="skill-badge">
+                        <span class="skill-icon-text">🗺️</span>
+                        <span class="skill-name">Nmap</span>
+                    </div>
                 </div>
             </section>
         </div>
