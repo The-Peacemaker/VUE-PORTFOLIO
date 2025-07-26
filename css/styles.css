@@ -160,6 +160,8 @@ p, h1, h2, h3, h4, h5, h6, span, li, div {
 }
 
 /* Beautiful Blue Aesthetic Shadow on Hover - Gentle and refined */
+/* COMMENTED OUT: 3D Card Motion Hover Effects */
+/*
 .card-motion:hover {
     will-change: transform, box-shadow;
     transform: translateY(-6px) scale(1.015);
@@ -169,13 +171,19 @@ p, h1, h2, h3, h4, h5, h6, span, li, div {
         0px 55px 130px -30px rgba(62, 11, 180, 0.25),
         0px 70px 160px -40px rgba(27, 7, 116, 0.2);
 }
+*/
 
 /* JavaScript-enhanced 3D effects - Smooth and minimal */
+/* COMMENTED OUT: JS Hover Effects */
+/*
 .card-motion.js-hover {
     transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 1.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
+*/
 
 /* Dark theme blue shadow - Subtle and elegant */
+/* COMMENTED OUT: Dark Theme Card Motion Hover */
+/*
 .dark-theme .card-motion:hover {
     will-change: transform, box-shadow;
     transform: translateY(-6px) scale(1.015);
@@ -185,6 +193,7 @@ p, h1, h2, h3, h4, h5, h6, span, li, div {
         0px 55px 130px -30px rgba(139, 92, 246, 0.2),
         0px 70px 160px -40px rgba(59, 130, 246, 0.15);
 }
+*/
 
 /* Animations & Transitions for Vue */
 .fade-enter-active, .fade-leave-active {
