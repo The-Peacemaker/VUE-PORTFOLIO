@@ -57,20 +57,20 @@ const homeTemplate = `
                                 <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Freelance Security Researcher</h3>
                                 <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Remote • Independent</p>
                                 <ul class="text-sm space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                                    <li class="achievement-item">Identified and reported 15+ critical security vulnerabilities (XSS, CSRF, IDOR) across various platforms</li>
+                                    <li class="achievement-item">Identified and reported 15+ security vulnerabilities (XSS, CSRF, IDOR) across various platforms</li>
                                     <li class="achievement-item">Contributed to securing web applications for 10+ small to medium-sized businesses</li>
                                     <li class="achievement-item">Specialized in OWASP Top 10 vulnerability assessment and penetration testing</li>
                                 </ul>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-icon">WD</div>
-                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jun 2022 - Dec 2022</p>
-                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Web Development Intern</h3>
-                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Tech Solutions Inc. • Remote</p>
+                                <div class="timeline-icon">ML</div>
+                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jun 2025 - Jul 2025</p>
+                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI/ML Research Intern</h3>
+                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Techmaghi • On Site</p>
                                 <ul class="text-sm space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                                    <li class="achievement-item">Developed and maintained 5+ client websites using Vue.js and TailwindCSS</li>
-                                    <li class="achievement-item">Collaborated with senior developers on debugging and implementing new features</li>
-                                    <li class="achievement-item">Improved website performance by 40% through code optimization</li>
+                                    <li class="achievement-item">Developed machine learning models for predictive analytics using Python and TensorFlow</li>
+                                    <li class="achievement-item">Implemented data preprocessing pipelines and feature engineering techniques</li>
+                                    <li class="achievement-item">Improved model accuracy through hyperparameter optimization and ensemble methods</li>
                                 </ul>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ const homeTemplate = `
                                 <ul class="text-sm space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
                                     <li class="achievement-item">Focusing on Software Development and Cybersecurity specialization tracks</li>
                                     <li class="achievement-item">Active member of the college's coding and cybersecurity club</li>
-                                    <li class="achievement-item">Participated in 8+ CTF competitions and hackathons</li>
+                                    <li class="achievement-item">Participated in Several CTF competitions and hackathons</li>
                                 </ul>
                             </div>
                             <div class="timeline-item">

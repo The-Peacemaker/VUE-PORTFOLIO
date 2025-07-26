@@ -80,19 +80,19 @@ const resumeTemplate = `
                     <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-green-400' : 'text-green-600'">Independent • Remote</p>
                     <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">January 2023 - Present</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Identified and reported 15+ critical security vulnerabilities across various platforms</li>
+                        <li>• Identified and reported 15+ security vulnerabilities across various platforms</li>
                         <li>• Specialized in OWASP Top 10 vulnerability assessment and penetration testing</li>
                         <li>• Contributed to securing web applications for 10+ businesses</li>
                     </ul>
                 </div>
                 <div class="border-l-4 border-blue-500 pl-4">
-                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Web Development Intern</h3>
-                    <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Tech Solutions Inc. • Remote</p>
-                    <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">June 2022 - December 2022</p>
+                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI/ML Research Intern</h3>
+                    <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Techmaghi • On Site</p>
+                    <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">June 2025 - July 2025</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Developed and maintained 5+ client websites using Vue.js and TailwindCSS</li>
-                        <li>• Improved website performance by 40% through code optimization</li>
-                        <li>• Collaborated with senior developers on debugging and feature implementation</li>
+                        <li>• Developed machine learning models for predictive analytics using Python and TensorFlow</li>
+                        <li>• Implemented data preprocessing pipelines and feature engineering techniques</li>
+                        <li>• Improved model accuracy through hyperparameter optimization and ensemble methods</li>
                     </ul>
                 </div>
             </div>
@@ -157,7 +157,7 @@ const resumeTemplate = `
             <div class="space-y-2">
                 <div class="flex items-start gap-3">
                     <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                    <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Participated in 8+ CTF competitions with top 10 rankings in college-level events</p>
+                    <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Participated in Several CTF competitions with top 10 rankings in college-level events</p>
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
@@ -165,7 +165,7 @@ const resumeTemplate = `
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                    <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Active contributor to college's cybersecurity and coding clubs</p>
+                    <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Active contributor to college's Tech and coding clubs</p>
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
