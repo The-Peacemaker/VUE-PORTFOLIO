@@ -1,73 +1,140 @@
-/* Experience Timeline Styles */
+/* Beautiful Timeline Styles */
 .timeline-item {
     position: relative;
-    padding-left: 2rem;
-    padding-bottom: 2rem;
-    border-left: 2px solid;
-    transition: all 0.3s ease;
+    padding-left: 3rem;
+    padding-bottom: 3rem;
+    border-left: 3px solid;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    margin-left: 0.5rem;
 }
 
 .timeline-item:last-child {
-    border-left: 2px solid transparent;
+    border-left: 3px solid transparent;
     padding-bottom: 0;
 }
 
+.timeline-item:hover {
+    transform: translateX(4px);
+}
+
+/* Beautiful gradient timeline dots */
 .timeline-item::before {
     content: '';
     position: absolute;
-    left: -6px;
-    top: 0;
-    width: 10px;
-    height: 10px;
+    left: -9px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: 2px solid;
-    transition: all 0.3s ease;
+    border: 3px solid;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 2;
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
 }
 
+.timeline-item:hover::before {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0.1);
+}
+
+/* Light theme timeline styling */
 .light-theme .timeline-item::before {
-    background: white;
-    border-color: #d1d5db;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
+.light-theme .timeline-item:hover::before {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    box-shadow: 
+        0 4px 20px rgba(99, 102, 241, 0.4),
+        0 0 0 8px rgba(99, 102, 241, 0.1);
+}
+
+/* Dark theme timeline styling */
 .dark-theme .timeline-item::before {
-    background: #1f2937;
-    border-color: #4b5563;
+    background: linear-gradient(135deg, #22d3ee, #6366f1);
+    border-color: #1f2937;
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
 }
 
+.dark-theme .timeline-item:hover::before {
+    background: linear-gradient(135deg, #06b6d4, #4f46e5);
+    box-shadow: 
+        0 4px 20px rgba(34, 211, 238, 0.4),
+        0 0 0 8px rgba(34, 211, 238, 0.1);
+}
+
+/* Beautiful gradient timeline lines */
+.light-theme .timeline-item {
+    border-left: 3px solid;
+    border-image: linear-gradient(to bottom, #6366f1, #8b5cf6, #ec4899) 1;
+}
+
+.dark-theme .timeline-item {
+    border-left: 3px solid;
+    border-image: linear-gradient(to bottom, #22d3ee, #6366f1, #a855f7) 1;
+}
+
+/* Beautiful Timeline Icons */
 .timeline-icon {
     position: absolute;
-    left: -1.125rem;
-    top: -0.25rem;
-    width: 2.25rem;
-    height: 2.25rem;
-    background: #f3f4f6;
-    border: 2px solid #d1d5db;
+    left: -1.5rem;
+    top: -0.125rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: bold;
-    color: #6b7280;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 3;
+    cursor: pointer;
 }
 
+.timeline-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Light theme timeline icons */
 .light-theme .timeline-icon {
-    background: white;
-    border-color: #e5e7eb;
-    color: #6b7280;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 3px solid #6366f1;
+    color: #4f46e5 !important; 
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 0 0 0 rgba(99, 102, 241, 0.2);
+    font-weight: 900;
 }
 
+.light-theme .timeline-icon:hover {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-color: #4f46e5;
+    color: #ffffff;
+    box-shadow: 
+        0 8px 24px rgba(99, 102, 241, 0.4),
+        0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+/* Dark theme timeline icons */
 .dark-theme .timeline-icon {
-    background: #374151;
-    border-color: #4b5563;
-    color: #9ca3af;
+    background: linear-gradient(135deg, #374151, #4b5563);
+    border: 2px solid #6b7280;
+    color: #ffffff; 
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 0 0 rgba(34, 211, 238, 0.2);
 }
 
 .dark-theme .timeline-icon:hover {
-    background: #4b5563;
-    border-color: #22d3ee;
-    color: #22d3ee;
+    background: linear-gradient(135deg, #22d3ee, #6366f1);
+    border-color: #06b6d4;
+    color: #ffffff;
+    box-shadow: 
+        0 8px 24px rgba(34, 211, 238, 0.4),
+        0 0 0 4px rgba(34, 211, 238, 0.1);
 }
 
 /* Enhanced experience container for dark theme */
@@ -125,7 +192,7 @@
 }
 
 .dark-theme .achievement-item::before {
-    content: '▶';
+    content: '-';
     position: absolute;
     left: 0;
     color: #22d3ee;
