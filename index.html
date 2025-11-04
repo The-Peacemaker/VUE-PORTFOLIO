@@ -3,28 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benedict Chacko Mathew</title>
+    <meta name="description" content="Benedict's Portfolio - Creative Developer & Designer">
+    <title>BENEDICT</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='%234F46E5'><ellipse cx='32' cy='35' rx='28' ry='8' fill='%236366F1' opacity='0.3'/><ellipse cx='32' cy='28' rx='20' ry='12' fill='%234F46E5'/><ellipse cx='32' cy='22' rx='12' ry='8' fill='%236366F1'/><circle cx='25' cy='22' r='2' fill='%23FEF08A'/><circle cx='32' cy='20' r='2' fill='%23FEF08A'/><circle cx='39' cy='22' r='2' fill='%23FEF08A'/><ellipse cx='18' cy='35' rx='4' ry='2' fill='%234F46E5'/><ellipse cx='46' cy='35' rx='4' ry='2' fill='%234F46E5'/><path d='M20 40 L16 45 L24 45 Z' fill='%236366F1'/><path d='M44 40 L40 45 L48 45 Z' fill='%236366F1'/></svg>">
     
+    <!-- Performance: Preconnect to external domains -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS: Google Fonts with display=swap for better performance -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <!-- External Libraries -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=20">
     <link rel="stylesheet" href="css/experience.css">
     <link rel="stylesheet" href="css/social.css">
 </head>
-<body class="light-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate">
+<body class="dark-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate">
 
     <div id="app">
+        <!-- SVG Filters for Liquid Glass Effect -->
+        <svg style="position: absolute; width: 0; height: 0;">
+            <defs>
+                <filter id="goo">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"/>
+                    <feBlend in="SourceGraphic" in2="goo"/>
+                </filter>
+            </defs>
+        </svg>
+
         <!-- Interactive Grid Background -->
         <div class="fixed inset-0 z-[-1]">
             <div id="interactive-grid" class="interactive-grid h-full w-full"></div>
@@ -59,20 +76,28 @@
                     
                     <!-- Navigation Links -->
                     <ul class="flex items-center space-x-1 sm:space-x-2 text-xs font-mono" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
-                        <li><a href="#" @click.prevent="switchSection('home')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">HOME</a></li>
+                        <li><a href="#" @click.prevent="switchSection('home')" class="nav-link" :class="[currentSection === 'home' ? 'active' : '', isDark ? 'hover:text-blue-400' : 'hover:text-blue-600']" data-section="home">HOME</a></li>
                         <li><span class="select-none" :class="isDark ? 'text-gray-600' : 'text-gray-300'">|</span></li>
-                        <li><a href="#" @click.prevent="switchSection('projects')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">PROJECTS</a></li>
+                        <li><a href="#" @click.prevent="switchSection('projects')" class="nav-link" :class="[currentSection === 'projects' ? 'active' : '', isDark ? 'hover:text-blue-400' : 'hover:text-blue-600']" data-section="projects">PROJECTS</a></li>
                         <li><span class="select-none" :class="isDark ? 'text-gray-600' : 'text-gray-300'">|</span></li>
-                        <li><a href="#" @click.prevent="switchSection('resume')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">RESUME</a></li>
+                        <li><a href="#" @click.prevent="switchSection('resume')" class="nav-link" :class="[currentSection === 'resume' ? 'active' : '', isDark ? 'hover:text-blue-400' : 'hover:text-blue-600']" data-section="resume">RESUME</a></li>
                         <li><span class="select-none" :class="isDark ? 'text-gray-600' : 'text-gray-300'">|</span></li>
-                        <li><a href="#" @click.prevent="switchSection('contact')" class="nav-link transition-colors p-1 sm:p-2" :class="isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'">CONTACT</a></li>
+                        <li><a href="#" @click.prevent="switchSection('contact')" class="nav-link" :class="[currentSection === 'contact' ? 'active' : '', isDark ? 'hover:text-blue-400' : 'hover:text-blue-600']" data-section="contact">CONTACT</a></li>
                     </ul>
                 </div>
             </nav>
 
-            <!-- Aurora Header -->
-            <div class="relative h-28 sm:h-32 overflow-hidden border-b border-gray-200/50">
-                <div class="absolute -inset-48 z-0 aurora-bg"></div>
+            <!-- Animated Canvas Title Header -->
+            <div class="relative h-32 sm:h-40 md:h-48 overflow-hidden border-b border-gray-200/50" :class="isDark ? 'border-gray-700/50' : 'border-gray-200/50'">
+                <div class="absolute inset-0 z-0" :class="isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900' : 'bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50'"></div>
+                
+                <!-- Canvas Animation -->
+                <canvas id="benedict-canvas" class="absolute inset-0 z-10 w-full h-full"></canvas>
+                
+                <!-- Loading Fallback -->
+                <div id="canvas-fallback" class="absolute inset-0 z-5 canvas-loading" :class="isDark ? 'text-gray-300' : 'text-gray-700'" style="display: none;"></div>
+                
+                <div class="absolute inset-0 z-20 pointer-events-none" :class="isDark ? 'bg-gradient-to-t from-gray-900/20 to-transparent' : 'bg-gradient-to-t from-white/20 to-transparent'"></div>
             </div>
 
             <!-- Content Area -->
@@ -105,9 +130,12 @@
     <script src="templates/contact.js"></script>
 
     <!-- JavaScript Files -->
-    <script src="js/effects.js"></script>
-    <script src="js/init.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/animated-title.js?v=27"></script>
+    <script src="js/canvas-title.js?v=27"></script>
+    <script src="js/effects.js?v=27"></script>
+    <script src="js/liquid-glass-nav.js?v=27"></script>
+    <script src="js/init.js?v=27"></script>
+    <script src="js/app.js?v=27"></script>
 
 </body>
 </html>

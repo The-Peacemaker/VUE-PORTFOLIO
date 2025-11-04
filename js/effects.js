@@ -1,35 +1,55 @@
-// Interactive Grid Management
+// Interactive Grid Management - Optimized
 class GridManager {
     constructor() {
         this.gridContainer = null;
         this.isDark = false;
+        this.resizeTimeout = null;
     }
 
     init() {
         this.gridContainer = document.getElementById('interactive-grid');
         this.updateGrid();
-        window.addEventListener('resize', this.updateGrid.bind(this));
+        
+        // Debounced resize for better performance
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = setTimeout(() => this.updateGrid(), 150);
+        }, { passive: true });
     }
 
     updateGrid() {
         if (!this.gridContainer) return;
         
-        this.gridContainer.innerHTML = '';
+        // Use document fragment for better DOM performance
+        const fragment = document.createDocumentFragment();
         const width = window.innerWidth;
         const height = window.innerHeight;
-        const numColumns = Math.ceil(width / 30);
-        const numRows = Math.ceil(height / 30);
-        const numCells = numColumns * numRows;
         
+        // Reduce grid density for better performance
+        const cellSize = 40; // Increased from 30
+        const numColumns = Math.ceil(width / cellSize);
+        const numRows = Math.ceil(height / cellSize);
+        const numCells = Math.min(numColumns * numRows, 500); // Cap max cells
+        
+        // Clear existing grid efficiently
+        this.gridContainer.textContent = '';
+        
+        // Batch create cells
         for (let i = 0; i < numCells; i++) {
             const cell = document.createElement('div');
-            cell.classList.add('grid-cell');
-            this.gridContainer.appendChild(cell);
+            cell.className = 'grid-cell';
+            fragment.appendChild(cell);
         }
+        
+        this.gridContainer.appendChild(fragment);
     }
 
     setTheme(isDark) {
         this.isDark = isDark;
+    }
+
+    destroy() {
+        clearTimeout(this.resizeTimeout);
     }
 }
 
@@ -75,7 +95,7 @@ class CardEffects {
     }
 }
 
-// Custom Cursor Management
+// Custom Cursor Management - Optimized
 class CursorManager {
     constructor() {
         this.cursor = null;
@@ -85,8 +105,10 @@ class CursorManager {
         this.currentY = 0;
         this.targetX = 0;
         this.targetY = 0;
-        this.ease = 0.1;
-        this.hoveredNavElement = null;
+        this.ease = 0.15;
+        this.isVisible = false;
+        this.rafId = null;
+        this.lastUpdateTime = 0;
     }
 
     init(cursorRef) {
@@ -96,58 +118,98 @@ class CursorManager {
     }
 
     setupEventListeners() {
-        window.addEventListener('mousemove', (e) => {
+        // Throttled mouse tracking for performance
+        let mouseMoveTimeout;
+        document.addEventListener('mousemove', (e) => {
             this.mouseX = e.clientX;
             this.mouseY = e.clientY;
+            
+            if (!this.isVisible) {
+                this.isVisible = true;
+                this.cursor.style.opacity = '1';
+            }
+        }, { passive: true });
+
+        document.addEventListener('mouseleave', () => {
+            this.isVisible = false;
+            this.cursor.style.opacity = '0';
         });
 
+        document.addEventListener('mouseenter', () => {
+            this.isVisible = true;
+            this.cursor.style.opacity = '1';
+        });
+
+        // Optimized hover detection with event delegation
         document.addEventListener('mouseover', (e) => {
             const target = e.target;
             
-            if (target.closest('.nav-link')) {
-                this.hoveredNavElement = target.closest('.nav-link');
-                this.cursor.classList.add('nav-hover');
-            } else if (target.closest('.cursor-interactive')) {
-                const fontSize = parseFloat(window.getComputedStyle(target).fontSize);
-                this.cursor.style.setProperty('--cursor-height', `${fontSize * 1.2}px`);
-                this.cursor.classList.add('text-hover');
-            } else if (target.closest('a, button')) {
-                this.cursor.classList.add('link-hover');
+            // Use closest() once and cache result
+            const textEl = target.closest('p, h1, h2, h3, h4, h5, h6, span:not(.social-link-text), li, .timeline-item, .achievement-item, .job-title, .company-name');
+            const linkEl = target.closest('a, button, input, textarea, select, [role="button"], .skill-badge, .social-link, .nav-link');
+            
+            if (textEl) {
+                const fontSize = parseFloat(window.getComputedStyle(textEl).fontSize) || 16;
+                this.cursor.style.setProperty('--cursor-height', `${fontSize * 1.3}px`);
+                this.cursor.className = 'cursor-dot text-hover';
+            } else if (linkEl) {
+                this.cursor.className = 'cursor-dot link-hover';
             }
+        }, { passive: true });
+
+        document.addEventListener('mouseout', (e) => {
+            const target = e.target;
+            
+            if (!e.relatedTarget || !target.contains(e.relatedTarget)) {
+                this.cursor.className = 'cursor-dot';
+                this.cursor.style.removeProperty('--cursor-width');
+                this.cursor.style.removeProperty('--cursor-height');
+            }
+        }, { passive: true });
+
+        // Click effects
+        document.addEventListener('mousedown', () => {
+            this.cursor.style.transform = `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%) scale(0.8)`;
         });
 
-        document.addEventListener('mouseout', () => {
-            this.hoveredNavElement = null;
-            this.cursor.className = 'cursor-dot';
+        document.addEventListener('mouseup', () => {
+            this.cursor.style.transform = `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%) scale(1)`;
         });
     }
 
     startAnimation() {
-        const animate = () => {
+        const animate = (currentTime) => {
+            // Limit to 60fps max
+            if (currentTime - this.lastUpdateTime < 16) {
+                this.rafId = requestAnimationFrame(animate);
+                return;
+            }
+            this.lastUpdateTime = currentTime;
+
             this.targetX = this.mouseX;
             this.targetY = this.mouseY;
             
-            if (this.hoveredNavElement) {
-                const rect = this.hoveredNavElement.getBoundingClientRect();
-                this.targetX = rect.left + rect.width / 2;
-                this.targetY = rect.top + rect.height / 2;
-                this.cursor.style.setProperty('--cursor-width', `${rect.width}px`);
-                this.cursor.style.setProperty('--cursor-height', `${rect.height}px`);
-            } else {
+            if (!this.cursor.classList.contains('text-hover')) {
                 this.cursor.style.removeProperty('--cursor-width');
-                if (!this.cursor.classList.contains('text-hover')) {
-                    this.cursor.style.removeProperty('--cursor-height');
-                }
+                this.cursor.style.removeProperty('--cursor-height');
             }
 
+            // Smooth easing
             this.currentX += (this.targetX - this.currentX) * this.ease;
             this.currentY += (this.targetY - this.currentY) * this.ease;
             
+            // Use transform for GPU acceleration
             this.cursor.style.transform = `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%)`;
             
-            requestAnimationFrame(animate);
+            this.rafId = requestAnimationFrame(animate);
         };
-        animate();
+        this.rafId = requestAnimationFrame(animate);
+    }
+
+    destroy() {
+        if (this.rafId) {
+            cancelAnimationFrame(this.rafId);
+        }
     }
 }
 

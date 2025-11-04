@@ -164,7 +164,18 @@ const app = createApp({
         const cursorDot = ref(null);
         const isDesktop = ref(false);
         const showPopup = ref(false);
-        const isDark = ref(false);
+        
+        // Initialize theme from localStorage or default to dark mode
+        const getInitialTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme === 'dark';
+            }
+            // Default to dark mode for all new users
+            return true;
+        };
+        
+        const isDark = ref(getInitialTheme());
 
         // Provide the state to child components
         provide('showPopup', showPopup);
@@ -183,12 +194,45 @@ const app = createApp({
         // --- METHODS ---
         const switchSection = (section) => {
             currentSection.value = section;
+            
+            // Update active nav link class
+            setTimeout(() => {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                const activeLink = document.querySelector(`.nav-link[href="#"]:contains("${section.toUpperCase()}")`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }, 0);
+            
+            // Trigger different title animations based on section
+            if (window.animatedTitle) {
+                const animationType = {
+                    'home': 'sparkle',
+                    'projects': 'typewriter', 
+                    'resume': 'pulse',
+                    'contact': 'sparkle'
+                }[section] || 'pulse';
+                
+                window.animatedTitle.triggerSpecialAnimation(animationType);
+            }
         };
 
         const toggleTheme = () => {
             isDark.value = !isDark.value;
             document.body.className = isDark.value ? 'dark-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate' : 'light-theme w-full min-h-screen p-4 sm:p-8 md:p-16 isolate';
             localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+            
+            // Update canvas theme if it exists
+            if (window.canvasAnimation) {
+                window.canvasAnimation.updateTheme(isDark.value);
+            }
+            
+            // Trigger special title animation on theme change
+            if (window.animatedTitle) {
+                window.animatedTitle.triggerSpecialAnimation('pulse');
+            }
         };
 
         return {
