@@ -208,3 +208,105 @@
   opacity: 0;
   transform: translateX(10px);
 }
+
+/* ========================================
+   MOBILE OPTIMIZATIONS FOR EXPERIENCE
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Timeline mobile adjustments */
+    .timeline-item {
+        padding-left: 2rem;
+        padding-bottom: 2rem;
+        border-left-width: 2px;
+    }
+    
+    .timeline-item::before {
+        width: 12px;
+        height: 12px;
+        left: -7px;
+        border-width: 2px;
+    }
+    
+    /* Simplify hover effects on mobile */
+    .timeline-item:hover {
+        transform: none;
+    }
+    
+    .timeline-item:hover::before {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+    
+    /* Timeline icons mobile */
+    .timeline-icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        left: -1.125rem;
+        font-size: 0.75rem;
+    }
+    
+    .timeline-icon:hover {
+        transform: scale(1.05);
+    }
+    
+    /* Experience container mobile */
+    .experience-container {
+        padding: 1rem;
+    }
+    
+    .dark-theme .experience-container:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Typography mobile */
+    .job-title {
+        font-size: 1rem;
+    }
+    
+    .company-name {
+        font-size: 0.875rem;
+    }
+    
+    .timeline-item ul li {
+        font-size: 0.8125rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-item {
+        padding-left: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .timeline-item::before {
+        width: 10px;
+        height: 10px;
+        left: -6px;
+    }
+    
+    .timeline-icon {
+        width: 2rem;
+        height: 2rem;
+        left: -1rem;
+        font-size: 0.625rem;
+    }
+    
+    .experience-container {
+        padding: 0.875rem;
+    }
+    
+    .job-title {
+        font-size: 0.9375rem;
+    }
+    
+    .company-name {
+        font-size: 0.8125rem;
+    }
+    
+    .timeline-item ul li {
+        font-size: 0.75rem;
+    }
+}

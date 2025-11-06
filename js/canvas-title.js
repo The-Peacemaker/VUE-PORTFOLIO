@@ -54,15 +54,23 @@ class CanvasTitleAnimation {
         this.canvasWidth = rect.width;
         this.canvasHeight = rect.height;
         
-        // Adjust settings based on screen size - increased star counts for PERFECTION
-        if (rect.width < 768) {
-            // Mobile optimizations
-            this.starCount = 45;
-            this.options.connectionDistance = 95;
+        // Detect actual mobile device (not just screen size)
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Adjust settings based on device type and screen size
+        if (this.isMobile) {
+            // Mobile device optimizations - reduced particles for better performance
+            this.starCount = 25;
+            this.options.connectionDistance = 80;
+            this.options.magneticForce = 0.15;
+        } else if (rect.width < 768) {
+            // Small desktop/laptop screens - reduced but not as much as mobile
+            this.starCount = 60;
+            this.options.connectionDistance = 110;
         } else if (rect.width < 1024) {
-            // Tablet optimizations
-            this.starCount = 70;
-            this.options.connectionDistance = 115;
+            // Tablet or medium laptop screens
+            this.starCount = 75;
+            this.options.connectionDistance = 120;
         } else {
             // Desktop settings - beautiful dense constellation field
             this.starCount = 100;
@@ -86,6 +94,33 @@ class CanvasTitleAnimation {
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
                 connections: []
+            });
+        }
+        
+        // Create floating math formulas (super nerdy!)
+        const formulas = [
+            'f(x)=∫cos(θ)dθ',
+            '∇²ψ+k²ψ=0',
+            'e^(iπ)+1=0',
+            '∑_{n=1}^∞ 1/n²=π²/6',
+            'lim_{x→∞} (1+1/x)^x=e',
+            'F=ma',
+            'E=mc²',
+            '∂ψ/∂t=iℏψ'
+        ];
+        
+        this.floatingFormulas = [];
+        const formulaCount = this.isMobile ? 2 : 4;
+        
+        for (let i = 0; i < formulaCount; i++) {
+            this.floatingFormulas.push({
+                text: formulas[Math.floor(Math.random() * formulas.length)],
+                x: Math.random() * this.canvasWidth,
+                y: Math.random() * this.canvasHeight,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                opacity: Math.random() * 0.1 + 0.05,
+                size: Math.random() * 2 + 9
             });
         }
     }
@@ -213,30 +248,147 @@ class CanvasTitleAnimation {
     }
 
     drawConstellationLabels() {
-        // Find the largest constellation (most connected star cluster)
+        // Find the largest constellations (most connected star clusters)
         const clusters = this.findClusters();
         
-        if (clusters.length > 0 && clusters[0].length >= 3) {
-            const cluster = clusters[0];
-            
+        // Show stats for top 3 clusters
+        const topClusters = clusters.slice(0, 3).filter(c => c.length >= 3);
+        
+        topClusters.forEach((cluster, index) => {
             // Calculate center of cluster
             let centerX = 0, centerY = 0;
+            let totalConnections = 0;
+            
             cluster.forEach(star => {
                 centerX += star.x;
                 centerY += star.y;
+                totalConnections += star.connections.length;
             });
             centerX /= cluster.length;
             centerY /= cluster.length;
-
-            // Draw subtle constellation name
+            
+            // Calculate cluster radius
+            let maxDist = 0;
+            cluster.forEach(star => {
+                const dist = Math.sqrt(
+                    Math.pow(star.x - centerX, 2) + 
+                    Math.pow(star.y - centerY, 2)
+                );
+                maxDist = Math.max(maxDist, dist);
+            });
+            
+            // Different labels for different cluster sizes
+            let label;
+            if (index === 0) {
+                // Primary cluster - show node count and connection density
+                const density = (totalConnections / cluster.length).toFixed(1);
+                label = `⟨${cluster.length}⟩ δ=${density}`;
+            } else {
+                // Secondary clusters - show node count and radius
+                label = `{${cluster.length}} r≈${Math.round(maxDist)}`;
+            }
+            
+            // Draw with better visibility
             this.ctx.save();
-            this.ctx.globalAlpha = 0.15;
-            this.ctx.font = '10px "Space Mono", monospace';
+            
+            // Add subtle glow background
+            this.ctx.globalAlpha = 0.08;
+            this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
+            this.ctx.beginPath();
+            this.ctx.arc(centerX, centerY - 2, 25, 0, Math.PI * 2);
+            this.ctx.fill();
+            
+            // Draw label text
+            this.ctx.globalAlpha = 0.35;
+            this.ctx.font = 'bold 11px "Space Mono", monospace';
             this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText(`C-${cluster.length}`, centerX, centerY);
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(label, centerX, centerY);
+            
+            // Add decorative dots at cluster center
+            this.ctx.globalAlpha = 0.25;
+            this.ctx.fillStyle = this.isDark ? '#34D399' : '#06B6D4';
+            this.ctx.beginPath();
+            this.ctx.arc(centerX, centerY, 1.5, 0, Math.PI * 2);
+            this.ctx.fill();
+            
             this.ctx.restore();
-        }
+        });
+        
+        // Draw total stats in corner (super nerdy!)
+        this.drawNerdyStats(clusters);
+    }
+    
+    drawNerdyStats(clusters) {
+        const totalStars = this.stars.length;
+        const totalConnections = this.stars.reduce((sum, star) => sum + star.connections.length, 0);
+        const avgConnections = (totalConnections / totalStars).toFixed(1);
+        const largestCluster = clusters.length > 0 ? clusters[0].length : 0;
+        
+        const stats = [
+            `Σn=${totalStars}`,
+            `Σe=${totalConnections}`,
+            `μ=${avgConnections}`,
+            `max={${largestCluster}}`
+        ];
+        
+        this.ctx.save();
+        this.ctx.globalAlpha = 0.2;
+        this.ctx.font = '9px "Space Mono", monospace';
+        this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
+        this.ctx.textAlign = 'right';
+        this.ctx.textBaseline = 'top';
+        
+        stats.forEach((stat, i) => {
+            this.ctx.fillText(stat, this.canvasWidth - 8, 8 + (i * 12));
+        });
+        
+        this.ctx.restore();
+    }
+    
+    updateFloatingFormulas() {
+        if (!this.floatingFormulas) return;
+        
+        this.floatingFormulas.forEach(formula => {
+            // Update position
+            formula.x += formula.vx;
+            formula.y += formula.vy;
+            
+            // Pulse opacity slightly
+            if (!formula.pulsePhase) formula.pulsePhase = Math.random() * Math.PI * 2;
+            formula.pulsePhase += 0.02;
+            const basePulse = Math.sin(formula.pulsePhase) * 0.03;
+            formula.currentOpacity = formula.opacity + basePulse;
+            
+            // Wrap around edges
+            if (formula.x < -50) formula.x = this.canvasWidth + 50;
+            if (formula.x > this.canvasWidth + 50) formula.x = -50;
+            if (formula.y < -20) formula.y = this.canvasHeight + 20;
+            if (formula.y > this.canvasHeight + 20) formula.y = -20;
+        });
+    }
+    
+    drawFloatingFormulas() {
+        if (!this.floatingFormulas) return;
+        
+        this.floatingFormulas.forEach(formula => {
+            this.ctx.save();
+            this.ctx.globalAlpha = formula.currentOpacity || formula.opacity;
+            this.ctx.font = `italic ${formula.size}px "Space Mono", monospace`;
+            this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            
+            // Add subtle shadow for depth
+            this.ctx.shadowColor = this.isDark ? '#60A5FA' : '#4F46E5';
+            this.ctx.shadowBlur = 3;
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 0;
+            
+            this.ctx.fillText(formula.text, formula.x, formula.y);
+            this.ctx.restore();
+        });
     }
 
     findClusters() {
@@ -286,6 +438,10 @@ class CanvasTitleAnimation {
         // Clear canvas efficiently
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         
+        // Draw floating formulas in background (super nerdy!)
+        this.updateFloatingFormulas();
+        this.drawFloatingFormulas();
+        
         // Update stars and find connections (batched)
         this.updateStars();
         
@@ -299,6 +455,11 @@ class CanvasTitleAnimation {
     }
 
     setupMouseTracking() {
+        // Disable mouse tracking on mobile for better performance
+        if (this.isMobile) {
+            return;
+        }
+        
         const updateMouse = (e) => {
             const rect = this.canvas.getBoundingClientRect();
             this.mouse.x = e.clientX - rect.left;
@@ -311,22 +472,6 @@ class CanvasTitleAnimation {
             this.mouse.active = true;
         });
         this.canvas.addEventListener('mouseleave', () => {
-            this.mouse.active = false;
-            this.mouse.x = -1000;
-            this.mouse.y = -1000;
-        });
-
-        // Touch support
-        this.canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const rect = this.canvas.getBoundingClientRect();
-            this.mouse.x = touch.clientX - rect.left;
-            this.mouse.y = touch.clientY - rect.top;
-            this.mouse.active = true;
-        });
-
-        this.canvas.addEventListener('touchend', () => {
             this.mouse.active = false;
             this.mouse.x = -1000;
             this.mouse.y = -1000;

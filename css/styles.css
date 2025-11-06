@@ -74,6 +74,17 @@ body.dark-theme {
     }
 }
 
+/* Mobile: Use default cursors */
+@media (hover: none) and (pointer: coarse) {
+    * {
+        cursor: auto !important;
+    }
+    
+    .cursor-dot {
+        display: none !important;
+    }
+}
+
 /* Allow text selection */
 p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
     user-select: text;
@@ -623,14 +634,22 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
 
 /* Responsive canvas container */
 @media (max-width: 768px) {
-    .h-32 {
-        height: 6rem !important;
+    .h-32, .sm\:h-40, .md\:h-48 {
+        height: 5rem !important;
+    }
+    
+    #benedict-canvas {
+        height: 5rem !important;
     }
 }
 
 @media (max-width: 640px) {
-    .h-32 {
-        height: 5rem !important;
+    .h-32, .sm\:h-40, .md\:h-48 {
+        height: 4rem !important;
+    }
+    
+    #benedict-canvas {
+        height: 4rem !important;
     }
 }
 
@@ -724,6 +743,14 @@ nav ul::before {
     z-index: 1;
     font-weight: 600;
     letter-spacing: 0.05em;
+}
+
+/* Mobile-specific nav link styling */
+@media (max-width: 768px) {
+    .nav-link {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.6875rem !important;
+    }
 }
 
 /* Remove old pseudo-element effects */
