@@ -48,9 +48,10 @@ const HomeComponent = {
 };
 
 const ProjectsComponent = { 
-    template: window.projectsTemplate,
+    template: window.projectsTemplate || '<div>Projects template not loaded</div>',
     setup() {
         const isDark = inject('isDark');
+        console.log('ProjectsComponent mounted, isDark:', isDark);
         return { isDark };
     }
 };
