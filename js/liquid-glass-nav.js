@@ -4,7 +4,8 @@
  */
 
 class LiquidGlassNav {
-    constructor() {
+    constructor(containerSelector = 'nav ul') {
+        this.containerSelector = containerSelector;
         this.navUl = null;
         this.navLinks = null;
         this.activeLink = null;
@@ -23,10 +24,13 @@ class LiquidGlassNav {
     }
 
     setup() {
-        this.navUl = document.querySelector('nav ul');
-        this.navLinks = document.querySelectorAll('.nav-link');
+        this.navUl = document.querySelector(this.containerSelector);
         
-        if (!this.navUl || !this.navLinks.length) return;
+        if (!this.navUl) return;
+        
+        this.navLinks = this.navUl.querySelectorAll('.nav-link');
+        
+        if (!this.navLinks.length) return;
 
         this.cachePositions();
         this.setupEventListeners();
@@ -55,7 +59,12 @@ class LiquidGlassNav {
             }, { passive: true });
 
             link.addEventListener('click', (e) => {
-                this.setActiveLink(e.currentTarget);
+                // Only set active if it's an internal link (starts with #)
+                // External links shouldn't necessarily become "active" in the SPA sense
+                // But for visual feedback, we might want to momentarily snap to it
+                if (e.currentTarget.getAttribute('href').startsWith('#')) {
+                    this.setActiveLink(e.currentTarget);
+                }
             });
         });
 
@@ -63,8 +72,16 @@ class LiquidGlassNav {
         this.navUl.addEventListener('mouseleave', () => {
             this.isHovering = false;
             requestAnimationFrame(() => {
-                if (!this.isHovering && this.activeLink) {
-                    this.moveGlassTo(this.activeLink);
+                if (!this.isHovering) {
+                    // If we have an active link, go back to it
+                    if (this.activeLink) {
+                        this.moveGlassTo(this.activeLink);
+                    } else {
+                        // If no active link (e.g. blogs nav), maybe stay on the first one?
+                        // Or we could hide it? For now, let's stay on the first one 
+                        // to match the "always visible pill" look of the main nav
+                        this.moveGlassTo(this.navLinks[0]);
+                    }
                 }
             });
         }, { passive: true });
@@ -91,14 +108,30 @@ class LiquidGlassNav {
             this.cachePositions();
             if (this.activeLink) {
                 this.moveGlassTo(this.activeLink, true);
+            } else if (this.navLinks.length > 0) {
+                 this.moveGlassTo(this.navLinks[0], true);
             }
         });
         this.resizeObserver.observe(this.navUl);
     }
 
     initializeGlass() {
-        const activeLink = document.querySelector('.nav-link.active') || this.navLinks[0];
-        this.setActiveLink(activeLink, true);
+        // Find active link within this container
+        let activeLink = null;
+        this.navLinks.forEach(link => {
+            if (link.classList.contains('active')) {
+                activeLink = link;
+            }
+        });
+        
+        // Default to first link if no active link found
+        if (!activeLink && this.navLinks.length > 0) {
+            activeLink = this.navLinks[0];
+        }
+        
+        if (activeLink) {
+            this.setActiveLink(activeLink, true);
+        }
     }
 
     setActiveLink(link, instant = false) {
@@ -148,5 +181,7 @@ class LiquidGlassNav {
     }
 }
 
-// Initialize
-new LiquidGlassNav();
+// Initialize for both navigations
+new LiquidGlassNav('nav ul');
+new LiquidGlassNav('.blogs-nav-container ul');
+

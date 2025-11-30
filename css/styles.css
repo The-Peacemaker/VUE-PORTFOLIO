@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+/* Hide Vue app until compiled */
+[v-cloak] {
+    display: none !important;
+}
+
 /* CSS Containment for isolated components */
 #portfolio-card {
     contain: layout style;
@@ -681,7 +686,8 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
    ======================================== */
 
 /* Navigation container */
-nav ul {
+nav ul,
+.blogs-nav-container ul {
     position: relative;
     isolation: isolate;
     padding: 0.25rem;
@@ -690,13 +696,15 @@ nav ul {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.dark-theme nav ul {
+.dark-theme nav ul,
+.dark-theme .blogs-nav-container ul {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Liquid glass sliding indicator */
-nav ul::before {
+nav ul::before,
+.blogs-nav-container ul::before {
     content: '';
     position: absolute;
     top: 0.25rem;
@@ -720,7 +728,8 @@ nav ul::before {
     pointer-events: none;
 }
 
-.dark-theme nav ul::before {
+.dark-theme nav ul::before,
+.dark-theme .blogs-nav-container ul::before {
     background: linear-gradient(135deg, 
         rgba(99, 102, 241, 0.3) 0%, 
         rgba(139, 92, 246, 0.2) 50%,
@@ -826,4 +835,19 @@ nav ul::before {
 
 .nav-link:active {
     transform: translateY(0) scale(0.98);
+}
+
+/* ========================================
+   BLOGS NAVIGATION (TOP-LEFT CORNER)
+   ======================================== */
+
+.blogs-nav-container {
+    z-index: 21 !important;
+}
+
+/* Apply gooey effect to blogs nav container if supported */
+@supports (filter: url('#goo')) {
+    .blogs-nav-container ul {
+        filter: url('#goo');
+    }
 }

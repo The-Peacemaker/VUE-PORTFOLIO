@@ -99,28 +99,35 @@ class CanvasTitleAnimation {
         
         // Create floating math formulas (super nerdy!)
         const formulas = [
-            'f(x)=∫cos(θ)dθ',
-            '∇²ψ+k²ψ=0',
-            'e^(iπ)+1=0',
-            '∑_{n=1}^∞ 1/n²=π²/6',
-            'lim_{x→∞} (1+1/x)^x=e',
-            'F=ma',
-            'E=mc²',
-            '∂ψ/∂t=iℏψ'
+            'iℏ∂ψ/∂t = Ĥψ', // Schrödinger
+            'G_μν + Λg_μν = 8πG T_μν', // Einstein Field
+            '∇⋅E = ρ/ε₀', // Maxwell (Gauss)
+            '∇×B - (1/c²)∂E/∂t = μ₀J', // Maxwell (Ampere)
+            'e^{iπ} + 1 = 0', // Euler
+            '∫_{-∞}^∞ e^{-x²} dx = √π', // Gaussian Integral
+            'P(A|B) = P(B|A)P(A)/P(B)', // Bayes
+            'H(X) = -∑ p(x)log₂p(x)', // Shannon Entropy
+            'R_{μν} - ½Rg_{μν} = T_{μν}', // General Relativity
+            'δS = 0', // Principle of Least Action
+            'dF = 0, d*F = J', // Maxwell (Differential forms)
+            'Z = ∑ e^{-βE_i}' // Partition Function
         ];
         
         this.floatingFormulas = [];
-        const formulaCount = this.isMobile ? 2 : 4;
+        const formulaCount = this.isMobile ? 4 : 8; // Increased count
         
         for (let i = 0; i < formulaCount; i++) {
             this.floatingFormulas.push({
                 text: formulas[Math.floor(Math.random() * formulas.length)],
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                opacity: Math.random() * 0.1 + 0.05,
-                size: Math.random() * 2 + 9
+                vx: (Math.random() - 0.5) * 0.2, // Slower, more majestic
+                vy: (Math.random() - 0.5) * 0.2,
+                rotation: (Math.random() - 0.5) * 0.2, // Initial rotation
+                rotationSpeed: (Math.random() - 0.5) * 0.002, // Slow rotation
+                opacity: Math.random() * 0.15 + 0.05, // Slightly more visible
+                size: Math.random() * 4 + 10, // Slightly larger
+                color: Math.random() > 0.5 ? (this.isDark ? '#60A5FA' : '#4F46E5') : (this.isDark ? '#34D399' : '#06B6D4') // Varied colors
             });
         }
     }
@@ -323,25 +330,28 @@ class CanvasTitleAnimation {
     drawNerdyStats(clusters) {
         const totalStars = this.stars.length;
         const totalConnections = this.stars.reduce((sum, star) => sum + star.connections.length, 0);
-        const avgConnections = (totalConnections / totalStars).toFixed(1);
+        const avgConnections = (totalConnections / totalStars).toFixed(2);
         const largestCluster = clusters.length > 0 ? clusters[0].length : 0;
+        const entropy = (Math.random() * 0.1 + 0.9).toFixed(4); // Fake entropy
         
         const stats = [
-            `Σn=${totalStars}`,
-            `Σe=${totalConnections}`,
-            `μ=${avgConnections}`,
-            `max={${largestCluster}}`
+            `SYS.ENTROPY=${entropy}`,
+            `NODES=${totalStars}`,
+            `EDGES=${totalConnections}`,
+            `μ_DEGREE=${avgConnections}`,
+            `MAX_CLUSTER={${largestCluster}}`,
+            `T=${(Date.now() - this.startTime).toString(16).toUpperCase()}` // Hex timestamp
         ];
         
         this.ctx.save();
-        this.ctx.globalAlpha = 0.2;
-        this.ctx.font = '9px "Space Mono", monospace';
+        this.ctx.globalAlpha = 0.4;
+        this.ctx.font = '10px "Space Mono", monospace';
         this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
         this.ctx.textAlign = 'right';
         this.ctx.textBaseline = 'top';
         
         stats.forEach((stat, i) => {
-            this.ctx.fillText(stat, this.canvasWidth - 8, 8 + (i * 12));
+            this.ctx.fillText(stat, this.canvasWidth - 10, 10 + (i * 14));
         });
         
         this.ctx.restore();
@@ -351,15 +361,40 @@ class CanvasTitleAnimation {
         if (!this.floatingFormulas) return;
         
         this.floatingFormulas.forEach(formula => {
+            // Apply subtle mouse repulsion to formulas
+            if (this.mouse.active) {
+                const dx = this.mouse.x - formula.x;
+                const dy = this.mouse.y - formula.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const repelRadius = 200;
+                
+                if (dist < repelRadius) {
+                    const force = (1 - dist / repelRadius) * 0.02;
+                    formula.vx -= dx * force;
+                    formula.vy -= dy * force;
+                }
+            }
+
             // Update position
             formula.x += formula.vx;
             formula.y += formula.vy;
             
+            // Update rotation
+            formula.rotation += formula.rotationSpeed;
+            
+            // Dampen velocity (return to float)
+            formula.vx *= 0.99;
+            formula.vy *= 0.99;
+            
+            // Keep minimum movement
+            if (Math.abs(formula.vx) < 0.1) formula.vx += (Math.random() - 0.5) * 0.01;
+            if (Math.abs(formula.vy) < 0.1) formula.vy += (Math.random() - 0.5) * 0.01;
+            
             // Pulse opacity slightly
             if (!formula.pulsePhase) formula.pulsePhase = Math.random() * Math.PI * 2;
             formula.pulsePhase += 0.02;
-            const basePulse = Math.sin(formula.pulsePhase) * 0.03;
-            formula.currentOpacity = formula.opacity + basePulse;
+            const basePulse = Math.sin(formula.pulsePhase) * 0.05;
+            formula.currentOpacity = Math.max(0, Math.min(1, formula.opacity + basePulse));
             
             // Wrap around edges
             if (formula.x < -50) formula.x = this.canvasWidth + 50;
@@ -374,19 +409,22 @@ class CanvasTitleAnimation {
         
         this.floatingFormulas.forEach(formula => {
             this.ctx.save();
+            this.ctx.translate(formula.x, formula.y);
+            this.ctx.rotate(formula.rotation);
+            
             this.ctx.globalAlpha = formula.currentOpacity || formula.opacity;
             this.ctx.font = `italic ${formula.size}px "Space Mono", monospace`;
-            this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
+            this.ctx.fillStyle = formula.color || (this.isDark ? '#60A5FA' : '#4F46E5');
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             
             // Add subtle shadow for depth
-            this.ctx.shadowColor = this.isDark ? '#60A5FA' : '#4F46E5';
-            this.ctx.shadowBlur = 3;
+            this.ctx.shadowColor = formula.color || (this.isDark ? '#60A5FA' : '#4F46E5');
+            this.ctx.shadowBlur = 8; // Increased glow
             this.ctx.shadowOffsetX = 0;
             this.ctx.shadowOffsetY = 0;
             
-            this.ctx.fillText(formula.text, formula.x, formula.y);
+            this.ctx.fillText(formula.text, 0, 0); // Draw at 0,0 because we translated
             this.ctx.restore();
         });
     }
