@@ -55,23 +55,34 @@ const homeTemplate = `
                             <div class="timeline-item">
                                 <div class="timeline-icon">FS</div>
                                 <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jan 2023 - Present</p>
-                                <h3 class="job-title font-bold text-base sm:text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Freelance Security Researcher</h3>
-                                <p class="company-name text-xs sm:text-sm mb-2 md:mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Remote • Independent</p>
+                                <h3 class="job-title font-bold text-base sm:text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Freelance Web Developer & Security Researcher</h3>
+                                <p class="company-name text-xs sm:text-sm mb-2 md:mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Remote • Freelance</p>
                                 <ul class="text-xs sm:text-sm space-y-1.5 md:space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                                    <li class="achievement-item">Identified and reported 15+ security vulnerabilities (XSS, CSRF, IDOR) across various platforms</li>
-                                    <li class="achievement-item">Contributed to securing web applications for 10+ small to medium-sized businesses</li>
-                                    <li class="achievement-item">Specialized in OWASP Top 10 vulnerability assessment and penetration testing</li>
+                                    <li class="achievement-item">Developed and deployed 5+ responsive websites using HTML, CSS, JavaScript, React, and Vue.js</li>
+                                    <li class="achievement-item">Identified and responsibly disclosed 15+ security vulnerabilities (XSS, CSRF, IDOR, SQL Injection)</li>
+                                    <li class="achievement-item">Conducted comprehensive penetration testing for 20+ programs using Burp Suite and OWASP ZAP</li>
+                                </ul>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon">AZ</div>
+                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jun 2025 - Aug 2025</p>
+                                <h3 class="job-title font-bold text-base sm:text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI & Azure Cloud Intern</h3>
+                                <p class="company-name text-xs sm:text-sm mb-2 md:mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Edunet Foundation • Remote</p>
+                                <ul class="text-xs sm:text-sm space-y-1.5 md:space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                                    <li class="achievement-item">Deployed scalable machine learning solutions on Microsoft Azure, utilizing Azure ML Studio to manage model lifecycles, versioning, and automated retraining pipelines</li>
+                                    <li class="achievement-item">Architected cloud-native computer vision system implementing custom CNNs with TensorFlow for image classification, achieving 92% accuracy and improving speed by 20%</li>
+                                    <li class="achievement-item">Automated dataset ingestion workflows using Azure Data Factory and Python scripts, streamlining training for 100K+ images</li>
                                 </ul>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-icon">ML</div>
                                 <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jun 2025 - Jul 2025</p>
-                                <h3 class="job-title font-bold text-base sm:text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI/ML Research Intern</h3>
-                                <p class="company-name text-xs sm:text-sm mb-2 md:mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Techmaghi • On Site</p>
+                                <h3 class="job-title font-bold text-base sm:text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Data Science & Machine Learning Intern</h3>
+                                <p class="company-name text-xs sm:text-sm mb-2 md:mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Techmaghi • Ernakulam, Kerala</p>
                                 <ul class="text-xs sm:text-sm space-y-1.5 md:space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                                    <li class="achievement-item">Developed machine learning models for predictive analytics using Python and TensorFlow</li>
-                                    <li class="achievement-item">Implemented data preprocessing pipelines and feature engineering techniques</li>
-                                    <li class="achievement-item">Improved model accuracy through hyperparameter optimization and ensemble methods</li>
+                                    <li class="achievement-item">Engineered predictive analytics models using Python, TensorFlow, and scikit-learn achieving 90% accuracy</li>
+                                    <li class="achievement-item">Optimized data preprocessing pipelines with Pandas and NumPy, reducing data cleaning time by 30%</li>
+                                    <li class="achievement-item">Deployed ML models into production using RESTful APIs (FastAPI) and Docker for 10K+ daily predictions</li>
                                 </ul>
                             </div>
                         </div>
