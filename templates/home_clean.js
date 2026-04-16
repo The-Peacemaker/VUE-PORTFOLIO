@@ -52,25 +52,36 @@ const homeTemplate = `
                     <div class="relative">
                         <div v-if="experienceTab === 'work'" key="work">
                             <div class="timeline-item">
-                                <div class="timeline-icon">FS</div>
-                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jan 2023 - Present</p>
-                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Freelance Security Researcher</h3>
-                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Remote • Independent</p>
+                                <div class="timeline-icon">AI</div>
+                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Feb 2026 - Present</p>
+                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI/ML Intern</h3>
+                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Infosys Springboard • Remote</p>
                                 <ul class="text-sm space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                                    <li class="achievement-item">Identified and reported 15+ critical security vulnerabilities (XSS, CSRF, IDOR) across various platforms</li>
-                                    <li class="achievement-item">Contributed to securing web applications for 10+ small to medium-sized businesses</li>
-                                    <li class="achievement-item">Specialized in OWASP Top 10 vulnerability assessment and penetration testing</li>
+                                    <li class="achievement-item">Built a visa processing time prediction platform using the EasyVisa dataset with 25,480 records and domain-aware temporal labels</li>
+                                    <li class="achievement-item">Performed EDA and feature engineering across 23 engineered columns to improve model signal quality</li>
+                                    <li class="achievement-item">Trained models with 5-fold cross-validation, selected Random Forest Regressor, and deployed with React 18, Vite, Flask, Netlify, and Vercel</li>
                                 </ul>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-icon">WD</div>
-                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jun 2022 - Dec 2022</p>
-                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Web Development Intern</h3>
-                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Tech Solutions Inc. • Remote</p>
+                                <div class="timeline-icon">FS</div>
+                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jan 2023 - Present</p>
+                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Freelance Web Developer & Security Researcher</h3>
+                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Freelance Experience • Remote</p>
                                 <ul class="text-sm space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                                    <li class="achievement-item">Developed and maintained 5+ client websites using Vue.js and TailwindCSS</li>
-                                    <li class="achievement-item">Collaborated with senior developers on debugging and implementing new features</li>
-                                    <li class="achievement-item">Improved website performance by 40% through code optimization</li>
+                                    <li class="achievement-item">Developed and deployed responsive websites and web applications using HTML, CSS, JavaScript, React, and Vue.js across client, personal, and competition projects</li>
+                                    <li class="achievement-item">Identified and responsibly disclosed 15+ security vulnerabilities (XSS, CSRF, IDOR, SQL Injection) across web applications, aligned to OWASP Top 10</li>
+                                    <li class="achievement-item">Conducted penetration testing for 20+ programs using Burp Suite and OWASP ZAP, delivering actionable remediation reports</li>
+                                </ul>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon">AZ</div>
+                                <p class="text-xs mb-1 transition-colors font-mono" :class="isDark ? 'text-cyan-400' : 'text-gray-500'">Jun 2025 - Aug 2025</p>
+                                <h3 class="job-title font-bold text-lg transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI & Azure Cloud Intern</h3>
+                                <p class="company-name text-sm mb-3 transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Edunet Foundation • Remote</p>
+                                <ul class="text-sm space-y-2 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                                    <li class="achievement-item">Deployed scalable machine learning solutions on Microsoft Azure using Azure ML Studio for model lifecycle management, versioning, and automated retraining pipelines</li>
+                                    <li class="achievement-item">Architected a cloud-native computer vision system with custom TensorFlow CNNs, achieving 92% classification accuracy and improving speed by 20%</li>
+                                    <li class="achievement-item">Automated dataset ingestion workflows with Azure Data Factory and Python scripts, streamlining training for 100K+ images</li>
                                 </ul>
                             </div>
                         </div>
