@@ -10,6 +10,15 @@ class CanvasTitleAnimation {
         this.ctx = this.canvas.getContext('2d');
         this.animationId = null;
         this.startTime = Date.now();
+        this.lastFrameTime = 0;
+        this.frameCounter = 0;
+        this.cachedClusters = [];
+        this.lastClusterUpdate = 0;
+        this.clusterUpdateInterval = 500;
+        this.recentTotalConnections = 0;
+        this.recentAvgConnections = '0.00';
+        this.recentLargestCluster = 0;
+        this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
         // Configuration options
         this.options = {
@@ -56,25 +65,37 @@ class CanvasTitleAnimation {
         
         // Detect actual mobile device (not just screen size)
         this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        this.isLowPowerDevice = this.isMobile ||
+            ((navigator.hardwareConcurrency || 8) <= 4) ||
+            ((navigator.deviceMemory || 8) <= 4) ||
+            this.isReducedMotion;
         
         // Adjust settings based on device type and screen size
         if (this.isMobile) {
             // Mobile device optimizations - reduced particles for better performance
-            this.starCount = 25;
+            this.starCount = 18;
             this.options.connectionDistance = 80;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
             // Small desktop/laptop screens - reduced but not as much as mobile
-            this.starCount = 60;
+            this.starCount = 45;
             this.options.connectionDistance = 110;
         } else if (rect.width < 1024) {
             // Tablet or medium laptop screens
-            this.starCount = 75;
+            this.starCount = 65;
             this.options.connectionDistance = 120;
         } else {
             // Desktop settings - beautiful dense constellation field
-            this.starCount = 100;
+            this.starCount = 85;
             this.options.connectionDistance = 140;
+        }
+
+        if (this.isLowPowerDevice) {
+            this.starCount = Math.max(14, Math.floor(this.starCount * 0.85));
+            this.options.connectionDistance = Math.max(70, this.options.connectionDistance - 15);
+            this.clusterUpdateInterval = 900;
+        } else {
+            this.clusterUpdateInterval = 450;
         }
     }
 
@@ -114,7 +135,7 @@ class CanvasTitleAnimation {
         ];
         
         this.floatingFormulas = [];
-        const formulaCount = this.isMobile ? 4 : 8; // Increased count
+        const formulaCount = this.isLowPowerDevice ? 3 : (this.isMobile ? 4 : 8);
         
         for (let i = 0; i < formulaCount; i++) {
             this.floatingFormulas.push({
@@ -162,6 +183,8 @@ class CanvasTitleAnimation {
         // Batch all star updates for better performance
         const { connectionDistance } = this.options;
         const starsLength = this.stars.length;
+        const maxDistSq = connectionDistance * connectionDistance;
+        let totalConnections = 0;
         
         for (let i = 0; i < starsLength; i++) {
             const star = this.stars[i];
@@ -184,18 +207,19 @@ class CanvasTitleAnimation {
                 const dx = other.x - star.x;
                 const dy = other.y - star.y;
                 const distSq = dx * dx + dy * dy; // Use squared distance to avoid sqrt
-                const maxDistSq = connectionDistance * connectionDistance;
 
                 if (distSq < maxDistSq) {
-                    const distance = Math.sqrt(distSq); // Only calculate when needed
                     star.connections.push({
                         target: other,
-                        distance: distance,
-                        strength: 1 - (distance / connectionDistance)
+                        strength: 1 - (distSq / maxDistSq)
                     });
+                    totalConnections++;
                 }
             }
         }
+
+        this.recentTotalConnections = totalConnections;
+        this.recentAvgConnections = (totalConnections / Math.max(starsLength, 1)).toFixed(2);
     }
 
     drawStar(star, time) {
@@ -255,11 +279,19 @@ class CanvasTitleAnimation {
     }
 
     drawConstellationLabels() {
-        // Find the largest constellations (most connected star clusters)
-        const clusters = this.findClusters();
+        // Cache expensive cluster computation and refresh periodically
+        const now = performance.now();
+        if (!this.cachedClusters.length || now - this.lastClusterUpdate > this.clusterUpdateInterval) {
+            this.cachedClusters = this.findClusters();
+            this.lastClusterUpdate = now;
+            this.recentLargestCluster = this.cachedClusters.length > 0 ? this.cachedClusters[0].length : 0;
+        }
+
+        const clusters = this.cachedClusters;
         
         // Show stats for top 3 clusters
-        const topClusters = clusters.slice(0, 3).filter(c => c.length >= 3);
+        const maxClustersToDraw = this.isLowPowerDevice ? 2 : 3;
+        const topClusters = clusters.slice(0, maxClustersToDraw).filter(c => c.length >= 3);
         
         topClusters.forEach((cluster, index) => {
             // Calculate center of cluster
@@ -324,14 +356,16 @@ class CanvasTitleAnimation {
         });
         
         // Draw total stats in corner (super nerdy!)
-        this.drawNerdyStats(clusters);
+        if (!this.isLowPowerDevice || this.frameCounter % 2 === 0) {
+            this.drawNerdyStats(clusters);
+        }
     }
     
     drawNerdyStats(clusters) {
         const totalStars = this.stars.length;
-        const totalConnections = this.stars.reduce((sum, star) => sum + star.connections.length, 0);
-        const avgConnections = (totalConnections / totalStars).toFixed(2);
-        const largestCluster = clusters.length > 0 ? clusters[0].length : 0;
+        const totalConnections = this.recentTotalConnections;
+        const avgConnections = this.recentAvgConnections;
+        const largestCluster = this.recentLargestCluster;
         const entropy = (Math.random() * 0.1 + 0.9).toFixed(4); // Fake entropy
         
         const stats = [
@@ -420,7 +454,7 @@ class CanvasTitleAnimation {
             
             // Add subtle shadow for depth
             this.ctx.shadowColor = formula.color || (this.isDark ? '#60A5FA' : '#4F46E5');
-            this.ctx.shadowBlur = 8; // Increased glow
+            this.ctx.shadowBlur = this.isLowPowerDevice ? 3 : 8;
             this.ctx.shadowOffsetX = 0;
             this.ctx.shadowOffsetY = 0;
             
@@ -459,26 +493,29 @@ class CanvasTitleAnimation {
 
     animate() {
         // Performance optimization: skip frames intelligently
-        const now = Date.now();
-        const elapsed = now - (this.lastFrameTime || 0); // Fix: use 0 instead of now
+        const now = performance.now();
+        const elapsed = now - this.lastFrameTime;
         
         // Adaptive frame rate based on device
-        const targetFrameTime = this.canvasWidth < 768 ? 33 : 16; // 30fps mobile, 60fps desktop
+        const targetFrameTime = this.isLowPowerDevice ? 40 : (this.canvasWidth < 768 ? 33 : 16);
         
-        if (elapsed < targetFrameTime && this.lastFrameTime !== undefined) {
+        if (this.lastFrameTime && elapsed < targetFrameTime) {
             this.animationId = requestAnimationFrame(() => this.animate());
             return;
         }
         
         this.lastFrameTime = now;
-        const currentTime = now - this.startTime;
+        const currentTime = Date.now() - this.startTime;
+        this.frameCounter++;
         
         // Clear canvas efficiently
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         
         // Draw floating formulas in background (super nerdy!)
-        this.updateFloatingFormulas();
-        this.drawFloatingFormulas();
+        if (!this.isLowPowerDevice || this.frameCounter % 2 === 0) {
+            this.updateFloatingFormulas();
+            this.drawFloatingFormulas();
+        }
         
         // Update stars and find connections (batched)
         this.updateStars();
@@ -497,23 +534,30 @@ class CanvasTitleAnimation {
         if (this.isMobile) {
             return;
         }
+
+        let canvasRect = this.canvas.getBoundingClientRect();
         
         const updateMouse = (e) => {
-            const rect = this.canvas.getBoundingClientRect();
-            this.mouse.x = e.clientX - rect.left;
-            this.mouse.y = e.clientY - rect.top;
+            this.mouse.x = e.clientX - canvasRect.left;
+            this.mouse.y = e.clientY - canvasRect.top;
             this.mouse.active = true;
         };
 
-        this.canvas.addEventListener('mousemove', updateMouse);
+        this.canvas.addEventListener('mousemove', updateMouse, { passive: true });
         this.canvas.addEventListener('mouseenter', () => {
+            canvasRect = this.canvas.getBoundingClientRect();
             this.mouse.active = true;
-        });
+        }, { passive: true });
         this.canvas.addEventListener('mouseleave', () => {
             this.mouse.active = false;
             this.mouse.x = -1000;
             this.mouse.y = -1000;
-        });
+        }, { passive: true });
+
+        this.mouseRectResizeHandler = () => {
+            canvasRect = this.canvas.getBoundingClientRect();
+        };
+        window.addEventListener('resize', this.mouseRectResizeHandler, { passive: true });
     }
 
     startAnimation() {
@@ -531,18 +575,20 @@ class CanvasTitleAnimation {
     }
 
     setupResizeHandler() {
-        window.addEventListener('resize', () => {
+        this.resizeHandler = () => {
             clearTimeout(this.resizeTimeout);
             this.resizeTimeout = setTimeout(() => {
                 this.setupCanvas();
                 this.createConstellations();
             }, 100);
-        });
+        };
+
+        window.addEventListener('resize', this.resizeHandler, { passive: true });
     }
 
     setupThemeListener() {
         // Watch for theme changes
-        const observer = new MutationObserver((mutations) => {
+        this.themeObserver = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     this.isDark = document.body.classList.contains('dark-theme');
@@ -550,19 +596,21 @@ class CanvasTitleAnimation {
             });
         });
         
-        observer.observe(document.body, {
+        this.themeObserver.observe(document.body, {
             attributes: true,
             attributeFilter: ['class']
         });
         
         // Pause animation when tab is not visible for performance
-        document.addEventListener('visibilitychange', () => {
+        this.visibilityHandler = () => {
             if (document.hidden) {
                 this.stopAnimation();
             } else {
                 this.startAnimation();
             }
-        });
+        };
+
+        document.addEventListener('visibilitychange', this.visibilityHandler, { passive: true });
     }
 
     updateTheme(isDark) {
@@ -573,7 +621,23 @@ class CanvasTitleAnimation {
 
     destroy() {
         this.stopAnimation();
-        window.removeEventListener('resize', this.setupResizeHandler);
+        clearTimeout(this.resizeTimeout);
+
+        if (this.resizeHandler) {
+            window.removeEventListener('resize', this.resizeHandler);
+        }
+
+        if (this.mouseRectResizeHandler) {
+            window.removeEventListener('resize', this.mouseRectResizeHandler);
+        }
+
+        if (this.visibilityHandler) {
+            document.removeEventListener('visibilitychange', this.visibilityHandler);
+        }
+
+        if (this.themeObserver) {
+            this.themeObserver.disconnect();
+        }
     }
 }
 
