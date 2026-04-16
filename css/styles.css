@@ -851,3 +851,246 @@ nav ul::before,
         filter: url('#goo');
     }
 }
+
+/* ========================================
+   COMMAND PALETTE
+   ======================================== */
+
+.cmdk-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(12px, 3vw, 32px);
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.cmdk-overlay.is-open {
+    display: flex;
+}
+
+.cmdk-panel {
+    width: min(760px, 100%);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.dark-theme .cmdk-panel {
+    background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(30, 41, 59, 0.93));
+    border-color: rgba(34, 211, 238, 0.22);
+}
+
+.light-theme .cmdk-panel {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.97));
+    border-color: rgba(59, 130, 246, 0.18);
+}
+
+.cmdk-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid;
+}
+
+.dark-theme .cmdk-header {
+    border-bottom-color: rgba(148, 163, 184, 0.18);
+}
+
+.light-theme .cmdk-header {
+    border-bottom-color: rgba(148, 163, 184, 0.25);
+}
+
+.cmdk-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+}
+
+.dark-theme .cmdk-kicker {
+    color: #22d3ee;
+}
+
+.light-theme .cmdk-kicker {
+    color: #2563eb;
+}
+
+.cmdk-shortcut {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid;
+}
+
+.dark-theme .cmdk-shortcut {
+    color: #cbd5e1;
+    border-color: rgba(148, 163, 184, 0.35);
+}
+
+.light-theme .cmdk-shortcut {
+    color: #334155;
+    border-color: rgba(100, 116, 139, 0.35);
+}
+
+.cmdk-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid;
+}
+
+.dark-theme .cmdk-input-wrap {
+    border-bottom-color: rgba(148, 163, 184, 0.18);
+}
+
+.light-theme .cmdk-input-wrap {
+    border-bottom-color: rgba(148, 163, 184, 0.25);
+}
+
+.cmdk-search-icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+}
+
+.cmdk-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.dark-theme .cmdk-input,
+.dark-theme .cmdk-search-icon {
+    color: #e2e8f0;
+}
+
+.light-theme .cmdk-input,
+.light-theme .cmdk-search-icon {
+    color: #0f172a;
+}
+
+.cmdk-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    max-height: min(52vh, 420px);
+    overflow: auto;
+}
+
+.cmdk-item {
+    padding: 10px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cmdk-item-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.cmdk-item-desc {
+    margin-top: 2px;
+    font-size: 0.74rem;
+    opacity: 0.84;
+}
+
+.dark-theme .cmdk-item {
+    color: #e2e8f0;
+}
+
+.dark-theme .cmdk-item.is-active,
+.dark-theme .cmdk-item:hover {
+    background: linear-gradient(140deg, rgba(34, 211, 238, 0.18), rgba(59, 130, 246, 0.2));
+    box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.35);
+}
+
+.light-theme .cmdk-item {
+    color: #0f172a;
+}
+
+.light-theme .cmdk-item.is-active,
+.light-theme .cmdk-item:hover {
+    background: linear-gradient(140deg, rgba(186, 230, 253, 0.65), rgba(191, 219, 254, 0.6));
+    box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.22);
+}
+
+.cmdk-empty {
+    padding: 14px;
+    font-size: 0.82rem;
+    opacity: 0.7;
+}
+
+.cmdk-footer {
+    padding: 10px 14px;
+    font-size: 0.7rem;
+    border-top: 1px solid;
+}
+
+.dark-theme .cmdk-footer {
+    color: #94a3b8;
+    border-top-color: rgba(148, 163, 184, 0.18);
+}
+
+.light-theme .cmdk-footer {
+    color: #64748b;
+    border-top-color: rgba(148, 163, 184, 0.25);
+}
+
+.cmdk-launcher {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1050;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.cmdk-launcher svg {
+    width: 18px;
+    height: 18px;
+}
+
+.dark-theme .cmdk-launcher {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.9));
+    color: #67e8f9;
+    border-color: rgba(34, 211, 238, 0.35);
+    box-shadow: 0 8px 22px rgba(8, 47, 73, 0.45);
+}
+
+.light-theme .cmdk-launcher {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(241, 245, 249, 0.96));
+    color: #2563eb;
+    border-color: rgba(37, 99, 235, 0.22);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.18);
+}
+
+.cmdk-launcher:hover {
+    transform: translateY(-2px) scale(1.02);
+}
+
+@media (max-width: 640px) {
+    .cmdk-panel {
+        border-radius: 14px;
+    }
+
+    .cmdk-launcher {
+        right: 14px;
+        bottom: 14px;
+    }
+}
