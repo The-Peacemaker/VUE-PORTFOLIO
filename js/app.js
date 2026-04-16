@@ -236,6 +236,22 @@ const app = createApp({
             }
         };
 
+        onMounted(() => {
+            window.portfolioActions = {
+                goTo: (section) => switchSection(section),
+                toggleTheme: () => toggleTheme(),
+                isDark: () => isDark.value,
+                downloadResume: () => {
+                    const link = document.createElement('a');
+                    link.href = 'src/Benedict_Resume.pdf';
+                    link.download = 'benedict_resume.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            };
+        });
+
         return {
             currentSection,
             portfolioCard,
