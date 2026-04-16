@@ -32,12 +32,14 @@ const projectsTemplate = `
                         GitHub
                     </a>
                     <a href="https://visa-status-prediction.netlify.app/" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm rounded-md font-medium transition-all"
-                       :class="isDark ? 'bg-blue-600 text-white hover:bg-blue-500 border border-blue-500' : 'bg-blue-500 text-white hover:bg-blue-600 border border-blue-500'">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"></path>
+                       aria-label="Open live demo"
+                       title="Open live demo"
+                       class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all"
+                       :class="isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border-blue-400/50' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200'">
+                        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M10 9v6l5-3z" fill="currentColor" stroke="none"></path>
                         </svg>
-                        Play
                     </a>
                 </div>
                 <span class="text-xs sm:text-sm font-medium transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Mar 2026</span>
@@ -71,12 +73,14 @@ const projectsTemplate = `
                         GitHub
                     </a>
                     <a href="https://github.com/The-Peacemaker/Silent-Invigilator" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm rounded-md font-medium transition-all"
-                       :class="isDark ? 'bg-blue-600 text-white hover:bg-blue-500 border border-blue-500' : 'bg-blue-500 text-white hover:bg-blue-600 border border-blue-500'">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"></path>
+                       aria-label="Open project"
+                       title="Open project"
+                       class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all"
+                       :class="isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border-blue-400/50' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200'">
+                        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M10 9v6l5-3z" fill="currentColor" stroke="none"></path>
                         </svg>
-                        Play
                     </a>
                 </div>
                 <span class="text-xs sm:text-sm font-medium transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">2026</span>
@@ -110,12 +114,14 @@ const projectsTemplate = `
                         GitHub
                     </a>
                     <a href="https://github.com/The-Peacemaker/Stroke-Prediction-ML" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm rounded-md font-medium transition-all"
-                       :class="isDark ? 'bg-blue-600 text-white hover:bg-blue-500 border border-blue-500' : 'bg-blue-500 text-white hover:bg-blue-600 border border-blue-500'">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"></path>
+                       aria-label="Open project"
+                       title="Open project"
+                       class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all"
+                       :class="isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border-blue-400/50' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200'">
+                        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M10 9v6l5-3z" fill="currentColor" stroke="none"></path>
                         </svg>
-                        Play
                     </a>
                 </div>
                 <span class="text-xs sm:text-sm font-medium transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Feb 2025 - Apr 2025</span>
