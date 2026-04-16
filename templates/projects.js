@@ -34,9 +34,10 @@ const projectsTemplate = `
                     <a href="https://visa-status-prediction.netlify.app/" target="_blank" rel="noopener noreferrer"
                        aria-label="Open live demo"
                        title="Open live demo"
-                       class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all"
-                       :class="isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border-blue-400/50' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200'">
-                        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                       class="group relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border overflow-hidden transition-all duration-300 hover:-translate-y-0.5"
+                       :class="isDark ? 'bg-gradient-to-br from-cyan-500/25 via-blue-500/20 to-indigo-500/30 text-cyan-200 border-cyan-400/40 hover:border-cyan-300/70 hover:shadow-[0_0_0_3px_rgba(34,211,238,0.16),0_12px_24px_rgba(59,130,246,0.28)]' : 'bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-100 text-blue-700 border-blue-200 hover:border-blue-300 hover:shadow-[0_0_0_3px_rgba(59,130,246,0.12),0_10px_20px_rgba(59,130,246,0.18)]'">
+                        <span class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-tr from-transparent via-white/30 to-transparent"></span>
+                        <svg class="relative z-10 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="12" cy="12" r="9"></circle>
                             <path d="M10 9v6l5-3z" fill="currentColor" stroke="none"></path>
                         </svg>
@@ -75,9 +76,10 @@ const projectsTemplate = `
                     <a href="https://github.com/The-Peacemaker/Silent-Invigilator" target="_blank" rel="noopener noreferrer"
                        aria-label="Open project"
                        title="Open project"
-                       class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all"
-                       :class="isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border-blue-400/50' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200'">
-                        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                       class="group relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border overflow-hidden transition-all duration-300 hover:-translate-y-0.5"
+                       :class="isDark ? 'bg-gradient-to-br from-cyan-500/25 via-blue-500/20 to-indigo-500/30 text-cyan-200 border-cyan-400/40 hover:border-cyan-300/70 hover:shadow-[0_0_0_3px_rgba(34,211,238,0.16),0_12px_24px_rgba(59,130,246,0.28)]' : 'bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-100 text-blue-700 border-blue-200 hover:border-blue-300 hover:shadow-[0_0_0_3px_rgba(59,130,246,0.12),0_10px_20px_rgba(59,130,246,0.18)]'">
+                        <span class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-tr from-transparent via-white/30 to-transparent"></span>
+                        <svg class="relative z-10 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="12" cy="12" r="9"></circle>
                             <path d="M10 9v6l5-3z" fill="currentColor" stroke="none"></path>
                         </svg>
@@ -116,9 +118,10 @@ const projectsTemplate = `
                     <a href="https://github.com/The-Peacemaker/Stroke-Prediction-ML" target="_blank" rel="noopener noreferrer"
                        aria-label="Open project"
                        title="Open project"
-                       class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all"
-                       :class="isDark ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 border-blue-400/50' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200'">
-                        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                       class="group relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl border overflow-hidden transition-all duration-300 hover:-translate-y-0.5"
+                       :class="isDark ? 'bg-gradient-to-br from-cyan-500/25 via-blue-500/20 to-indigo-500/30 text-cyan-200 border-cyan-400/40 hover:border-cyan-300/70 hover:shadow-[0_0_0_3px_rgba(34,211,238,0.16),0_12px_24px_rgba(59,130,246,0.28)]' : 'bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-100 text-blue-700 border-blue-200 hover:border-blue-300 hover:shadow-[0_0_0_3px_rgba(59,130,246,0.12),0_10px_20px_rgba(59,130,246,0.18)]'">
+                        <span class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-tr from-transparent via-white/30 to-transparent"></span>
+                        <svg class="relative z-10 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="12" cy="12" r="9"></circle>
                             <path d="M10 9v6l5-3z" fill="currentColor" stroke="none"></path>
                         </svg>
