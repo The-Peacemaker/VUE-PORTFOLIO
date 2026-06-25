@@ -118,20 +118,25 @@ class CanvasTitleAnimation {
             });
         }
         
-        // Create floating math formulas (super nerdy!)
+        // Create floating math and machine learning formulas (super nerdy!)
         const formulas = [
-            'iℏ∂ψ/∂t = Ĥψ', // Schrödinger
+            'Attention(Q,K,V) = softmax(QKᵀ/√d_k)V', // Transformer Attention
+            'wₜ₊₁ = wₜ - η∇L(wₜ)', // Gradient Descent
+            'L_{CE} = -∑ yᵢ log(ŷᵢ)', // Cross Entropy Loss
+            'ELBO(θ,φ) = 𝔼[log p_θ(x,z) - log q_φ(z|x)]', // Evidence Lower Bound (VAE)
+            'KL(P||Q) = ∑ P(x) log(P(x)/Q(x))', // KL Divergence
+            'σ(z)ᵢ = e^{zᵢ} / ∑ e^{z_j}', // Softmax Function
+            '∇_θ J(θ) = 𝔼[∇_θ log π_θ(a|s) Q^{π}(s,a)]', // Policy Gradient Theorem
+            'f(x) = max(0, x)', // ReLU Activation
+            'δ_l = (W_{l+1}ᵀ δ_{l+1}) ⊙ σ\'(z_l)', // Backpropagation Error
+            'MultiHead(Q,K,V) = Concat(head₁,...,head_h)Wᴼ', // Multi-Head Attention
+            'x_{l+1} = F(x_l, W_l) + x_l', // Residual Connection (ResNet)
+            'm_t = β₁m_{t-1} + (1-β₁)g_t', // Adam Optimizer First Moment
+            'iⱶ∂ψ/∂t = Ĥψ', // Schrödinger
             'G_μν + Λg_μν = 8πG T_μν', // Einstein Field
-            '∇⋅E = ρ/ε₀', // Maxwell (Gauss)
-            '∇×B - (1/c²)∂E/∂t = μ₀J', // Maxwell (Ampere)
-            'e^{iπ} + 1 = 0', // Euler
-            '∫_{-∞}^∞ e^{-x²} dx = √π', // Gaussian Integral
-            'P(A|B) = P(B|A)P(A)/P(B)', // Bayes
-            'H(X) = -∑ p(x)log₂p(x)', // Shannon Entropy
-            'R_{μν} - ½Rg_{μν} = T_{μν}', // General Relativity
-            'δS = 0', // Principle of Least Action
-            'dF = 0, d*F = J', // Maxwell (Differential forms)
-            'Z = ∑ e^{-βE_i}' // Partition Function
+            'e^{iπ} + 1 = 0', // Euler's Identity
+            'P(A|B) = P(B|A)P(A)/P(B)', // Bayes' Theorem
+            'H(X) = -∑ p(x)log₂p(x)' // Shannon Entropy
         ];
         
         this.floatingFormulas = [];

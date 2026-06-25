@@ -1,0 +1,26 @@
+{
+  "name": "vue-portfolio",
+  "version": "1.0.0",
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i css/input.css -o css/tailwind-built.css --minify",
+    "watch": "tailwindcss -i css/input.css -o css/tailwind-built.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Peacemaker/VUE-PORTFOLIO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/The-Peacemaker/VUE-PORTFOLIO/issues"
+  },
+  "homepage": "https://github.com/The-Peacemaker/VUE-PORTFOLIO#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.1",
+    "tailwindcss": "^4.3.1"
+  }
+}
