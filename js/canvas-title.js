@@ -73,26 +73,26 @@ class CanvasTitleAnimation {
         // Adjust settings based on device type and screen size
         if (this.isMobile) {
             // Mobile device optimizations - reduced particles for better performance
-            this.starCount = 18;
-            this.options.connectionDistance = 80;
+            this.starCount = 25;
+            this.options.connectionDistance = 90;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
-            // Small desktop/laptop screens - reduced but not as much as mobile
-            this.starCount = 45;
-            this.options.connectionDistance = 110;
-        } else if (rect.width < 1024) {
-            // Tablet or medium laptop screens
+            // Small desktop/laptop screens
             this.starCount = 65;
             this.options.connectionDistance = 120;
+        } else if (rect.width < 1024) {
+            // Tablet or medium laptop screens
+            this.starCount = 95;
+            this.options.connectionDistance = 135;
         } else {
             // Desktop settings - beautiful dense constellation field
-            this.starCount = 85;
-            this.options.connectionDistance = 140;
+            this.starCount = 135;
+            this.options.connectionDistance = 150;
         }
 
         if (this.isLowPowerDevice) {
-            this.starCount = Math.max(14, Math.floor(this.starCount * 0.85));
-            this.options.connectionDistance = Math.max(70, this.options.connectionDistance - 15);
+            this.starCount = Math.max(20, Math.floor(this.starCount * 0.85));
+            this.options.connectionDistance = Math.max(80, this.options.connectionDistance - 15);
             this.clusterUpdateInterval = 900;
         } else {
             this.clusterUpdateInterval = 450;
@@ -140,7 +140,7 @@ class CanvasTitleAnimation {
         ];
         
         this.floatingFormulas = [];
-        const formulaCount = this.isLowPowerDevice ? 3 : (this.isMobile ? 4 : 8);
+        const formulaCount = this.isLowPowerDevice ? 5 : (this.isMobile ? 6 : 14);
         
         for (let i = 0; i < formulaCount; i++) {
             this.floatingFormulas.push({
