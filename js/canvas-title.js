@@ -92,8 +92,8 @@ class CanvasTitleAnimation {
             this.starCount = 120;
             this.options.connectionDistance = 70;
         } else {
-            this.starCount = 200;
-            this.options.connectionDistance = 120;
+        this.starCount = 80;
+        this.options.connectionDistance = 110;
         }
 
         if (this.isLowPowerDevice) {
@@ -113,16 +113,16 @@ class CanvasTitleAnimation {
             this.stars.push({
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 0.8,
-                vy: (Math.random() - 0.5) * 0.8,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5,
                 size: Math.random() * 2 + 1,
                 brightness: Math.random() * 0.4 + 0.7,
-                twinkleSpeed: Math.random() * 0.08 + 0.04,
+                twinkleSpeed: Math.random() * 0.06 + 0.03,
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
                 connections: [],
                 trail: [],
-                trailMax: 10,
+                trailMax: 6,
                 lastX: 0,
                 lastY: 0
             });
@@ -201,17 +201,9 @@ class CanvasTitleAnimation {
             star.vy *= ratio;
         }
 
-        star.vx *= this.options.friction;
-        star.vy *= this.options.friction;
-
-        // Minimum velocity floor — stars NEVER stop drifting (cinematic float)
-        const minSpeed = 0.25;
-        const minSpeedCheck = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
-        if (minSpeedCheck < minSpeed) {
-            const angle = Math.random() * Math.PI * 2;
-            star.vx = Math.cos(angle) * minSpeed;
-            star.vy = Math.sin(angle) * minSpeed;
-        }
+        // Perpetual drift — stars ALWAYS move like a real constellation
+        star.vx += (Math.random() - 0.5) * 0.3;
+        star.vy += (Math.random() - 0.5) * 0.3;
     }
 
     updateStars() {
