@@ -26,7 +26,8 @@ Student @ Viswajyothi College Of Engineering And Technology • 4th Year CSE •
         </div>
     </header>
 
-    <div class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-3 lg:gap-x-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-x-12">
+        <!-- Left Column: About Me + Experience -->
         <div class="lg:col-span-2 space-y-8 md:space-y-12">
             <section>
                 <h2 class="text-lg sm:text-xl font-bold mb-3 md:mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">About Me</h2>
@@ -86,7 +87,41 @@ Student @ Viswajyothi College Of Engineering And Technology • 4th Year CSE •
             </section>
         </div>
 
-        <div class="space-y-6 md:space-y-8">
+        <!-- Right Column: Social + Skills -->
+        <div class="lg:col-span-1 space-y-6 md:space-y-8">
+            <section>
+                <h2 class="text-lg sm:text-xl font-bold mb-3 md:mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Social</h2>
+                <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+                    <a href="https://github.com/The-Peacemaker" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 py-2 sm:py-2.5 group">
+                        <svg class="social-icon w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                        </svg>
+                        <span class="social-link-text text-xs font-medium">GitHub</span>
+                    </a>
+                    <a href="https://x.com/BenedictChacko" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 py-2 sm:py-2.5 group">
+                        <svg class="social-icon w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21c7.34 0 11.35-6.08 11.35-11.35 0-.17 0-.34-.01-.51.78-.57 1.45-1.29 1.99-2.09z"/>
+                        </svg>
+                        <span class="social-link-text text-xs font-medium">Twitter</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/benedict-chacko" target="_blank" rel="noopener noreferrer" class="social-link flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 py-2 sm:py-2.5 group">
+                        <svg class="social-icon w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect width="4" height="12" x="2" y="9"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        <span class="social-link-text text-xs font-medium">LinkedIn</span>
+                    </a>
+                    <a href="mailto:benedictcm1@gmail.com" class="social-link flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 py-2 sm:py-2.5 group">
+                        <svg class="social-icon w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                        <span class="social-link-text text-xs font-medium">Contact</span>
+                    </a>
+                </div>
+            </section>
+
             <section>
                 <h2 class="text-lg sm:text-xl font-bold mb-3 md:mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">Skills</h2>
                 <div class="skills-container cursor-interactive">
@@ -111,7 +146,7 @@ Student @ Viswajyothi College Of Engineering And Technology • 4th Year CSE •
     </div>
 </div>
 
-<section id="gh-heatmap-section" class="mt-12 pt-8 border-t w-full">
+<section id="gh-heatmap-section" class="mt-6 pt-8 border-t w-full">
     <h2 class="text-lg sm:text-xl font-bold mb-4 pb-2 border-b cursor-interactive transition-colors" :class="isDark ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'">GitHub Contributions</h2>
     <div id="gh-contribution-summary" class="text-xs mb-3 font-mono transition-colors" :class="isDark ? 'text-cyan-400' : 'text-gray-600'"><span id="gh-contribution-count">0</span> contributions</div>
     <div id="gh-heatmap-grid" class="grid grid-cols-7 gap-1" style="grid-template-columns: repeat(52, minmax(12px, 1fr)); width: 100%;"></div>
@@ -123,42 +158,40 @@ Student @ Viswajyothi College Of Engineering And Technology • 4th Year CSE •
 window.homeTemplate = homeTemplate;
 
 (function () {
-  const EMBEDDED = (function(){const today=new Date();today.setHours(0,0,0,0);const days=[];for(let i=363;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);const k=d.getDay()+d.getDate();const level=(k%11===0)?4:(k%7===0)?3:(k%5===0)?2:(k%3===0)?1:0;days.push([d.toISOString().slice(0,10),level]);}return days;})();
-  let rendered = false;
-  function render() {
-    if (rendered) return true;
-    const grid = document.getElementById('gh-heatmap-grid');
-    if (!grid) return false;
-    const tip = document.getElementById('gh-tooltip');
-    const count = document.getElementById('gh-contribution-count');
-    grid.innerHTML = ''; grid.style.gridAutoFlow='column'; grid.style.gridTemplateRows='repeat(7, minmax(10px, 1fr))';
-    let total = 0;
-    EMBEDDED.forEach(function (item) {
-      const date = item[0], level = item[1];
-      total += level;
-      const cell = document.createElement('div');
-      cell.className = 'gh-cell gh-level-' + level;
-      cell.style.transition = 'transform 140ms ease, box-shadow 140ms ease';
-      const label = level + ' contribution' + (level === 1 ? '' : 's') + ' on ' + date;
-      cell.title = label;
-      cell.addEventListener('mouseenter', function () { cell.style.transform = 'scale(1.25)'; cell.style.boxShadow = '0 0 0 1px rgba(99,102,241,.35)'; if (tip) { tip.textContent = label; tip.style.display = 'block'; } });
-      cell.addEventListener('mouseleave', function () { cell.style.transform = ''; cell.style.boxShadow = ''; if (tip) tip.style.display = 'none'; });
-      cell.addEventListener('mousemove', function (e) { if (tip) { tip.style.left = (e.clientX + 10) + 'px'; tip.style.top = (e.clientY + 10) + 'px'; } });
-      grid.appendChild(cell);
-    });
-    if (count) count.textContent = String(total);
-    rendered = true;
-    return true;
-  }
-  function boot() {
-    render();
-    const obs = new MutationObserver(function () {
-      const g = document.getElementById('gh-heatmap-grid');
-      if (g && g.children.length === 0) { rendered = false; render(); }
-    });
-    obs.observe(document.body, { childList: true, subtree: true });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+    const EMBEDDED = (function () { const today = new Date(); today.setHours(0, 0, 0, 0); const days = []; for (let i = 363; i >= 0; i--) { const d = new Date(today); d.setDate(d.getDate() - i); const k = d.getDay() + d.getDate(); const level = (k % 11 === 0) ? 4 : (k % 7 === 0) ? 3 : (k % 5 === 0) ? 2 : (k % 3 === 0) ? 1 : 0; days.push([d.toISOString().slice(0, 10), level]); } return days; })();
+    let rendered = false;
+    function render() {
+        if (rendered) return true;
+        const grid = document.getElementById('gh-heatmap-grid');
+        if (!grid) return false;
+        const tip = document.getElementById('gh-tooltip');
+        const count = document.getElementById('gh-contribution-count');
+        grid.innerHTML = ''; grid.style.gridAutoFlow='column'; grid.style.gridTemplateRows='repeat(7, minmax(10px, 1fr))';
+        let total = 0;
+        EMBEDDED.forEach(function (item) {
+            const date = item[0], level = item[1];
+            total += level;
+            const cell = document.createElement('div');
+            cell.className = 'gh-cell gh-level-' + level;
+            cell.style.transition = 'transform 140ms ease, box-shadow 140ms ease';
+            const label = level + ' contribution' + (level === 1 ? '' : 's') + ' on ' + date;
+            cell.title = label;
+            cell.addEventListener('mouseenter', function () { cell.style.transform = 'scale(1.25)'; cell.style.boxShadow = '0 0 0 1px rgba(99,102,241,.35)'; if (tip) { tip.textContent = label; tip.style.display = 'block'; } });
+            cell.addEventListener('mouseleave', function () { cell.style.transform = ''; cell.style.boxShadow = ''; if (tip) tip.style.display = 'none'; });
+            cell.addEventListener('mousemove', function (e) { if (tip) { tip.style.left = (e.clientX + 10) + 'px'; tip.style.top = (e.clientY + 10) + 'px'; } });
+            grid.appendChild(cell);
+        });
+        if (count) count.textContent = String(total);
+        rendered = true;
+        return true;
+    }
+    function boot() {
+        render();
+        const obs = new MutationObserver(function () {
+            const g = document.getElementById('gh-heatmap-grid');
+            if (g && g.children.length === 0) { rendered = false; render(); }
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
-
-
