@@ -53,17 +53,17 @@ class CanvasTitleAnimation {
             this.isReducedMotion;
         
         if (this.isMobile) {
-            this.starCount = 40;
-            this.options.connectionDistance = 60;
+            this.starCount = 30;
+            this.options.connectionDistance = 55;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
             this.starCount = 40;
-            this.options.connectionDistance = 70;
+            this.options.connectionDistance = 65;
         } else if (rect.width < 1024) {
-            this.starCount = 60;
-            this.options.connectionDistance = 80;
+            this.starCount = 50;
+            this.options.connectionDistance = 70;
         } else {
-            this.starCount = 40;
+            this.starCount = 50;
             this.options.connectionDistance = 90;
         }
 
