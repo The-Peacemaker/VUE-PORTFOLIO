@@ -91,8 +91,8 @@ class CanvasTitleAnimation {
             const dy = this.mouse.y - star.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < 150 && dist > 0) {
-                const nx = dx / distance;
-                const ny = dy / distance;
+            const nx = dx / dist;
+            const ny = dy / dist;
                 star.vx += nx * 0.05;
                 star.vy += ny * 0.05;
             }
