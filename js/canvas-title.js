@@ -28,7 +28,7 @@ class CanvasTitleAnimation {
             accentColor: '#06B6D4',
             magneticForce: 0.2,
             orbitForce: 1.2,
-            friction: 0.88,
+            friction: 0.95,
             maxSpeed: 2.5,
             connectionDistance: 120,
             starSize: 2,
@@ -204,12 +204,13 @@ class CanvasTitleAnimation {
         star.vx *= this.options.friction;
         star.vy *= this.options.friction;
 
-        // Minimum velocity floor — stars never fully stop drifting
-        const minSpeed = 0.08;
+        // Minimum velocity floor — stars NEVER stop drifting (cinematic float)
+        const minSpeed = 0.25;
         const minSpeedCheck = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
         if (minSpeedCheck < minSpeed) {
-            star.vx = (Math.random() - 0.5) * minSpeed * 2;
-            star.vy = (Math.random() - 0.5) * minSpeed * 2;
+            const angle = Math.random() * Math.PI * 2;
+            star.vx = Math.cos(angle) * minSpeed;
+            star.vy = Math.sin(angle) * minSpeed;
         }
     }
 
