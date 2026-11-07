@@ -53,18 +53,18 @@ class CanvasTitleAnimation {
             this.isReducedMotion;
         
         if (this.isMobile) {
-            this.starCount = 30;
+            this.starCount = 60;
             this.options.connectionDistance = 55;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
-            this.starCount = 40;
+            this.starCount = 50;
             this.options.connectionDistance = 65;
         } else if (rect.width < 1024) {
-            this.starCount = 50;
+            this.starCount = 60;
             this.options.connectionDistance = 70;
         } else {
-            this.starCount = 50;
-            this.options.connectionDistance = 90;
+            this.starCount = 100;
+            this.options.connectionDistance = 120;
         }
 
         if (this.isLowPowerDevice) {
@@ -82,8 +82,8 @@ class CanvasTitleAnimation {
                 y: Math.random() * this.canvasHeight,
                 vx: (Math.random() - 0.5) * 0.2,
                 vy: (Math.random() - 0.5) * 0.2,
-                size: Math.random() * 2 + 1,
-                brightness: Math.random() * 0.4 + 0.6,
+                size: Math.random() * 3 + 2,
+                brightness: Math.random() * 0.5 + 0.5,
                 twinkleSpeed: Math.random() * 0.05 + 0.02,
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
