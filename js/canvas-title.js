@@ -110,6 +110,19 @@ class CanvasTitleAnimation {
             this.ctx.beginPath();
             this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
             this.ctx.fill();
+
+            // Add glow
+            const gradient = this.ctx.createRadialGradient(
+                star.x, star.y, 0,
+                star.x, star.y, star.size * 3
+            );
+            gradient.addColorStop(0, star.color + '80');
+            gradient.addColorStop(1, star.color + '00');
+            this.ctx.fillStyle = gradient;
+            this.ctx.beginPath();
+            this.ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
+            this.ctx.fill();
+
             this.ctx.restore();
         });
     }
