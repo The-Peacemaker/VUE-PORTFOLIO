@@ -3,7 +3,7 @@ const resumeTemplate = `
 <div class="space-y-6">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 class="text-2xl font-bold cursor-interactive transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Resume</h2>
-        <a href="src/Benedict_Resume.pdf" download="benedict_resume.pdf" 
+        <a href="src/Benedict_Resume.pdf?v=2026" download="Benedict_Chacko_Mathew_Resume.pdf" 
            class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 cursor-interactive shadow-md"
            :class="isDark ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,7 +20,7 @@ const resumeTemplate = `
         <!-- Header Section -->
         <div class="text-center mb-6 pb-6 border-b transition-colors" :class="isDark ? 'border-gray-700' : 'border-gray-200'">
             <h1 class="text-2xl font-bold mb-2 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Benedict Chacko Mathew</h1>
-            <p class="text-lg font-medium mb-3 transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Full-Stack Developer | AI/ML Practitioner | Security Researcher</p>
+            <p class="text-lg font-medium mb-3 transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Software Engineer (Java / Spring Boot) | AI/ML | Security Researcher</p>
             <div class="flex flex-wrap justify-center gap-4 text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">
                 <span class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -59,12 +59,12 @@ const resumeTemplate = `
                 Professional Summary
             </h2>
             <p class="text-sm leading-relaxed transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                Full-stack developer, AI/ML practitioner, and security researcher building responsive web applications, cloud-based AI solutions, and production-ready ML workflows. Built multiple websites, conducted 20+ penetration tests, and delivered applied ML solutions across React, Node.js, Python, Microsoft Azure, Docker, and modern security tooling.
+                Final-year B.Tech Computer Science (Class of 2027, CGPA 8.5/10.0) with strong foundations in Java, OOP, DSA, SQL, REST APIs and Spring Boot, plus hands-on full-stack and AI/ML experience. Open-source contributor to Google Bazel (merged Java security fix, OSVRP-acknowledged) and Jupyter Notebook (merged routing fix, v7.7.0). Internships at Infosys Springboard (ML + full-stack) and Edunet Foundation (Azure + TensorFlow CNN, 92% accuracy); disclosed 15+ vulnerabilities across 20+ bug-bounty programs. Cyber Security Lead mentoring 100+ students. Seeking entry-level Software Engineer roles.
             </p>
             <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                <span class="text-xs px-2 py-1 rounded-full font-semibold text-center" :class="isDark ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100 text-blue-700'">20+ Pentests</span>
+                <span class="text-xs px-2 py-1 rounded-full font-semibold text-center" :class="isDark ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100 text-blue-700'">2 OSS Merges</span>
                 <span class="text-xs px-2 py-1 rounded-full font-semibold text-center" :class="isDark ? 'bg-purple-900/50 text-purple-300' : 'bg-purple-100 text-purple-700'">25,480 Records</span>
-                <span class="text-xs px-2 py-1 rounded-full font-semibold text-center" :class="isDark ? 'bg-green-900/50 text-green-300' : 'bg-green-100 text-green-700'">92% CV Accuracy</span>
+                <span class="text-xs px-2 py-1 rounded-full font-semibold text-center" :class="isDark ? 'bg-green-900/50 text-green-300' : 'bg-green-100 text-green-700'">92% CNN Accuracy</span>
                 <span class="text-xs px-2 py-1 rounded-full font-semibold text-center" :class="isDark ? 'bg-cyan-900/50 text-cyan-300' : 'bg-cyan-100 text-cyan-700'">15+ Vuln Reports</span>
             </div>
         </div>
@@ -81,8 +81,8 @@ const resumeTemplate = `
                 <div class="border-l-4 border-blue-500 pl-4">
                     <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Bachelor of Technology - Computer Science & Engineering</h3>
                     <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Viswajyothi College Of Engineering And Technology, Vazhakulam</p>
-                    <p class="text-sm transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Expected: May 2027 | CGPA: 8.5/10.0</p>
-                    <p class="text-xs mt-1 transition-colors" :class="isDark ? 'text-gray-500' : 'text-gray-500'">Relevant Coursework: Data Structures & Algorithms, Machine Learning, Deep Learning, Database Management Systems, Computer Networks, Operating Systems, Artificial Intelligence, Software Engineering</p>
+                    <p class="text-sm transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Expected: May 2027 | CGPA: 8.5/10.0 | No Active Backlogs</p>
+                    <p class="text-xs mt-1 transition-colors" :class="isDark ? 'text-gray-500' : 'text-gray-500'">Coursework: DSA, OOP, Java Programming, DBMS, OS, Computer Networks, Software Engineering (SDLC, Agile), ML, AI • Class XII (St. George HSS, Muthalakodam): 95.7% – 2023 | Class X: 98.0% – 2021</p>
                 </div>
             </div>
         </div>
@@ -99,11 +99,10 @@ const resumeTemplate = `
                 <div class="border-l-4 border-violet-500 pl-4">
                     <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI/ML Intern</h3>
                     <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-violet-400' : 'text-violet-600'">Infosys Springboard • Remote</p>
-                    <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">February 2026 - Present</p>
+                    <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">February 2026 - April 2026</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Built a visa processing time prediction platform on the EasyVisa dataset with 25,480 records and domain-aware temporal labels</li>
-                        <li>• Performed EDA and feature engineering across 23 engineered columns to improve model signal quality</li>
-                        <li>• Trained models with 5-fold cross-validation, selected Random Forest Regressor, and deployed using React 18, Vite, Flask, Netlify, and Vercel</li>
+                        <li>• Developed visa-approval classifier on 25,480-record EasyVisa dataset (23 features); EDA, preprocessing, feature engineering; model selection with 5-fold CV, shipped Random Forest as best model</li>
+                        <li>• Exposed model via Flask REST APIs with React 18 + Vite analytics UI; Agile delivery with API documentation</li>
                     </ul>
                 </div>
                 <div class="border-l-4 border-green-500 pl-4">
@@ -111,9 +110,8 @@ const resumeTemplate = `
                     <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-green-400' : 'text-green-600'">Freelance Experience • Remote</p>
                     <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">January 2023 - Present</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Developed and deployed responsive websites and web applications using HTML, CSS, JavaScript, React, and Vue.js across client, personal, and competition projects</li>
-                        <li>• Identified and responsibly disclosed 15+ security vulnerabilities (XSS, CSRF, IDOR, SQL Injection) across web applications, adhering to OWASP Top 10</li>
-                        <li>• Conducted comprehensive penetration testing for 20+ programs using Burp Suite and OWASP ZAP, delivering actionable remediation reports</li>
+                        <li>• Delivered responsive web apps with React, JavaScript and Vue.js for clients</li>
+                        <li>• Disclosed 15+ vulnerabilities (XSS, CSRF, IDOR, SQLi) following OWASP Top 10; security-tested 20+ programs with Burp Suite and OWASP ZAP</li>
                     </ul>
                 </div>
                 <div class="border-l-4 border-cyan-500 pl-4">
@@ -121,9 +119,32 @@ const resumeTemplate = `
                     <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-cyan-400' : 'text-cyan-600'">Edunet Foundation • Remote</p>
                     <p class="text-sm transition-colors mb-2" :class="isDark ? 'text-gray-400' : 'text-gray-600'">June 2025 - August 2025</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Deployed scalable machine learning solutions on Microsoft Azure, utilizing Azure ML Studio to manage model lifecycles, versioning, and automated retraining pipelines</li>
-                        <li>• Architected cloud-native computer vision system implementing custom CNNs with TensorFlow for image classification, achieving 92% accuracy and improving speed by 20%</li>
-                        <li>• Automated dataset ingestion workflows using Azure Data Factory and Python scripts, streamlining training for 100K+ images</li>
+                        <li>• Built ML lifecycle on Azure (ML Studio, Data Factory) — versioning and retraining; TensorFlow CNN: 92% accuracy, 20% faster inference</li>
+                        <li>• Automated Python ingestion pipeline for 100K+ images; cloud deployment with reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Source Section -->
+        <div class="mb-6">
+            <h2 class="text-lg font-bold mb-3 transition-colors flex items-center gap-2" :class="isDark ? 'text-white' : 'text-gray-900'">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001 1h1.555a1 1 0 00.555-1.832L10 10.5v-.5a1 1 0 00-1-1h-.445zM7 12a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                Open Source Contributions
+            </h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Google Bazel — 2026</h3>
+                    <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Open Source Contributor & Security Researcher • Remote</p>
+                    <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                        <li>• Fixed CWE-522 credential leak in ProxyHelper (Java) with host-port-scoped ConcurrentHashMap + requestor fallback; JUnit isolation tests; merged into bazelbuild/bazel (dc50161), Google OSVRP-acknowledged</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-cyan-500 pl-4">
+                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Jupyter Notebook — 2026</h3>
+                    <p class="text-sm font-medium transition-colors" :class="isDark ? 'text-cyan-400' : 'text-cyan-600'">Open Source Contributor • Remote</p>
+                    <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+                        <li>• Fixed tree-view misrouting where paths containing a notebooks folder were intercepted as file-open routes (404) by anchoring opener route regex (TypeScript); Playwright regression test; merged into jupyter/notebook (7903), v7.7.0, fixing #7216</li>
                     </ul>
                 </div>
             </div>
@@ -139,30 +160,26 @@ const resumeTemplate = `
             </h2>
             <div class="space-y-3">
                 <div class="border-l-4 border-blue-500 pl-4">
-                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">AI-Enabled Visa Status Prediction & Processing Time Estimator</h3>
-                    <p class="text-xs transition-colors mb-1" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Python, React, Vite, Flask, scikit-learn | March 2026</p>
+                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">SentinelMesh – Infra Monitoring Platform</h3>
+                    <p class="text-xs transition-colors mb-1" :class="isDark ? 'text-blue-400' : 'text-blue-600'">Java, Spring Boot, Kafka, gRPC, Docker, Redis, PostgreSQL | 2026</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Built an end-to-end visa processing time prediction system using the EasyVisa dataset with 25,480 records covering preprocessing, feature engineering, modeling, and deployment</li>
-                        <li>• Created a React + Vite frontend and Flask backend with Netlify and Vercel deployment, enabling live predictions, confidence scoring, trend analytics, and prediction history</li>
-                        <li>• Selected Random Forest Regressor after 5-fold cross-validation and packaged a reusable prediction engine with scaler and milestone outputs</li>
+                        <li>• Architected Spring Boot microservices with Kafka, Redis, PostgreSQL, gRPC and Docker; 60-sec correlation windows with SSE live dashboards; validated on 350+ synthetic events at &lt;10s end-to-end latency</li>
+                        <li>• Added Isolation Forest + rule engine for DDoS, auth-abuse and resource-leak detection; applied DI, concurrency and JUnit testing</li>
                     </ul>
                 </div>
                 <div class="border-l-4 border-amber-500 pl-4">
-                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">The Silent Invigilator - Real-Time Exam Malpractice Detection System</h3>
-                    <p class="text-xs transition-colors mb-1" :class="isDark ? 'text-amber-400' : 'text-amber-600'">Python, OpenCV, MediaPipe, YOLOv8 | 2026</p>
+                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Silent Invigilator – Exam Malpractice Detection</h3>
+                    <p class="text-xs transition-colors mb-1" :class="isDark ? 'text-amber-400' : 'text-amber-600'">Python, YOLOv8, OpenCV, MediaPipe | 2026</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Built a real-time, non-intrusive exam invigilation system to flag phone usage, gaze aversion, multiple-person presence, abnormal head movement, and suspicious hand gestures</li>
-                        <li>• Implemented face counting, 3D head-pose estimation, iris-ratio gaze tracking, hand tracking, posture monitoring, and YOLOv8 phone detection using OpenCV and MediaPipe</li>
-                        <li>• Added temporal behavior analysis with anomaly scoring and a dashboard showing risk level, live status indicators, alerts, FPS, and JSON report generation</li>
+                        <li>• Built real-time detector flagging phone use, gaze deviation, multi-person frames and head movement via YOLOv8, face counting, 3D head pose and iris tracking (OpenCV, MediaPipe, NumPy)</li>
+                        <li>• Added anomaly scoring with structured JSON reports for review</li>
                     </ul>
                 </div>
                 <div class="border-l-4 border-emerald-500 pl-4">
-                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Stroke Prediction ML Model</h3>
-                    <p class="text-xs transition-colors mb-1" :class="isDark ? 'text-emerald-400' : 'text-emerald-600'">Python, TensorFlow, Scikit-learn, Pandas | Feb 2025 - Apr 2025</p>
+                    <h3 class="font-semibold transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Visa Prediction Platform</h3>
+                    <p class="text-xs transition-colors mb-1" :class="isDark ? 'text-emerald-400' : 'text-emerald-600'">Python, Flask, React, scikit-learn | Mar 2026</p>
                     <ul class="text-sm space-y-1 transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
-                        <li>• Architected a machine learning classification system using Logistic Regression, Decision Tree, and Random Forest models to predict stroke probability with 85%+ recall and 82% precision</li>
-                        <li>• Conducted extensive EDA with Matplotlib and Seaborn to identify 12+ key risk factors for medical stakeholders</li>
-                        <li>• Implemented SMOTE to handle severe 1:10 class imbalance and reduce false negatives in critical health predictions</li>
+                        <li>• Production-style full-stack app serving sklearn model via Flask REST APIs; React 18 + Vite UI with real-time predictions, confidence scores and trend analytics; deployed on Netlify/Vercel (capstone from Infosys Springboard internship)</li>
                     </ul>
                 </div>
             </div>
@@ -177,103 +194,18 @@ const resumeTemplate = `
                 Technical Skills
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Programming Languages</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">Python</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800'">JavaScript</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-orange-900 text-orange-200' : 'bg-orange-100 text-orange-800'">Java</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-purple-900 text-purple-200' : 'bg-purple-100 text-purple-800'">C++</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'">SQL</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-pink-900 text-pink-200' : 'bg-pink-100 text-pink-800'">HTML5</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-indigo-900 text-indigo-200' : 'bg-indigo-100 text-indigo-800'">CSS3</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-cyan-900 text-cyan-200' : 'bg-cyan-100 text-cyan-800'">TypeScript</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Web Development</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-cyan-900 text-cyan-200' : 'bg-cyan-100 text-cyan-800'">React.js</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800'">Vue.js</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-lime-900 text-lime-200' : 'bg-lime-100 text-lime-800'">Node.js</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'">Express.js</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-rose-900 text-rose-200' : 'bg-rose-100 text-rose-800'">Flask</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-teal-900 text-teal-200' : 'bg-teal-100 text-teal-800'">FastAPI</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-emerald-900 text-emerald-200' : 'bg-emerald-100 text-emerald-800'">Django</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-violet-900 text-violet-200' : 'bg-violet-100 text-violet-800'">RESTful APIs</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-sky-900 text-sky-200' : 'bg-sky-100 text-sky-800'">GraphQL</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">AI & Machine Learning</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-orange-900 text-orange-200' : 'bg-orange-100 text-orange-800'">TensorFlow</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-fuchsia-900 text-fuchsia-200' : 'bg-fuchsia-100 text-fuchsia-800'">Keras</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-red-900 text-red-200' : 'bg-red-100 text-red-800'">PyTorch</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">Scikit-learn</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800'">Pandas</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-cyan-900 text-cyan-200' : 'bg-cyan-100 text-cyan-800'">NumPy</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800'">SciPy</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-lime-900 text-lime-200' : 'bg-lime-100 text-lime-800'">XGBoost</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Cloud & DevOps</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-amber-900 text-amber-200' : 'bg-amber-100 text-amber-800'">AWS</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">Azure</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-sky-900 text-sky-200' : 'bg-sky-100 text-sky-800'">Docker</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-indigo-900 text-indigo-200' : 'bg-indigo-100 text-indigo-800'">Kubernetes</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'">CI/CD</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Databases & Storage</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">MySQL</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800'">MongoDB</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800'">Firebase</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-red-900 text-red-200' : 'bg-red-100 text-red-800'">Redis</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-slate-700 text-slate-200' : 'bg-slate-100 text-slate-800'">SQL Server</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Computer Vision & Data Viz</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-emerald-900 text-emerald-200' : 'bg-emerald-100 text-emerald-800'">OpenCV</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-amber-900 text-amber-200' : 'bg-amber-100 text-amber-800'">YOLOv8</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-indigo-900 text-indigo-200' : 'bg-indigo-100 text-indigo-800'">CNNs</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-pink-900 text-pink-200' : 'bg-pink-100 text-pink-800'">Matplotlib</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-violet-900 text-violet-200' : 'bg-violet-100 text-violet-800'">Seaborn</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-cyan-900 text-cyan-200' : 'bg-cyan-100 text-cyan-800'">Plotly</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">Tableau</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800'">Power BI</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Security Tools</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-orange-900 text-orange-200' : 'bg-orange-100 text-orange-800'">Burp Suite</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-purple-900 text-purple-200' : 'bg-purple-100 text-purple-800'">Metasploit</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800'">Nmap</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-indigo-900 text-indigo-200' : 'bg-indigo-100 text-indigo-800'">OWASP ZAP</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-sky-900 text-sky-200' : 'bg-sky-100 text-sky-800'">Wireshark</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Core Competencies</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800'">System Design</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">Agile/Scrum</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800'">API Development</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-purple-900 text-purple-200' : 'bg-purple-100 text-purple-800'">Model Deployment</span>
-                        <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-cyan-900 text-cyan-200' : 'bg-cyan-100 text-cyan-800'">Technical Documentation</span>
-                    </div>
-                </div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Languages</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Java • Python • JavaScript/TypeScript (ES6+) • SQL</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Core Java & DSA</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">OOP • Collections • Exception Handling • JDBC • Multithreading & Concurrency • Dependency Injection • Arrays • Strings • Linked Lists • Stacks • Queues • Trees • Hashing • Sorting • Searching</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Backend</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Spring Boot • Spring MVC • REST APIs • Hibernate/JPA • Flask • Microservices • Kafka • gRPC • Redis</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">AI / ML</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">scikit-learn • TensorFlow • YOLOv8 • OpenCV • MediaPipe • NumPy • EDA • Feature Engineering • Cross-Validation</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Databases</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">MySQL • PostgreSQL • SQL Server • MongoDB • Normalization • Query Optimization</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Frontend</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">React.js • HTML5 • CSS3 • Tailwind CSS • Vite • TypeScript</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Tools & Cloud</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Git • GitHub • Maven • Postman • Docker • Playwright • Azure (ML Studio, Data Factory) • Burp Suite • OWASP ZAP</p></div>
+                <div><h4 class="font-medium mb-2 transition-colors" :class="isDark ? 'text-gray-200' : 'text-gray-800'">Practices</h4><p class="text-xs leading-relaxed transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">SDLC • Agile/Scrum • Debugging • JUnit • Regression Testing • API Documentation • OWASP Top 10</p></div>
             </div>
         </div>
 
-        <!-- Certifications Section -->
+        <!-- Certifications & Achievements Section -->
         <div class="mb-6">
             <h2 class="text-lg font-bold mb-3 transition-colors flex items-center gap-2" :class="isDark ? 'text-white' : 'text-gray-900'">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -281,6 +213,12 @@ const resumeTemplate = `
                 </svg>
                 Achievements & Leadership
             </h2>
+            <div class="mb-4 flex flex-wrap gap-2">
+                <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'">Applied Generative AI — Infosys Springboard 2025</span>
+                <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-purple-900 text-purple-200' : 'bg-purple-100 text-purple-800'">OpenAI GPT-3 — Infosys 2025</span>
+                <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800'">Google Cloud Foundations & GenAI 2025</span>
+                <span class="px-2 py-1 text-xs rounded-full font-medium" :class="isDark ? 'bg-cyan-900 text-cyan-200' : 'bg-cyan-100 text-cyan-800'">Power Automate — Microsoft Learn 2025</span>
+            </div>
             <div class="space-y-2">
                 <div class="flex items-start gap-2">
                     <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>

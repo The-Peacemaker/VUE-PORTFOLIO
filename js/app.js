@@ -31,7 +31,7 @@ const HomeComponent = {
             }, 800); // Short animation time
         };
         
-        const onRevealComplete = () => {
+const onRevealComplete = () => {
             // Not needed anymore - using setTimeout instead
         };
         
@@ -201,7 +201,7 @@ const app = createApp({
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                 });
-                const activeLink = document.querySelector(`.nav-link[href="#"]:contains("${section.toUpperCase()}")`);
+                const activeLink = document.querySelector(`.nav-link[data-section="${section}"]`);
                 if (activeLink) {
                     activeLink.classList.add('active');
                 }

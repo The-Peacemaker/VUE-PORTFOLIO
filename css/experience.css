@@ -1,8 +1,8 @@
 /* Beautiful Timeline Styles */
 .timeline-item {
     position: relative;
-    padding-left: 3rem;
-    padding-bottom: 3rem;
+    padding-left: 2.5rem;
+    padding-bottom: 1.5rem;
     border-left: 3px solid;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     margin-left: 0.5rem;
@@ -79,15 +79,15 @@
 /* Beautiful Timeline Icons */
 .timeline-icon {
     position: absolute;
-    left: -1.5rem;
+    left: -1.25rem;
     top: -0.125rem;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: bold;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     z-index: 3;

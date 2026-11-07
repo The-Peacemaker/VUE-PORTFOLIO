@@ -104,21 +104,6 @@ class CommandPalette {
 
         this.input = this.overlay.querySelector('.cmdk-input');
         this.list = this.overlay.querySelector('.cmdk-list');
-
-        this.launcher = document.createElement('button');
-        this.launcher.type = 'button';
-        this.launcher.className = 'cmdk-launcher';
-        this.launcher.setAttribute('aria-label', 'Open command palette');
-        this.launcher.title = 'Open command palette';
-        this.launcher.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M4 7h16"></path>
-                <path d="M4 12h10"></path>
-                <path d="M4 17h7"></path>
-                <circle cx="18" cy="12" r="3"></circle>
-            </svg>
-        `;
-        document.body.appendChild(this.launcher);
     }
 
     bindEvents() {
@@ -154,8 +139,6 @@ class CommandPalette {
                 this.close();
             }
         });
-
-        this.launcher.addEventListener('click', () => this.toggle());
 
         this.input.addEventListener('input', () => {
             this.filterCommands(this.input.value.trim().toLowerCase());

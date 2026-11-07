@@ -7,6 +7,16 @@
     box-sizing: border-box;
 }
 
+/* Red text selection (instead of default blue) */
+::selection {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+::-moz-selection {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
 /* Hide Vue app until compiled */
 [v-cloak] {
     display: none !important;
@@ -111,6 +121,18 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
     mix-blend-mode: difference;
 }
 
+/* Comet trail dots */
+.cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    border-radius: 50%;
+    transform-origin: center;
+    mix-blend-mode: difference;
+}
+
 /* Light theme cursor colors */
 .light-theme .cursor-dot {
     background-color: rgba(34, 211, 238, 0.6);
@@ -124,6 +146,7 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
 }
 .light-theme .cursor-dot.text-hover {
     --cursor-width: 3px;
+    --cursor-height: 20px;
     border-radius: 2px;
     background-color: rgba(59, 130, 246, 0.9);
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
@@ -147,14 +170,34 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
     box-shadow: 0 0 10px rgba(244, 114, 182, 0.6);
 }
 
-/* Interactive Background Grid */
+/* Interactive Background Grid — single element, CSS lines + mouse glow */
 .interactive-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
     position: absolute;
     inset: 0;
+    pointer-events: none;
 }
 
+.interactive-grid.css-grid {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.dark-theme .interactive-grid.css-grid {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.interactive-grid.css-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 40%), rgba(99, 102, 241, 0.07), transparent 70%);
+}
+
+/* Legacy cell styles kept for compat (unused) */
 .grid-cell {
     border-right: 1px solid rgba(0, 0, 0, 0.02);
     border-bottom: 1px solid rgba(0, 0, 0, 0.02);
@@ -611,6 +654,14 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
 .skill-badge:nth-child(12) { animation-delay: 0.6s; }
 .skill-badge:nth-child(13) { animation-delay: 0.65s; }
 .skill-badge:nth-child(14) { animation-delay: 0.7s; }
+.skill-badge:nth-child(15) { animation-delay: 0.75s; }
+.skill-badge:nth-child(16) { animation-delay: 0.8s; }
+.skill-badge:nth-child(17) { animation-delay: 0.85s; }
+.skill-badge:nth-child(18) { animation-delay: 0.9s; }
+.skill-badge:nth-child(19) { animation-delay: 0.95s; }
+.skill-badge:nth-child(20) { animation-delay: 1s; }
+.skill-badge:nth-child(21) { animation-delay: 1.05s; }
+.skill-badge:nth-child(22) { animation-delay: 1.1s; }
 
 @keyframes skillBadgeIn {
     0% {
@@ -621,6 +672,31 @@ p, h1, h2, h3, h4, h5, h6, span, li, div, input, textarea {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Skill category group styles */
+.category-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.category-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* GitHub Contribution Heatmap - full width */
+.gh-heatmap-section {
+    grid-column: 1/-1;
+}
+
+/* Modified cell sizes */
+.gh-cell {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
 }
 
 /* --- Canvas Title Animation Styles --- */
@@ -1094,3 +1170,47 @@ nav ul::before,
         bottom: 14px;
     }
 }
+
+/* ========================================
+   GitHub Contribution Heatmap
+   ======================================== */
+.gh-cell {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+}
+.gh-cell:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+.gh-level-0 { background-color: transparent; }
+.gh-level-1 { background-color: #22d3ee; }
+.gh-level-2 { background-color: #3b82f6; }
+.gh-level-3 { background-color: #a855f7; }
+.gh-level-4 { background-color: #ef4444; }
+.dark-theme .gh-level-0 { background-color: #0f172a; }
+.dark-theme .gh-level-1 { background-color: #06b6d4; }
+.dark-theme .gh-level-2 { background-color: #2563eb; }
+.dark-theme .gh-level-3 { background-color: #7c3aed; }
+.dark-theme .gh-level-4 { background-color: #dc2626; }
+
+#gh-tooltip {
+    font-size: 11px;
+    font-family: system-ui, -apple-system, sans-serif;
+    white-space: nowrap;
+}
+.dark-theme #gh-tooltip {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+@media (max-width: 640px) {
+    .gh-cell {
+        width: 12px;
+        height: 12px;
+    }
+}
+

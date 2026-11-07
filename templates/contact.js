@@ -11,14 +11,14 @@ const contactTemplate = `
                 <div class="space-y-4">
                     <div class="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 hover:scale-105 cursor-interactive"
                          :class="isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-gray-50 hover:bg-gray-100'">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                        <div class="w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center transition-colors"
                              :class="isDark ? 'bg-blue-600' : 'bg-blue-500'">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                             </svg>
                         </div>
-                        <div>
+                        <div class="min-w-0 flex-1">
                             <h4 class="font-medium transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Email</h4>
                             <a href="mailto:benedictcm1@gmail.com" class="text-sm transition-colors hover:underline" 
                                :class="isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'">
@@ -29,13 +29,13 @@ const contactTemplate = `
 
                     <div class="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 hover:scale-105 cursor-interactive"
                          :class="isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-gray-50 hover:bg-gray-100'">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                        <div class="w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center transition-colors"
                              :class="isDark ? 'bg-green-600' : 'bg-green-500'">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <div>
+                        <div class="min-w-0 flex-1">
                             <h4 class="font-medium transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Location</h4>
                             <p class="text-sm transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Kerala, India</p>
                         </div>
@@ -43,15 +43,16 @@ const contactTemplate = `
 
                     <div class="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 hover:scale-105 cursor-interactive"
                          :class="isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-gray-50 hover:bg-gray-100'">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center transition-colors"
+                        <div class="w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center transition-colors"
                              :class="isDark ? 'bg-purple-600' : 'bg-purple-500'">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+                            <svg class="w-6 h-6 flex-shrink-0 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                                <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
                             </svg>
                         </div>
-                        <div>
+                        <div class="min-w-0 flex-1">
                             <h4 class="font-medium transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Professional Focus</h4>
-                            <p class="text-sm transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Security Research & Web Development</p>
+                            <p class="text-sm transition-colors" :class="isDark ? 'text-gray-400' : 'text-gray-600'">Software Engineer (Java / Spring Boot) • AI/ML • Security Research</p>
                         </div>
                     </div>
                 </div>
@@ -176,23 +177,23 @@ const contactTemplate = `
     <!-- Additional Information -->
     <div class="mt-8 p-6 rounded-xl transition-colors border"
          :class="isDark ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'">
-        <h3 class="text-lg font-semibold mb-3 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">Heiii I'm Looking For</h3>
+        <h3 class="text-lg font-semibold mb-3 transition-colors" :class="isDark ? 'text-white' : 'text-gray-900'">I'm Looking For</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-2">
-                <h4 class="font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">🚀 Freelance Projects</h4>
-                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Web development, security audits, and penetration testing projects</p>
+                <h4 class="font-medium transition-colors" :class="isDark ? 'text-blue-400' : 'text-blue-600'">🚀 Full-time: Software Engineer</h4>
+                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Entry-level SWE roles — Java / Spring Boot, REST APIs, full-stack and cloud AI</p>
             </div>
             <div class="space-y-2">
                 <h4 class="font-medium transition-colors" :class="isDark ? 'text-green-400' : 'text-green-600'">🤝 Collaboration</h4>
-                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Open source contributions and cybersecurity research partnerships</p>
+                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Open source contributions (Bazel, Jupyter) and cybersecurity research</p>
             </div>
             <div class="space-y-2">
-                <h4 class="font-medium transition-colors" :class="isDark ? 'text-purple-400' : 'text-purple-600'">💼 Internships</h4>
-                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Summer internships in cybersecurity or full-stack development</p>
+                <h4 class="font-medium transition-colors" :class="isDark ? 'text-purple-400' : 'text-purple-600'">🔐 Freelance & Security</h4>
+                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Web development, security audits, penetration testing (Burp Suite, OWASP ZAP)</p>
             </div>
             <div class="space-y-2">
                 <h4 class="font-medium transition-colors" :class="isDark ? 'text-orange-400' : 'text-orange-600'">🎓 Mentorship</h4>
-                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Guidance from experienced professionals in security research</p>
+                <p class="text-sm transition-colors" :class="isDark ? 'text-gray-300' : 'text-gray-600'">Cyber Security Lead at MuLearn — security, bug bounty, DSA and Git mentoring</p>
             </div>
         </div>
     </div>
