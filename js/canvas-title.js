@@ -19,12 +19,15 @@ class CanvasTitleAnimation {
         this.recentAvgConnections = '0.00';
         this.recentLargestCluster = 0;
         this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.lastMouseMove = Date.now();
+        this.isIdle = false;
         
         // Configuration options
         this.options = {
             baseColor: '#4F46E5',
             accentColor: '#06B6D4',
             magneticForce: 0.2,
+            orbitForce: 1.2,
             friction: 0.88,
             maxSpeed: 2.5,
             connectionDistance: 120,
@@ -35,9 +38,15 @@ class CanvasTitleAnimation {
         // Animation state
         this.stars = [];
         this.constellations = [];
+        this.shootingStars = []; // shooting stars that streak across
         this.mouse = { x: -1000, y: -1000, active: false };
+        this.lastMouseX = -1000;
+        this.lastMouseY = -1000;
+        this.clickParticles = []; // explosion particles on click
+        this.lastShootingStarTime = Date.now();
+        this.shootingStarInterval = 4000 + Math.random() * 4000; // 4-8 seconds between shooting stars
         this.isDark = document.body.classList.contains('dark-theme');
-        
+
         this.init();
     }
 
@@ -52,13 +61,14 @@ class CanvasTitleAnimation {
 
     setupCanvas() {
         const rect = this.canvas.parentElement.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2); // Limit DPR for performance
+        const dpr = Math.min(window.devicePixelRatio || 1, 1); // Force 1x — saves massive fill rate on retina
         
         this.canvas.width = rect.width * dpr;
         this.canvas.height = rect.height * dpr;
         this.canvas.style.width = rect.width + 'px';
         this.canvas.style.height = rect.height + 'px';
         
+        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
         this.ctx.scale(dpr, dpr);
         this.canvasWidth = rect.width;
         this.canvasHeight = rect.height;
@@ -73,21 +83,21 @@ class CanvasTitleAnimation {
         // Adjust settings based on device type and screen size
         if (this.isMobile) {
             // Mobile device optimizations - reduced particles for better performance
-            this.starCount = 25;
-            this.options.connectionDistance = 90;
+            this.starCount = 30;
+            this.options.connectionDistance = 55;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
             // Small desktop/laptop screens
-            this.starCount = 65;
-            this.options.connectionDistance = 120;
+            this.starCount = 25;
+            this.options.connectionDistance = 65;
         } else if (rect.width < 1024) {
             // Tablet or medium laptop screens
-            this.starCount = 95;
-            this.options.connectionDistance = 135;
+            this.starCount = 35;
+            this.options.connectionDistance = 70;
         } else {
-            // Desktop settings - beautiful dense constellation field
-            this.starCount = 135;
-            this.options.connectionDistance = 150;
+        // Desktop settings - bright, visible constellation field
+        this.starCount = 200;
+        this.options.connectionDistance = 120;
         }
 
         if (this.isLowPowerDevice) {
@@ -107,14 +117,18 @@ class CanvasTitleAnimation {
             this.stars.push({
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 0.8,
-                vy: (Math.random() - 0.5) * 0.8,
-                size: Math.random() * 1.5 + 1.5,
-                brightness: Math.random() * 0.5 + 0.5,
-                twinkleSpeed: Math.random() * 0.05 + 0.02,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                size: Math.random() * 4 + 3,
+                brightness: Math.random() * 0.4 + 0.7,
+                twinkleSpeed: Math.random() * 0.06 + 0.03,
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
-                connections: []
+                connections: [],
+                trail: [],
+                trailMax: 8,
+                lastX: 0,
+                lastY: 0
             });
         }
         
@@ -140,7 +154,7 @@ class CanvasTitleAnimation {
         ];
         
         this.floatingFormulas = [];
-        const formulaCount = this.isLowPowerDevice ? 5 : (this.isMobile ? 6 : 14);
+        const formulaCount = this.isLowPowerDevice ? 1 : (this.isMobile ? 2 : 3);
         
         for (let i = 0; i < formulaCount; i++) {
             this.floatingFormulas.push({
@@ -151,8 +165,8 @@ class CanvasTitleAnimation {
                 vy: (Math.random() - 0.5) * 0.2,
                 rotation: (Math.random() - 0.5) * 0.2, // Initial rotation
                 rotationSpeed: (Math.random() - 0.5) * 0.002, // Slow rotation
-                opacity: Math.random() * 0.15 + 0.05, // Slightly more visible
-                size: Math.random() * 4 + 10, // Slightly larger
+                opacity: Math.random() * 0.15 + 0.05, // Subtle background
+                size: Math.random() * 4 + 8, // Small
                 color: Math.random() > 0.5 ? (this.isDark ? '#60A5FA' : '#4F46E5') : (this.isDark ? '#34D399' : '#06B6D4') // Varied colors
             });
         }
@@ -164,61 +178,127 @@ class CanvasTitleAnimation {
         const dx = this.mouse.x - star.x;
         const dy = this.mouse.y - star.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const magneticRadius = 180;
 
-        if (distance < magneticRadius && distance > 0) {
-            const force = (1 - distance / magneticRadius) * this.options.magneticForce;
-            star.vx += (dx / distance) * force;
-            star.vy += (dy / distance) * force;
-        }
+        if (distance === 0) return;
 
-        // Limit max speed
+        // Gentle cinematic drift toward cursor — stars feel weightless, not magnetic
+        const sigma = 180;
+        const mass = 0.3;
+        const orbitStrength = 0.4;
+
+        const lensStrength = mass / (distance + sigma);
+
+        const nx = dx / distance;
+        const ny = dy / distance;
+
+        // Gentle pull toward cursor
+        star.vx += nx * lensStrength;
+        star.vy += ny * lensStrength;
+
+        // Subtle orbital drift around cursor (Lense-Thirring)
+        star.vx += -ny * orbitStrength * (1 - Math.min(distance / sigma, 1));
+        star.vy += nx * orbitStrength * (1 - Math.min(distance / sigma, 1));
+
+        // Cap velocity so stars stay graceful
         const speed = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
-        if (speed > this.options.maxSpeed) {
-            star.vx = (star.vx / speed) * this.options.maxSpeed;
-            star.vy = (star.vy / speed) * this.options.maxSpeed;
+        if (speed > this.options.maxSpeed * 2) {
+            const ratio = (this.options.maxSpeed * 2) / speed;
+            star.vx *= ratio;
+            star.vy *= ratio;
         }
 
-        // Apply friction
         star.vx *= this.options.friction;
         star.vy *= this.options.friction;
+
+        // Minimum velocity floor — stars never fully stop drifting
+        const minSpeed = 0.05;
+        const minSpeedCheck = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
+        if (minSpeedCheck < minSpeed) {
+            star.vx = (Math.random() - 0.5) * minSpeed * 2;
+            star.vy = (Math.random() - 0.5) * minSpeed * 2;
+        }
     }
 
     updateStars() {
-        // Batch all star updates for better performance
+        // Spatial hashing: divide canvas into cells of size connectionDistance.
+        // Each star only checks connections within its own cell + 8 neighbors.
+        // Reduces connection math from O(n²) to O(n).
         const { connectionDistance } = this.options;
+        const cellSize = connectionDistance;
+        const cols = Math.ceil(this.canvasWidth / cellSize);
+        const rows = Math.ceil(this.canvasHeight / cellSize);
+        const grid = new Array(cols * rows);
+
         const starsLength = this.stars.length;
-        const maxDistSq = connectionDistance * connectionDistance;
-        let totalConnections = 0;
-        
+
+        // Assign each star to a grid cell
+        const starCells = new Array(starsLength);
         for (let i = 0; i < starsLength; i++) {
             const star = this.stars[i];
-            
-            // Apply magnetic force
             this.applyMagneticForce(star);
 
-            // Update position
             star.x += star.vx;
             star.y += star.vy;
 
-            // Wrap around edges (branchless for speed)
+            // Tiny perpetual drift — stars never come to a complete stop
+            star.vx += (Math.random() - 0.5) * 0.02;
+            star.vy += (Math.random() - 0.5) * 0.02;
+
+            // Record position for trail effect
+            star.trail.push({ x: star.x, y: star.y });
+            if (star.trail.length > star.trailMax) star.trail.shift();
+
+            // Wrap around edges
             star.x = star.x < 0 ? this.canvasWidth : (star.x > this.canvasWidth ? 0 : star.x);
             star.y = star.y < 0 ? this.canvasHeight : (star.y > this.canvasHeight ? 0 : star.y);
 
-            // Find connections - optimized with early exit
-            star.connections = [];
-            for (let j = i + 1; j < starsLength; j++) {
-                const other = this.stars[j];
-                const dx = other.x - star.x;
-                const dy = other.y - star.y;
-                const distSq = dx * dx + dy * dy; // Use squared distance to avoid sqrt
+            const gx = Math.floor(star.x / cellSize);
+            const gy = Math.floor(star.y / cellSize);
+            const cellIdx = gy * cols + gx;
+            starCells[i] = cellIdx;
 
-                if (distSq < maxDistSq) {
-                    star.connections.push({
-                        target: other,
-                        strength: 1 - (distSq / maxDistSq)
-                    });
-                    totalConnections++;
+            if (!grid[cellIdx]) grid[cellIdx] = [];
+            grid[cellIdx].push(i);
+        }
+
+        const maxDistSq = connectionDistance * connectionDistance;
+        let totalConnections = 0;
+
+        // Check connections only within same cell and 8 neighbors
+        for (let i = 0; i < starsLength; i++) {
+            const star = this.stars[i];
+            const cx = Math.floor(star.x / cellSize);
+            const cy = Math.floor(star.y / cellSize);
+
+            star.connections = [];
+
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    const nx = cx + dx;
+                    const ny = cy + dy;
+                    if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) continue;
+
+                    const cellIdx = ny * cols + nx;
+                    const cell = grid[cellIdx];
+                    if (!cell) continue;
+
+                    for (let j = 0; j < cell.length; j++) {
+                        const otherIdx = cell[j];
+                        if (otherIdx === i) continue;
+
+                        const other = this.stars[otherIdx];
+                        const dx2 = other.x - star.x;
+                        const dy2 = other.y - star.y;
+                        const distSq = dx2 * dx2 + dy2 * dy2;
+
+                        if (distSq < maxDistSq) {
+                            star.connections.push({
+                                target: other,
+                                strength: 1 - (distSq / maxDistSq)
+                            });
+                            totalConnections++;
+                        }
+                    }
                 }
             }
         }
@@ -232,55 +312,241 @@ class CanvasTitleAnimation {
         const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
         const alpha = star.brightness + twinkle * 0.3;
 
+        // Proximity glow: barely noticeable — stars stay cinematic
+        let proximityGlow = 1;
+        if (this.mouse.active) {
+            const dx = this.mouse.x - star.x;
+            const dy = this.mouse.y - star.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const prox = Math.max(0, 1 - dist / 120);
+            proximityGlow = 1 + prox * 0.15; // Barely grows — no ballooning
+        }
+
         this.ctx.save();
         this.ctx.globalAlpha = alpha;
-        
-        // Draw star core
+
+        // Draw trail (faint line segments behind star)
+        if (star.trail.length > 1) {
+            this.ctx.strokeStyle = star.color;
+            this.ctx.lineWidth = star.size * 0.5;
+            this.ctx.lineCap = 'round';
+            this.ctx.beginPath();
+            this.ctx.moveTo(star.trail[0].x, star.trail[0].y);
+            for (let t = 1; t < star.trail.length; t++) {
+                this.ctx.lineTo(star.trail[t].x, star.trail[t].y);
+            }
+            this.ctx.stroke();
+        }
+
+        // Draw star core — size stays constant, no ballooning on hover
         this.ctx.fillStyle = star.color;
         this.ctx.beginPath();
         this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         this.ctx.fill();
 
-        // Draw glow
+        // Draw glow — subtle glow increases slightly when cursor near
         const gradient = this.ctx.createRadialGradient(
             star.x, star.y, 0,
-            star.x, star.y, star.size * 3
+            star.x, star.y, star.size * 2 * proximityGlow
         );
         gradient.addColorStop(0, star.color + '40');
         gradient.addColorStop(1, star.color + '00');
         
         this.ctx.fillStyle = gradient;
         this.ctx.beginPath();
-        this.ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
+        this.ctx.arc(star.x, star.y, star.size * 3 * proximityGlow, 0, Math.PI * 2);
         this.ctx.fill();
 
         this.ctx.restore();
     }
 
-    drawConnections(star) {
-        star.connections.forEach(conn => {
-            const alpha = conn.strength * 0.3;
+    updateClickParticles() {
+        for (let i = this.clickParticles.length - 1; i >= 0; i--) {
+            const p = this.clickParticles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= p.decay;
+            p.size *= 0.96;
+            p.vx *= 0.95;
+            p.vy *= 0.95;
             
-            this.ctx.save();
-            this.ctx.globalAlpha = alpha;
-            
-            // Create gradient for connection line
-            const gradient = this.ctx.createLinearGradient(
-                star.x, star.y,
-                conn.target.x, conn.target.y
-            );
-            gradient.addColorStop(0, star.color);
-            gradient.addColorStop(1, conn.target.color);
-            
-            this.ctx.strokeStyle = gradient;
-            this.ctx.lineWidth = 1;
-            this.ctx.beginPath();
-            this.ctx.moveTo(star.x, star.y);
-            this.ctx.lineTo(conn.target.x, conn.target.y);
-            this.ctx.stroke();
+            if (p.life <= 0 || p.size < 0.5) {
+                this.clickParticles.splice(i, 1);
+            }
+        }
+    }
 
-            this.ctx.restore();
+    drawClickParticles() {
+        if (this.clickParticles.length === 0) return;
+        
+        this.ctx.save();
+        this.clickParticles.forEach(p => {
+            this.ctx.globalAlpha = p.life;
+            this.ctx.fillStyle = p.color;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            
+            // Add glow
+            const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3);
+            gradient.addColorStop(0, p.color + '80');
+            gradient.addColorStop(1, p.color + '00');
+            this.ctx.fillStyle = gradient;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+            this.ctx.fill();
         });
+        this.ctx.restore();
+    }
+
+    spawnShootingStar() {
+        // Pick a random edge to start from
+        const side = Math.floor(Math.random() * 4);
+        let x, y, vx, vy;
+        
+        if (side === 0) { // Top edge
+            x = Math.random() * this.canvasWidth;
+            y = -20;
+            vx = (Math.random() - 0.5) * 3;
+            vy = Math.random() * 4 + 2;
+        } else if (side === 1) { // Right edge
+            x = this.canvasWidth + 20;
+            y = Math.random() * this.canvasHeight;
+            vx = -(Math.random() * 4 + 2);
+            vy = (Math.random() - 0.5) * 3;
+        } else if (side === 2) { // Bottom edge
+            x = Math.random() * this.canvasWidth;
+            y = this.canvasHeight + 20;
+            vx = (Math.random() - 0.5) * 3;
+            vy = -(Math.random() * 4 + 2);
+        } else { // Left edge
+            x = -20;
+            y = Math.random() * this.canvasHeight;
+            vx = Math.random() * 4 + 2;
+            vy = (Math.random() - 0.5) * 3;
+        }
+
+        this.shootingStars.push({
+            x: x,
+            y: y,
+            vx: vx,
+            vy: vy,
+            life: 1.0,
+            decay: Math.random() * 0.02 + 0.015,
+            color: Math.random() > 0.7 ? '#fff' : this.options.accentColor,
+            size: Math.random() * 2 + 1,
+            tailLength: Math.random() * 60 + 40
+        });
+    }
+
+    updateShootingStars() {
+        for (let i = this.shootingStars.length - 1; i >= 0; i--) {
+            const s = this.shootingStars[i];
+            s.x += s.vx;
+            s.y += s.vy;
+            s.life -= s.decay;
+            
+            if (s.life <= 0 || s.x < -50 || s.x > this.canvasWidth + 50 || 
+                s.y < -50 || s.y > this.canvasHeight + 50) {
+                this.shootingStars.splice(i, 1);
+            }
+        }
+    }
+
+    drawShootingStars() {
+        if (this.shootingStars.length === 0) return;
+        
+        this.ctx.save();
+        this.shootingStars.forEach(s => {
+            const alpha = s.life;
+            
+            // Draw trail (line behind the shooting star)
+            const tailLength = s.tailLength * s.life;
+            const tailX = s.x - s.vx * tailLength * 0.1;
+            const tailY = s.y - s.vy * tailLength * 0.1;
+            
+            this.ctx.beginPath();
+            this.ctx.moveTo(tailX, tailY);
+            this.ctx.lineTo(s.x, s.y);
+            this.ctx.strokeStyle = s.color;
+            this.ctx.lineWidth = 2 * s.life;
+            this.ctx.globalAlpha = alpha;
+            this.ctx.stroke();
+            
+            // Draw the star itself
+            this.ctx.fillStyle = s.color;
+            this.ctx.beginPath();
+            this.ctx.arc(s.x, s.y, s.size * alpha, 0, Math.PI * 2);
+            this.ctx.fill();
+            
+            // Add bright glow
+            const gradient = this.ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 4 * alpha);
+            gradient.addColorStop(0, s.color + 'bb');
+            gradient.addColorStop(1, s.color + '00');
+            this.ctx.fillStyle = gradient;
+            this.ctx.beginPath();
+            this.ctx.arc(s.x, s.y, s.size * 4 * alpha, 0, Math.PI * 2);
+            this.ctx.fill();
+        });
+        this.ctx.restore();
+    }
+
+    drawConnections() {
+        // Batch all connections into alpha groups — single draw call per group
+        // instead of one draw call per connection line
+        const groups = {};
+        
+        this.stars.forEach(star => {
+            star.connections.forEach(conn => {
+                const alpha = Math.round(conn.strength * 0.3 * 10) / 10; // quantize to 0.1 steps
+                if (!groups[alpha]) groups[alpha] = [];
+                groups[alpha].push([star.x, star.y, conn.target.x, conn.target.y]);
+            });
+        });
+
+        this.ctx.lineWidth = 1;
+        
+        // Draw base color connections
+        Object.keys(groups).forEach(alpha => {
+            this.ctx.strokeStyle = this.options.baseColor;
+            this.ctx.globalAlpha = parseFloat(alpha);
+            this.ctx.beginPath();
+            
+            groups[alpha].forEach(([x1, y1, x2, y2]) => {
+                this.ctx.moveTo(x1, y1);
+                this.ctx.lineTo(x2, y2);
+            });
+            
+            this.ctx.stroke();
+        });
+        
+        // Draw cursor-proximity connections in accent color (glow near mouse)
+        if (this.mouse.active) {
+            this.ctx.strokeStyle = this.options.accentColor;
+            this.ctx.globalAlpha = 0.6;
+            this.ctx.beginPath();
+            
+            this.stars.forEach(star => {
+                const dx = this.mouse.x - star.x;
+                const dy = this.mouse.y - star.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                star.connections.forEach(conn => {
+                    const dx2 = this.mouse.x - conn.target.x;
+                    const dy2 = this.mouse.y - conn.target.y;
+                    const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                    
+                    if (dist < 150 || dist2 < 150) {
+                        this.ctx.moveTo(star.x, star.y);
+                        this.ctx.lineTo(conn.target.x, conn.target.y);
+                    }
+                });
+            });
+            
+            this.ctx.stroke();
+        }
+        
+        this.ctx.globalAlpha = 1;
     }
 
     drawConstellationLabels() {
@@ -497,40 +763,48 @@ class CanvasTitleAnimation {
     }
 
     animate() {
-        // Performance optimization: skip frames intelligently
         const now = performance.now();
-        const elapsed = now - this.lastFrameTime;
-        
-        // Adaptive frame rate based on device
-        const targetFrameTime = this.isLowPowerDevice ? 40 : (this.canvasWidth < 768 ? 33 : 16);
-        
-        if (this.lastFrameTime && elapsed < targetFrameTime) {
+        const currentTime = Date.now() - this.startTime;
+        this.frameCounter++;
+
+        // Fixed 30fps — smooth motion when active
+        if (this.lastFrameTime && now - this.lastFrameTime < 33) {
             this.animationId = requestAnimationFrame(() => this.animate());
             return;
         }
-        
         this.lastFrameTime = now;
-        const currentTime = Date.now() - this.startTime;
-        this.frameCounter++;
-        
+
+        // Always update stars — perpetual drift keeps them moving forever
+        this.updateStars();
+
+        // Spawn shooting stars randomly
+        if (Date.now() - this.lastShootingStarTime > this.shootingStarInterval) {
+            this.spawnShootingStar();
+            this.lastShootingStarTime = Date.now();
+            this.shootingStarInterval = 3000 + Math.random() * 6000; // 3-9 seconds between
+        }
+
         // Clear canvas efficiently
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-        
-        // Draw floating formulas in background (super nerdy!)
-        if (!this.isLowPowerDevice || this.frameCounter % 2 === 0) {
-            this.updateFloatingFormulas();
-            this.drawFloatingFormulas();
-        }
-        
-        // Update stars and find connections (batched)
-        this.updateStars();
-        
+
+        // Active: full animation
+        this.updateFloatingFormulas();
+        this.drawFloatingFormulas();
+
         // Draw in optimal order (connections -> labels -> stars)
-        this.stars.forEach(star => this.drawConnections(star));
+        this.drawConnections();
         this.drawConstellationLabels();
         this.stars.forEach(star => this.drawStar(star, currentTime));
-        
-        // Continue animation
+
+        // Draw click explosion particles
+        this.updateClickParticles();
+        this.drawClickParticles();
+
+        // Draw shooting stars (draw on top of everything)
+        this.updateShootingStars();
+        this.drawShootingStars();
+
+        // Continue animation — ALWAYS schedule next frame so canvas never freezes
         this.animationId = requestAnimationFrame(() => this.animate());
     }
 
@@ -546,8 +820,33 @@ class CanvasTitleAnimation {
             this.mouse.x = e.clientX - canvasRect.left;
             this.mouse.y = e.clientY - canvasRect.top;
             this.mouse.active = true;
+            this.lastMouseMove = Date.now();
+            this.isIdle = false;
+            this.startAnimation(true);
         };
 
+        this.canvas.addEventListener('mousedown', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Create explosion particles at click position
+            for (let i = 0; i < 15; i++) {
+                const angle = (Math.PI * 2 * i) / 15;
+                const speed = Math.random() * 6 + 2;
+                this.clickParticles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1.0,
+                    decay: Math.random() * 0.03 + 0.02,
+                    color: Math.random() > 0.5 ? this.options.accentColor : this.options.baseColor,
+                    size: Math.random() * 4 + 2
+                });
+            }
+        }, { passive: true });
+        
         this.canvas.addEventListener('mousemove', updateMouse, { passive: true });
         this.canvas.addEventListener('mouseenter', () => {
             canvasRect = this.canvas.getBoundingClientRect();
@@ -557,6 +856,7 @@ class CanvasTitleAnimation {
             this.mouse.active = false;
             this.mouse.x = -1000;
             this.mouse.y = -1000;
+            this.lastMouseMove = Date.now();
         }, { passive: true });
 
         this.mouseRectResizeHandler = () => {
@@ -565,10 +865,12 @@ class CanvasTitleAnimation {
         window.addEventListener('resize', this.mouseRectResizeHandler, { passive: true });
     }
 
-    startAnimation() {
-        if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
-        }
+    startAnimation(force = false) {
+        if (this.animationId && !force) return;
+        if (this.animationId) cancelAnimationFrame(this.animationId);
+        this.animationId = null;
+        this.lastMouseMove = Date.now();
+        this.isIdle = false;
         this.animate();
     }
 

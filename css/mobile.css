@@ -315,10 +315,6 @@ html {
         z-index: 1 !important;
     }
     
-    #benedict-canvas {
-        height: 5rem !important;
-    }
-    
     .canvas-loading::after {
         font-size: 1rem !important;
     }
@@ -335,9 +331,7 @@ html {
         min-height: 4rem !important;
     }
     
-    #benedict-canvas {
-        height: 4rem !important;
-    }
+
     
     .canvas-loading::after {
         font-size: 0.875rem !important;
@@ -744,10 +738,6 @@ html {
 
 @media (max-width: 768px) and (orientation: landscape) {
     .relative.h-32 {
-        height: 3.5rem !important;
-    }
-    
-    #benedict-canvas {
         height: 3.5rem !important;
     }
     

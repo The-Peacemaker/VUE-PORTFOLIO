@@ -95,31 +95,22 @@ class CardEffects {
     }
 }
 
-// Custom Cursor Management - Optimized
+// Custom Cursor Management - Optimized (CSS-transitioned, zero CPU per frame)
 class CursorManager {
     constructor() {
         this.cursor = null;
         this.mouseX = 0;
         this.mouseY = 0;
-        this.currentX = 0;
-        this.currentY = 0;
-        this.targetX = 0;
-        this.targetY = 0;
-        this.ease = 0.15;
         this.isVisible = false;
-        this.rafId = null;
-        this.lastUpdateTime = 0;
     }
 
     init(cursorRef) {
         this.cursor = cursorRef;
         this.setupEventListeners();
-        this.startAnimation();
     }
 
     setupEventListeners() {
-        // Throttled mouse tracking for performance
-        let mouseMoveTimeout;
+        // Direct position updates — CSS transition handles smooth interpolation (GPU accelerated)
         document.addEventListener('mousemove', (e) => {
             this.mouseX = e.clientX;
             this.mouseY = e.clientY;
@@ -128,6 +119,8 @@ class CursorManager {
                 this.isVisible = true;
                 this.cursor.style.opacity = '1';
             }
+
+            this.cursor.style.transform = `translate(${this.mouseX}px, ${this.mouseY}px) translate(-50%, -50%)`;
         }, { passive: true });
 
         document.addEventListener('mouseleave', () => {
@@ -144,7 +137,6 @@ class CursorManager {
         document.addEventListener('mouseover', (e) => {
             const target = e.target;
             
-            // Use closest() once and cache result
             const textEl = target.closest('p, h1, h2, h3, h4, h5, h6, span:not(.social-link-text), li, .timeline-item, .achievement-item, .job-title, .company-name');
             const linkEl = target.closest('a, button, input, textarea, select, [role="button"], .skill-badge, .social-link, .nav-link');
             
@@ -169,47 +161,16 @@ class CursorManager {
 
         // Click effects
         document.addEventListener('mousedown', () => {
-            this.cursor.style.transform = `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%) scale(0.8)`;
+            this.cursor.style.transform = `translate(${this.mouseX}px, ${this.mouseY}px) translate(-50%, -50%) scale(0.8)`;
         });
 
         document.addEventListener('mouseup', () => {
-            this.cursor.style.transform = `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%) scale(1)`;
+            this.cursor.style.transform = `translate(${this.mouseX}px, ${this.mouseY}px) translate(-50%, -50%) scale(1)`;
         });
     }
 
-    startAnimation() {
-        const animate = (currentTime) => {
-            // Limit to 60fps max
-            if (currentTime - this.lastUpdateTime < 16) {
-                this.rafId = requestAnimationFrame(animate);
-                return;
-            }
-            this.lastUpdateTime = currentTime;
-
-            this.targetX = this.mouseX;
-            this.targetY = this.mouseY;
-            
-            if (!this.cursor.classList.contains('text-hover')) {
-                this.cursor.style.removeProperty('--cursor-width');
-                this.cursor.style.removeProperty('--cursor-height');
-            }
-
-            // Smooth easing
-            this.currentX += (this.targetX - this.currentX) * this.ease;
-            this.currentY += (this.targetY - this.currentY) * this.ease;
-            
-            // Use transform for GPU acceleration
-            this.cursor.style.transform = `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%)`;
-            
-            this.rafId = requestAnimationFrame(animate);
-        };
-        this.rafId = requestAnimationFrame(animate);
-    }
-
     destroy() {
-        if (this.rafId) {
-            cancelAnimationFrame(this.rafId);
-        }
+        // No RAF to cancel
     }
 }
 
