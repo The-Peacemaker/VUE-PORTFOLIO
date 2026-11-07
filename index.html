@@ -59,6 +59,17 @@
             :class="isDark ? 'bg-gray-900' : 'bg-white'"
             style="box-shadow: 0px 20px 50px -10px rgba(0, 0, 0, 0.1);">
             
+            <!-- Animated Canvas Title Header -->
+            <div class="relative h-32 sm:h-40 md:h-48 overflow-hidden border-b border-gray-200/50" :class="isDark ? 'border-gray-700/50' : 'border-gray-200/50'">
+                <div class="absolute inset-0 z-0" :class="isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900' : 'bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50'"></div>
+                
+                <!-- Canvas Animation - BELOW nav so nav is clickable -->
+                <canvas id="benedict-canvas" class="absolute inset-0 z-10 w-full h-full pointer-events-none"></canvas>
+                
+                <!-- Loading Fallback -->
+                <div id="canvas-fallback" class="absolute inset-0 z-5 canvas-loading" :class="isDark ? 'text-gray-300' : 'text-gray-700'" style="display: none;"></div>
+            </div>
+
             <!-- Special Blogs Navigation (Top-Left) -->
             <div class="blogs-nav-container absolute top-0 left-0 p-4 sm:p-6 md:p-8 z-20">
                 <ul class="flex items-center">
@@ -103,17 +114,6 @@
                     </ul>
                 </div>
             </nav>
-
-            <!-- Animated Canvas Title Header -->
-            <div class="relative h-32 sm:h-40 md:h-48 overflow-hidden border-b border-gray-200/50" :class="isDark ? 'border-gray-700/50' : 'border-gray-200/50'">
-                <div class="absolute inset-0 z-0" :class="isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900' : 'bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50'"></div>
-                
-                <!-- Canvas Animation -->
-                <canvas id="benedict-canvas" class="absolute inset-0 z-10 w-full h-full"></canvas>
-                
-                <!-- Loading Fallback -->
-                <div id="canvas-fallback" class="absolute inset-0 z-5 canvas-loading" :class="isDark ? 'text-gray-300' : 'text-gray-700'" style="display: none;"></div>
-            </div>
 
             <!-- Content Area -->
             <div id="content-area" class="p-4 sm:p-6 md:p-10">
