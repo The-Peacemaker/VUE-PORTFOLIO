@@ -82,27 +82,23 @@ class CanvasTitleAnimation {
         
         // Adjust settings based on device type and screen size
         if (this.isMobile) {
-            // Mobile device optimizations - reduced particles for better performance
-            this.starCount = 30;
+            this.starCount = 80;
             this.options.connectionDistance = 55;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
-            // Small desktop/laptop screens
-            this.starCount = 25;
+            this.starCount = 80;
             this.options.connectionDistance = 65;
         } else if (rect.width < 1024) {
-            // Tablet or medium laptop screens
-            this.starCount = 35;
+            this.starCount = 120;
             this.options.connectionDistance = 70;
         } else {
-        // Desktop settings - bright, visible constellation field
-        this.starCount = 200;
-        this.options.connectionDistance = 120;
+            this.starCount = 200;
+            this.options.connectionDistance = 120;
         }
 
         if (this.isLowPowerDevice) {
-            this.starCount = Math.max(20, Math.floor(this.starCount * 0.85));
-            this.options.connectionDistance = Math.max(80, this.options.connectionDistance - 15);
+            this.starCount = Math.max(60, Math.floor(this.starCount * 0.95));
+            this.options.connectionDistance = Math.max(70, this.options.connectionDistance - 5);
             this.clusterUpdateInterval = 900;
         } else {
             this.clusterUpdateInterval = 450;
@@ -117,16 +113,16 @@ class CanvasTitleAnimation {
             this.stars.push({
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                size: Math.random() * 4 + 3,
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: (Math.random() - 0.5) * 0.8,
+                size: Math.random() * 2 + 1,
                 brightness: Math.random() * 0.4 + 0.7,
-                twinkleSpeed: Math.random() * 0.06 + 0.03,
+                twinkleSpeed: Math.random() * 0.08 + 0.04,
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
                 connections: [],
                 trail: [],
-                trailMax: 8,
+                trailMax: 10,
                 lastX: 0,
                 lastY: 0
             });
@@ -173,31 +169,29 @@ class CanvasTitleAnimation {
     }
 
     applyMagneticForce(star) {
-        if (!this.mouse.active) return;
-
         const dx = this.mouse.x - star.x;
         const dy = this.mouse.y - star.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance === 0) return;
+        if (distance !== 0 && this.mouse.active) {
+            // Gentle cinematic drift toward cursor — stars feel weightless, not magnetic
+            const sigma = 180;
+            const mass = 0.3;
+            const orbitStrength = 0.4;
 
-        // Gentle cinematic drift toward cursor — stars feel weightless, not magnetic
-        const sigma = 180;
-        const mass = 0.3;
-        const orbitStrength = 0.4;
+            const lensStrength = mass / (distance + sigma);
 
-        const lensStrength = mass / (distance + sigma);
+            const nx = dx / distance;
+            const ny = dy / distance;
 
-        const nx = dx / distance;
-        const ny = dy / distance;
+            // Gentle pull toward cursor
+            star.vx += nx * lensStrength;
+            star.vy += ny * lensStrength;
 
-        // Gentle pull toward cursor
-        star.vx += nx * lensStrength;
-        star.vy += ny * lensStrength;
-
-        // Subtle orbital drift around cursor (Lense-Thirring)
-        star.vx += -ny * orbitStrength * (1 - Math.min(distance / sigma, 1));
-        star.vy += nx * orbitStrength * (1 - Math.min(distance / sigma, 1));
+            // Subtle orbital drift around cursor (Lense-Thirring)
+            star.vx += -ny * orbitStrength * (1 - Math.min(distance / sigma, 1));
+            star.vy += nx * orbitStrength * (1 - Math.min(distance / sigma, 1));
+        }
 
         // Cap velocity so stars stay graceful
         const speed = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
@@ -211,7 +205,7 @@ class CanvasTitleAnimation {
         star.vy *= this.options.friction;
 
         // Minimum velocity floor — stars never fully stop drifting
-        const minSpeed = 0.05;
+        const minSpeed = 0.08;
         const minSpeedCheck = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
         if (minSpeedCheck < minSpeed) {
             star.vx = (Math.random() - 0.5) * minSpeed * 2;
@@ -240,9 +234,9 @@ class CanvasTitleAnimation {
             star.x += star.vx;
             star.y += star.vy;
 
-            // Tiny perpetual drift — stars never come to a complete stop
-            star.vx += (Math.random() - 0.5) * 0.02;
-            star.vy += (Math.random() - 0.5) * 0.02;
+            // Perpetual drift — stars ALWAYS move like a real constellation
+            star.vx += (Math.random() - 0.5) * 0.12;
+            star.vy += (Math.random() - 0.5) * 0.12;
 
             // Record position for trail effect
             star.trail.push({ x: star.x, y: star.y });
