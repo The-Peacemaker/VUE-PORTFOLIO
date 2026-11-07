@@ -76,8 +76,8 @@ class CanvasTitleAnimation {
             this.starCount = 95;
             this.options.connectionDistance = 135;
         } else {
-            this.starCount = 135;
-            this.options.connectionDistance = 150;
+        this.starCount = 60;
+        this.options.connectionDistance = 130;
         }
 
         if (this.isLowPowerDevice) {
@@ -95,11 +95,11 @@ class CanvasTitleAnimation {
             this.stars.push({
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 0.8,
-                vy: (Math.random() - 0.5) * 0.8,
-                size: Math.random() * 1.5 + 1.5,
-                brightness: Math.random() * 0.4 + 0.6,
-                twinkleSpeed: Math.random() * 0.05 + 0.02,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.25,
+                size: Math.random() * 2 + 2,
+                brightness: Math.random() * 0.5 + 0.5,
+                twinkleSpeed: Math.random() * 0.04 + 0.02,
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
                 connections: [],
