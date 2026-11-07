@@ -1,5 +1,5 @@
-// Canvas Title Animation - Constellation Field
-// Stars drift slowly, orbit their home positions
+// Canvas Title Animation - Simple constellation field
+// Stars drift slowly, glow when cursor near, connect when close
 
 class CanvasTitleAnimation {
     constructor(canvasId, options = {}) {
@@ -11,7 +11,7 @@ class CanvasTitleAnimation {
             baseColor: '#4F46E5',
             accentColor: '#06B6D4',
             friction: 0.98,
-            maxSpeed: 2.5,
+            maxSpeed: 1.5,
             connectionDistance: 90,
             starCount: 40,
             ...options
@@ -53,15 +53,15 @@ class CanvasTitleAnimation {
             this.isReducedMotion;
         
         if (this.isMobile) {
-            this.starCount = 30;
-            this.options.connectionDistance = 55;
+            this.starCount = 40;
+            this.options.connectionDistance = 60;
             this.options.magneticForce = 0.15;
         } else if (rect.width < 768) {
             this.starCount = 40;
-            this.options.connectionDistance = 65;
+            this.options.connectionDistance = 70;
         } else if (rect.width < 1024) {
             this.starCount = 60;
-            this.options.connectionDistance = 70;
+            this.options.connectionDistance = 80;
         } else {
             this.starCount = 40;
             this.options.connectionDistance = 90;
@@ -69,9 +69,7 @@ class CanvasTitleAnimation {
 
         if (this.isLowPowerDevice) {
             this.starCount = Math.max(30, Math.floor(this.starCount * 0.9));
-            this.options.connectionDistance = Math.max(60, this.options.connectionDistance - 5);
-        } else {
-            this.clusterUpdateInterval = 450;
+            this.options.connectionDistance = Math.max(70, this.options.connectionDistance - 5);
         }
     }
 
@@ -82,20 +80,14 @@ class CanvasTitleAnimation {
             this.stars.push({
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 0.15,
-                vy: (Math.random() - 0.5) * 0.25,
-                size: Math.random() * 3 + 2,
-                brightness: Math.random() * 0.5 + 0.5,
+                vx: (Math.random() - 0.5) * 0.2,
+                vy: (Math.random() - 0.5) * 0.2,
+                size: Math.random() * 2 + 1,
+                brightness: Math.random() * 0.4 + 0.6,
                 twinkleSpeed: Math.random() * 0.05 + 0.02,
                 twinkleOffset: Math.random() * Math.PI * 2,
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
-                connections: [],
-                homeX: Math.random() * this.canvasWidth,
-                homeY: Math.random() * this.canvasHeight,
-                orbitAngle: Math.random() * Math.PI * 2,
-                orbitSpeed: (Math.random() - 0.5) * 0.02,
-                lastX: 0,
-                lastY: 0
+                connections: []
             });
         }
     }
@@ -109,11 +101,12 @@ class CanvasTitleAnimation {
 
         if (distance === 0) return;
 
-        const sigma = 180;
+        const sigma = 160;
         const mass = 0.3;
-        const orbitStrength = 0.4;
+        const orbitStrength = 0.3;
 
         const lensStrength = mass / (distance + sigma);
+
         const nx = dx / distance;
         const ny = dy / distance;
 
@@ -124,8 +117,8 @@ class CanvasTitleAnimation {
         star.vy += nx * orbitStrength * (1 - Math.min(distance / sigma, 1));
 
         const speed = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
-        if (speed > this.options.maxSpeed * 2) {
-            const ratio = (this.options.maxSpeed * 2) / speed;
+        if (speed > this.options.maxSpeed) {
+            const ratio = (this.options.maxSpeed * 1.5) / speed;
             star.vx *= ratio;
             star.vy *= ratio;
         }
@@ -143,35 +136,26 @@ class CanvasTitleAnimation {
 
         const starsLength = this.stars.length;
 
-        // Assign each star to a grid cell
-        const starCells = new Array(starsLength);
         for (let i = 0; i < starsLength; i++) {
             const star = this.stars[i];
             this.applyMagneticForce(star);
 
-            // Orbital movement - stars circle around their home position
-            star.orbitAngle += star.orbitSpeed;
-            const orbitRadius = 40 + star.size * 5;
-            star.x = star.homeX + Math.cos(star.orbitAngle) * orbitRadius;
-            star.y = star.y + star.vy * 0.5;
+            star.x += star.vx;
+            star.y += star.vy;
 
-            // Wrap around edges
             star.x = star.x < 0 ? this.canvasWidth : (star.x > this.canvasWidth ? 0 : star.x);
             star.y = star.y < 0 ? this.canvasHeight : (star.y > this.canvasHeight ? 0 : star.y);
 
             const gx = Math.floor(star.x / cellSize);
             const gy = Math.floor(star.y / cellSize);
             const cellIdx = gy * cols + gx;
-            starCells[i] = cellIdx;
-
+            
             if (!grid[cellIdx]) grid[cellIdx] = [];
             grid[cellIdx].push(i);
         }
 
         const maxDistSq = connectionDistance * connectionDistance;
-        let totalConnections = 0;
 
-        // Check connections only within same cell and 8 neighbors
         for (let i = 0; i < starsLength; i++) {
             const star = this.stars[i];
             const cx = Math.floor(star.x / cellSize);
@@ -203,15 +187,11 @@ class CanvasTitleAnimation {
                                 target: other,
                                 strength: 1 - (distSq / maxDistSq)
                             });
-                            totalConnections++;
                         }
                     }
                 }
             }
         }
-
-        this.recentTotalConnections = totalConnections;
-        this.recentAvgComponents = (totalConnections / Math.max(starsLength, 1)).toFixed(2);
     }
 
     drawStar(star, time) {
@@ -221,23 +201,22 @@ class CanvasTitleAnimation {
         this.ctx.save();
         this.ctx.globalAlpha = alpha;
         
-        // Draw star core
         this.ctx.fillStyle = star.color;
         this.ctx.beginPath();
         this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         this.ctx.fill();
 
-        // Draw glow around star
+        const glowRadius = star.size * 3;
         const gradient = this.ctx.createRadialGradient(
             star.x, star.y, 0,
-            star.x, star.y, star.size * 4
+            star.x, star.y, glowRadius
         );
         gradient.addColorStop(0, star.color + '80');
         gradient.addColorStop(1, star.color + '00');
         
         this.ctx.fillStyle = gradient;
         this.ctx.beginPath();
-        this.ctx.arc(star.x, star.y, star.size * 4, 0, Math.PI * 2);
+        this.ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2);
         this.ctx.fill();
 
         this.ctx.restore();
@@ -248,7 +227,7 @@ class CanvasTitleAnimation {
         
         this.stars.forEach(star => {
             star.connections.forEach(conn => {
-                const alpha = conn.strength * 0.3;
+                const alpha = conn.strength * 0.4;
                 
                 this.ctx.save();
                 this.ctx.globalAlpha = alpha;
@@ -270,191 +249,20 @@ class CanvasTitleAnimation {
         });
     }
 
-    drawConstellationLabels() {
-        const now = performance.now();
-        if (!this.cachedClusters.length || now - this.lastClusterUpdate > this.clusterUpdateInterval) {
-            this.cachedClusters = this.findClusters();
-            this.lastClusterUpdate = now;
-            this.recentLargestComponent = this.cachedClusters.length > 0 ? this.cachedClusters[0].length : 0;
-        }
-
-        const clusters = this.cachedClusters;
-        const maxClustersToDraw = this.isLowPowerDevice ? 2 : 3;
-        const topClusters = clusters.slice(0, maxClustersToDraw).filter(c => c.length >= 3);
-        
-        topClusters.forEach((cluster, index) => {
-            let centerX = 0, centerY = 0;
-            cluster.forEach(star => {
-                centerX += star.x;
-                centerY += star.y;
-            });
-            centerX /= cluster.length;
-            centerY /= cluster.length;
-            
-            this.ctx.save();
-            this.ctx.globalAlpha = 0.08;
-            this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
-            this.ctx.beginPath();
-            this.ctx.arc(centerX, centerY - 2, 25, 0, Math.PI * 2);
-            this.ctx.fill();
-            
-            this.ctx.globalAlpha = 0.35;
-            this.ctx.font = 'bold 11px "Space Mono", monospace';
-            this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(`★${cluster.length}`, centerX, centerY - 10);
-            
-            this.ctx.globalAlpha = 0.25;
-            this.ctx.fillStyle = this.isDark ? '#34D399' : '#06B6D4';
-            this.ctx.beginPath();
-            this.ctx.arc(centerX, centerY, 1.5, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.restore();
-        });
-    }
-    
-    drawNerdyStats(clusters) {
-        const totalStars = this.stars.length;
-        const totalConnections = this.recentTotalConnections;
-        const avgConnections = this.recentAvgComponents;
-        const largestComponent = this.recentLargestComponent;
-        const entropy = (Math.random() * 0.1 + 0.9).toFixed(4);
-        
-        const stats = [
-            `SYS.ENTROPY=${entropy}`,
-            `NODES=${totalStars}`,
-            `EDGES=${totalConnections}`,
-            `μ_DEGREE=${avgConnections}`,
-            `MAX_CLUSTER={${largestComponent}}`,
-            `T=${(Date.now() - this.startTime).toString(16).toUpperCase()}`
-        ];
-        
-        this.ctx.save();
-        this.ctx.globalAlpha = 0.4;
-        this.ctx.font = '10px "Space Mono", monospace';
-        this.ctx.fillStyle = this.isDark ? '#60A5FA' : '#4F46E5';
-        this.ctx.textAlign = 'right';
-        this.ctx.textBaseline = 'top';
-        
-        stats.forEach((stat, i) => {
-            this.ctx.fillText(stat, this.canvasWidth - 10, 10 + (i * 14));
-        });
-        
-        this.ctx.restore();
-    }
-    
-    updateFloatingFormulas() {
-        if (!this.floatingFormulas) return;
-        
-        this.floatingFormulas.forEach(formula => {
-            if (this.mouse.active) {
-                const dx = this.mouse.x - formula.x;
-                const dy = this.mouse.y - formula.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const repelRadius = 200;
-                
-                if (dist < repelRadius) {
-                    const force = (1 - dist / repelRadius) * 0.02;
-                    formula.vx -= dx * force;
-                    formula.vy -= dy * force;
-                }
-            }
-            
-            formula.x += formula.vx;
-            formula.y += formula.vy;
-            formula.rotation += formula.rotationSpeed;
-            formula.vx *= 0.99;
-            formula.vy *= 0.99;
-            
-            if (Math.abs(formula.vx) < 0.1) formula.vx += (Math.random() - 0.5) * 0.01;
-            if (Math.abs(formula.vy) < 0.1) formula.vy += (Math.random() - 0.5) * 0.01;
-            
-            if (!formula.pulsePhase) formula.pulsePhase = Math.random() * Math.PI * 2;
-            formula.pulsePhase += 0.02;
-            const basePulse = Math.sin(formula.pulsePhase) * 0.05;
-            formula.currentOpacity = Math.max(0, Math.min(1, formula.opacity + basePulse));
-            
-            if (formula.x < -50) formula.x = this.canvasWidth + 50;
-            if (formula.x > this.canvasWidth + 50) formula.x = -50;
-            if (formula.y < -20) formula.y = this.canvasHeight + 20;
-            if (formula.y > this.canvasHeight + 20) formula.y = -20;
-        });
-    }
-    
-    drawFloatingFormulas() {
-        if (!this.floatingFormulas) return;
-        
-        this.floatingFormulas.forEach(formula => {
-            this.ctx.save();
-            this.ctx.translate(formula.x, formula.y);
-            this.ctx.rotate(formula.rotation);
-            
-            this.ctx.globalAlpha = formula.currentOpacity || formula.opacity;
-            this.ctx.font = `italic ${formula.size}px "Space Mono", monospace`;
-            this.ctx.fillStyle = formula.color || (this.isDark ? '#60A5FA' : '#4F46E5');
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            
-            this.ctx.shadowColor = formula.color || (this.isDark ? '#60A5FA' : '#4F46E5');
-            this.ctx.shadowBlur = this.isLowPowerDevice ? 3 : 8;
-            this.ctx.shadowOffsetX = 0;
-            this.ctx.shadowOffsetY = 0;
-            
-            this.ctx.fillText(formula.text, 0, 0);
-            this.ctx.restore();
-        });
-    }
-
-    findClusters() {
-        const visited = new Set();
-        const clusters = [];
-
-        const dfs = (star, cluster) => {
-            if (visited.has(star)) return;
-            visited.add(star);
-            cluster.push(star);
-
-            star.connections.forEach(conn => {
-                dfs(conn.target, cluster);
-            });
-        };
-
-        this.stars.forEach(star => {
-            if (!visited.has(star)) {
-                const cluster = [];
-                dfs(star, cluster);
-                if (cluster.length > 0) {
-                    clusters.push(cluster);
-                }
-            }
-        });
-
-        return clusters.sort((a, b) => b.length - a.length);
-    }
-
     animate() {
         const now = performance.now();
-        const currentTime = Date.now() - this.startTime;
-        this.frameCounter++;
 
-        // Fixed 30fps — smooth motion
         if (this.lastFrameTime && now - this.lastFrameTime < 33) {
             this.animationId = requestAnimationFrame(() => this.animate());
             return;
         }
         this.lastFrameTime = now;
 
-        // Clear canvas efficiently
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-        // Update stars and find connections (spatial hashing O(n))
         this.updateStars();
-
-        // Draw in optimal order (connections -> labels -> stars)
         this.drawConnections();
-        this.drawConstellationLabels();
-        this.stars.forEach(star => this.drawStar(star, currentTime));
+        this.stars.forEach(star => this.drawStar(star, now));
 
         this.animationId = requestAnimationFrame(() => this.animate());
     }
@@ -462,8 +270,8 @@ class CanvasTitleAnimation {
     setupMouseTracking() {
         if (this.isMobile) return;
 
-        let canvasRect = this.canvas.getBoundingClientRect();
-        
+        let rect = this.canvas.getBoundingClientRect();
+
         const updateMouse = (e) => {
             this.mouse.x = e.clientX - rect.left;
             this.mouse.y = e.clientY - rect.top;
@@ -471,43 +279,32 @@ class CanvasTitleAnimation {
         };
 
         this.canvas.addEventListener('mousemove', updateMouse, { passive: true });
-        this.canvas.addEventListener('mouseenter', () => {
-            canvasRect = this.canvas.getBoundingClientRect();
-            this.mouse.active = true;
-        }, { passive: true });
-        this.canvas.addEventListener('mouseleave', () => {
-            this.mouse.active = false;
-            this.mouse.x = -1000;
-            this.mouse.y = -1000;
-        }, { passive: true });
 
-        this.mouseRectResizeHandler = () => {
-            canvasRect = this.canvas.getBoundingClientRect();
-        };
-        window.addEventListener('resize', this.mouseRectResizeHandler, { passive: true });
+        window.addEventListener('resize', () => {
+            rect = this.canvas.getBoundingClientRect();
+        }, { passive: true });
     }
 
     startAnimation() {
-        if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
-        }
         this.animate();
     }
 
     stopAnimation() {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
-            this.animationId = null;
         }
     }
 
     setupResizeHandler() {
         this.resizeHandler = () => {
-            clearTimeout(this.resizeTimeout);
-            this.resizeTimeout = setTimeout(() => {
-                this.setupCanvas();
-                this.createStars();
-            }, 100);
+            const rect = this.canvas.parentElement.getBoundingClientRect();
+            this.canvas.width = rect.width;
+            this.canvas.height = rect.height;
+            this.canvas.style.width = rect.width + 'px';
+            this.canvas.style.height = rect.height + 'px';
+            this.ctx.scale(1, 1);
+            this.canvasWidth = rect.width;
+            this.canvasHeight = rect.height;
         };
 
         window.addEventListener('resize', this.resizeHandler, { passive: true });
@@ -530,20 +327,9 @@ class CanvasTitleAnimation {
 
     destroy() {
         this.stopAnimation();
-        clearTimeout(this.resizeTimeout);
-
         if (this.resizeHandler) {
             window.removeEventListener('resize', this.resizeHandler);
         }
-
-        if (this.mouseRectResizeHandler) {
-            window.removeEventListener('resize', this.mouseRectResizeHandler);
-        }
-
-        if (this.visibilityHandler) {
-            document.removeEventListener('visibilitychange', this.visibilityHandler);
-        }
-
         if (this.themeObserver) {
             this.themeObserver.disconnect();
         }
