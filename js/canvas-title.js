@@ -93,7 +93,7 @@ class CanvasTitleAnimation {
             this.options.connectionDistance = 70;
         } else {
         this.starCount = 80;
-        this.options.connectionDistance = 110;
+        this.options.connectionDistance = 70;
         }
 
         if (this.isLowPowerDevice) {
@@ -113,8 +113,8 @@ class CanvasTitleAnimation {
             this.stars.push({
                 x: Math.random() * this.canvasWidth,
                 y: Math.random() * this.canvasHeight,
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: (Math.random() - 0.5) * 1.5,
+                vx: (Math.random() - 0.5) * 0.15,
+                vy: (Math.random() - 0.5) * 0.25,
                 size: Math.random() * 2 + 1,
                 brightness: Math.random() * 0.4 + 0.7,
                 twinkleSpeed: Math.random() * 0.06 + 0.03,
@@ -122,7 +122,7 @@ class CanvasTitleAnimation {
                 color: Math.random() > 0.7 ? this.options.accentColor : this.options.baseColor,
                 connections: [],
                 trail: [],
-                trailMax: 6,
+                trailMax: 4,
                 lastX: 0,
                 lastY: 0
             });
@@ -201,9 +201,9 @@ class CanvasTitleAnimation {
             star.vy *= ratio;
         }
 
-        // Perpetual drift — stars ALWAYS move like a real constellation
-        star.vx += (Math.random() - 0.5) * 0.3;
-        star.vy += (Math.random() - 0.5) * 0.3;
+        // Perpetual drift — stars ALWAYS move gently like real stars
+        star.vx += (Math.random() - 0.5) * 0.08;
+        star.vy += (Math.random() - 0.5) * 0.08;
     }
 
     updateStars() {
