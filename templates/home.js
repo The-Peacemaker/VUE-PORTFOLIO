@@ -233,6 +233,21 @@ window.homeTemplate = homeTemplate;
         };
     }
 
+    function isCacheStale() {
+        try {
+            const cachedStr = localStorage.getItem(CACHE_KEY);
+            if (!cachedStr) return true;
+            const parsed = JSON.parse(cachedStr);
+            if (!parsed || !Array.isArray(parsed.contributions) || parsed.contributions.length === 0) return true;
+            const lastDate = parsed.contributions[parsed.contributions.length - 1].date;
+            const now = new Date();
+            const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+            return lastDate < todayStr;
+        } catch (e) {
+            return true;
+        }
+    }
+
     function formatDate(dateStr) {
         try {
             const parts = dateStr.split('-');
@@ -343,7 +358,12 @@ window.homeTemplate = homeTemplate;
         const now = Date.now();
 
         // If cached recently within 2 hours, don't spam network
-        if (cacheTime && (now - parseInt(cacheTime, 10) < CACHE_TTL_MS)) {
+        const withinTtl = cacheTime && (now - parseInt(cacheTime, 10) < CACHE_TTL_MS);
+
+        // Also refetch when cached data predates today (stale heatmap after new commits)
+        const cacheValid = withinTtl && !isCacheStale();
+
+        if (cacheValid) {
             return;
         }
 

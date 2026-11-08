@@ -592,11 +592,9 @@ html {
 
 @media (max-width: 768px) {
     /* Force single column layout */
-    .projects-grid,
-    #content-area .grid,
-    div[class*="grid"] {
-        display: flex !important;
-        flex-direction: column !important;
+    .projects-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
         gap: 1rem !important;
     }
     
@@ -729,6 +727,43 @@ html {
     .theme-toggle,
     .avatar-wave::before {
         animation: none !important;
+    }
+}
+
+/* ========================================
+   GITHUB HEATMAP MOBILE OPTIMIZATION
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Heatmap card - allow native horizontal swipe scrolling */
+    .gh-heatmap-wrapper {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        max-width: 100%;
+    }
+
+    /* Heatmap grid - keep column-flow grid with fixed cell size */
+    #gh-heatmap-grid {
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(7, 10px) !important;
+        grid-auto-columns: 10px !important;
+        gap: 3px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .gh-heatmap-wrapper {
+        padding: 0.5rem !important;
+    }
+}
+
+/* Touch devices - disable hover-only interactions */
+@media (hover: none) and (pointer: coarse) {
+    .gh-cell:hover {
+        transform: none !important;
+        box-shadow: none !important;
     }
 }
 
