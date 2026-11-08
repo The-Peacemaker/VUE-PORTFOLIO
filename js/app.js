@@ -35,6 +35,12 @@ const onRevealComplete = () => {
             // Not needed anymore - using setTimeout instead
         };
         
+        onMounted(() => {
+            if (window.renderGitHubHeatmap) {
+                window.renderGitHubHeatmap();
+            }
+        });
+
         return { 
             experienceTab, 
             isDark,

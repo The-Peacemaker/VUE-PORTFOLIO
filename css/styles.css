@@ -1170,45 +1170,87 @@ nav ul::before,
 }
 
 /* ========================================
-   GitHub Contribution Heatmap
+   GitHub Contribution Heatmap & Profile Button
    ======================================== */
+.gh-profile-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gh-profile-btn:hover {
+    transform: translateY(-1px);
+}
+.gh-profile-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.gh-heatmap-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+}
+.gh-heatmap-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+.gh-heatmap-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+.gh-heatmap-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.3);
+    border-radius: 9999px;
+}
+
 .gh-cell {
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
     border-radius: 2px;
     cursor: pointer;
-    transition: transform 0.1s ease, opacity 0.1s ease;
+    display: block;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease, opacity 0.15s ease;
+    position: relative;
 }
 .gh-cell:hover {
-    transform: scale(1.2);
-    opacity: 0.8;
+    transform: scale(1.45);
+    z-index: 50;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.7);
 }
-.gh-level-0 { background-color: transparent; }
-.gh-level-1 { background-color: #22d3ee; }
-.gh-level-2 { background-color: #3b82f6; }
-.gh-level-3 { background-color: #a855f7; }
-.gh-level-4 { background-color: #ef4444; }
-.dark-theme .gh-level-0 { background-color: #0f172a; }
-.dark-theme .gh-level-1 { background-color: #06b6d4; }
-.dark-theme .gh-level-2 { background-color: #2563eb; }
-.dark-theme .gh-level-3 { background-color: #7c3aed; }
-.dark-theme .gh-level-4 { background-color: #dc2626; }
 
-#gh-tooltip {
-    font-size: 11px;
-    font-family: system-ui, -apple-system, sans-serif;
-    white-space: nowrap;
+/* Light Theme Colors - Fresh Emerald to Ocean Cyan */
+.gh-level-0 { background-color: #ebedf0; border: 1px solid rgba(0, 0, 0, 0.05); }
+.gh-level-1 { background-color: #a7f3d0; }
+.gh-level-2 { background-color: #34d399; }
+.gh-level-3 { background-color: #06b6d4; }
+.gh-level-4 { background-color: #2563eb; box-shadow: 0 0 6px rgba(37, 99, 235, 0.45); }
+
+/* Dark Theme Colors - Cyber Emerald to Hyper Stellar Cyan */
+.dark-theme .gh-level-0 { background-color: #141d2c; border: 1px solid rgba(255, 255, 255, 0.06); }
+.dark-theme .gh-level-1 { background-color: #064e3b; border: 1px solid rgba(52, 211, 153, 0.2); }
+.dark-theme .gh-level-2 { background-color: #059669; }
+.dark-theme .gh-level-3 { background-color: #06b6d4; box-shadow: 0 0 6px rgba(6, 182, 212, 0.45); }
+.dark-theme .gh-level-4 { background: linear-gradient(135deg, #38bdf8, #818cf8); box-shadow: 0 0 10px rgba(56, 189, 248, 0.85); border: 1px solid #bae6fd; }
+
+.dark-theme .gh-cell:hover {
+    transform: scale(1.45);
+    z-index: 50;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.95), 0 0 4px #ffffff;
+    border-color: #ffffff;
 }
-.dark-theme #gh-tooltip {
-    background-color: #0f172a;
-    border-color: #334155;
-    color: #e2e8f0;
+
+/* Super Cool Project Card Glows */
+.project-card {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.project-card:hover {
+    transform: translateY(-3px) scale(1.01);
+}
+.dark-theme .project-card:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px -5px rgba(56, 189, 248, 0.18);
 }
 
 @media (max-width: 640px) {
     .gh-cell {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
     }
 }
 

@@ -12,22 +12,22 @@
 
     <!-- Favicon - Constellation Theme -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%231a1a2e'/><circle cx='15' cy='15' r='2.5' fill='%2360A5FA'/><circle cx='32' cy='12' r='3' fill='%2334D399'/><circle cx='48' cy='18' r='2' fill='%2360A5FA'/><circle cx='22' cy='32' r='2.5' fill='%23F472B6'/><circle cx='42' cy='28' r='2' fill='%2360A5FA'/><circle cx='18' cy='48' r='2' fill='%2334D399'/><circle cx='45' cy='45' r='2.5' fill='%2360A5FA'/><circle cx='52' cy='52' r='2' fill='%23F472B6'/><line x1='15' y1='15' x2='32' y2='12' stroke='%2360A5FA' stroke-width='0.8' opacity='0.4'/><line x1='32' y1='12' x2='48' y2='18' stroke='%2360A5FA' stroke-width='0.8' opacity='0.4'/><line x1='15' y1='15' x2='22' y2='32' stroke='%2360A5FA' stroke-width='0.8' opacity='0.3'/><line x1='48' y1='18' x2='42' y2='28' stroke='%2360A5FA' stroke-width='0.8' opacity='0.3'/><line x1='22' y1='32' x2='18' y2='48' stroke='%2360A5FA' stroke-width='0.8' opacity='0.3'/><line x1='42' y1='28' x2='45' y2='45' stroke='%2360A5FA' stroke-width='0.8' opacity='0.4'/><line x1='45' y1='45' x2='52' y2='52' stroke='%2360A5FA' stroke-width='0.8' opacity='0.3'/><circle cx='15' cy='15' r='1' fill='%23FFF' opacity='0.8'/><circle cx='32' cy='12' r='1.2' fill='%23FFF' opacity='0.9'/><circle cx='48' cy='18' r='0.8' fill='%23FFF' opacity='0.7'/></svg>">
-    
+
     <!-- Performance: Preconnect to external domains -->
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- Critical CSS: Google Fonts with display=swap for better performance -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+
     <!-- External Libraries -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/tailwind-built.css">
-    <link rel="stylesheet" href="css/styles.css?v=20">
+    <link rel="stylesheet" href="css/styles.css?v=33">
     <link rel="stylesheet" href="css/experience.css">
     <link rel="stylesheet" href="css/social.css">
     <link rel="stylesheet" href="css/mobile.css?v=1">
@@ -52,20 +52,20 @@
         </div>
 
         <!-- Main Portfolio Card -->
-        <div 
-            id="portfolio-card" 
+        <div
+            id="portfolio-card"
             ref="portfolioCard"
-            class="relative z-10 w-full max-w-4xl mx-auto rounded-2xl overflow-hidden card-motion shadow-lg transition-colors duration-300" 
+            class="relative z-10 w-full max-w-4xl mx-auto rounded-2xl overflow-hidden card-motion shadow-lg transition-colors duration-300"
             :class="isDark ? 'bg-gray-900' : 'bg-white'"
             style="box-shadow: 0px 20px 50px -10px rgba(0, 0, 0, 0.1);">
-            
+
             <!-- Animated Canvas Title Header -->
             <div class="relative h-32 sm:h-40 md:h-48 overflow-hidden border-b border-gray-200/50" :class="isDark ? 'border-gray-700/50' : 'border-gray-200/50'">
                 <div class="absolute inset-0 z-0" :class="isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900' : 'bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50'"></div>
-                
+
                 <!-- Canvas Animation - BELOW nav so nav is clickable -->
-                <canvas id="benedict-canvas" class="absolute inset-0 z-10 w-full h-full pointer-events-none"></canvas>
-                
+                <canvas id="benedict-canvas" class="absolute inset-0 z-10 w-full h-full cursor-crosshair"></canvas>
+
                 <!-- Loading Fallback -->
                 <div id="canvas-fallback" class="absolute inset-0 z-5 canvas-loading" :class="isDark ? 'text-gray-300' : 'text-gray-700'" style="display: none;"></div>
             </div>
@@ -74,7 +74,7 @@
             <div class="blogs-nav-container absolute top-0 left-0 p-4 sm:p-6 md:p-8 z-20">
                 <ul class="flex items-center">
                     <li>
-                        <a href="https://blogs.benedictchacko.tech/" 
+                        <a href="https://blogs.benedictchacko.tech/"
                            class="nav-link font-mono text-xs"
                            :class="isDark ? 'text-gray-400 hover:text-blue-400' : 'text-gray-500 hover:text-blue-600'">
                             BLOGS
@@ -101,7 +101,7 @@
                             <path v-if="isDark" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                         </svg>
                     </button>
-                    
+
                     <!-- Navigation Links -->
                     <ul class="flex items-center space-x-1 sm:space-x-2 text-xs font-mono" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
                         <li><a href="#" @click.prevent="switchSection('home')" class="nav-link" :class="[currentSection === 'home' ? 'active' : '', isDark ? 'hover:text-blue-400' : 'hover:text-blue-600']" data-section="home">HOME</a></li>
@@ -139,14 +139,14 @@
     </div>
 
     <!-- Vue Templates -->
-    <script src="templates/home.js"></script>
+    <script src="templates/home.js?v=33"></script>
     <script src="templates/projects.js"></script>
     <script src="templates/resume.js"></script>
     <script src="templates/contact.js"></script>
 
     <!-- JavaScript Files -->
     <script src="js/animated-title.js?v=27"></script>
-    <script src="js/canvas-title.js?v=27"></script>
+    <script src="js/canvas-title.js?v=31"></script>
     <script src="js/effects.js?v=27"></script>
     <script src="js/liquid-glass-nav.js?v=27"></script>
     <script src="js/init.js?v=27"></script>
